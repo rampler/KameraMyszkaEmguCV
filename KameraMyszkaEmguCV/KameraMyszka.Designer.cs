@@ -41,6 +41,7 @@
             this.nudContrast = new System.Windows.Forms.NumericUpDown();
             this.nudSharpness = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.medianCB = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.nudMedian = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
@@ -70,7 +71,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.medianCB = new System.Windows.Forms.CheckBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.nupScale = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudW2)).BeginInit();
@@ -92,6 +94,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudGamma)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupScale)).BeginInit();
             this.SuspendLayout();
             // 
             // imageBox1
@@ -126,7 +129,7 @@
             this.nudW2.Size = new System.Drawing.Size(52, 20);
             this.nudW2.TabIndex = 2;
             this.nudW2.Value = new decimal(new int[] {
-            96,
+            155,
             0,
             0,
             0});
@@ -143,7 +146,7 @@
             this.nudW3.Size = new System.Drawing.Size(52, 20);
             this.nudW3.TabIndex = 3;
             this.nudW3.Value = new decimal(new int[] {
-            126,
+            30,
             0,
             0,
             0});
@@ -160,7 +163,7 @@
             this.nudW5.Size = new System.Drawing.Size(52, 20);
             this.nudW5.TabIndex = 5;
             this.nudW5.Value = new decimal(new int[] {
-            127,
+            225,
             0,
             0,
             0});
@@ -177,7 +180,7 @@
             this.nudW6.Size = new System.Drawing.Size(52, 20);
             this.nudW6.TabIndex = 6;
             this.nudW6.Value = new decimal(new int[] {
-            255,
+            120,
             0,
             0,
             0});
@@ -193,6 +196,11 @@
             this.nudW1.Name = "nudW1";
             this.nudW1.Size = new System.Drawing.Size(52, 20);
             this.nudW1.TabIndex = 1;
+            this.nudW1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // nudW4
             // 
@@ -206,7 +214,7 @@
             this.nudW4.Size = new System.Drawing.Size(52, 20);
             this.nudW4.TabIndex = 4;
             this.nudW4.Value = new decimal(new int[] {
-            82,
+            254,
             0,
             0,
             0});
@@ -270,6 +278,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label18);
+            this.panel1.Controls.Add(this.nupScale);
             this.panel1.Controls.Add(this.medianCB);
             this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.nudMedian);
@@ -313,6 +323,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(862, 190);
             this.panel1.TabIndex = 13;
+            // 
+            // medianCB
+            // 
+            this.medianCB.AutoSize = true;
+            this.medianCB.Location = new System.Drawing.Point(542, 70);
+            this.medianCB.Name = "medianCB";
+            this.medianCB.Size = new System.Drawing.Size(15, 14);
+            this.medianCB.TabIndex = 39;
+            this.medianCB.UseVisualStyleBackColor = true;
+            this.medianCB.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged_1);
             // 
             // label17
             // 
@@ -668,15 +688,42 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "Wsp. binaryzacji:";
             // 
-            // medianCB
+            // label18
             // 
-            this.medianCB.AutoSize = true;
-            this.medianCB.Location = new System.Drawing.Point(542, 70);
-            this.medianCB.Name = "medianCB";
-            this.medianCB.Size = new System.Drawing.Size(15, 14);
-            this.medianCB.TabIndex = 39;
-            this.medianCB.UseVisualStyleBackColor = true;
-            this.medianCB.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged_1);
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(558, 128);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(78, 13);
+            this.label18.TabIndex = 41;
+            this.label18.Text = "Skala obrazka:";
+            // 
+            // nupScale
+            // 
+            this.nupScale.DecimalPlaces = 2;
+            this.nupScale.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nupScale.Location = new System.Drawing.Point(648, 125);
+            this.nupScale.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nupScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nupScale.Name = "nupScale";
+            this.nupScale.Size = new System.Drawing.Size(62, 20);
+            this.nupScale.TabIndex = 40;
+            this.nupScale.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // KameraMyszka
             // 
@@ -713,6 +760,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudGamma)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupScale)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -761,6 +809,8 @@
         private System.Windows.Forms.NumericUpDown nudDilate;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.CheckBox medianCB;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown nupScale;
     }
 }
 

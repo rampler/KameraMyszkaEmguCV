@@ -95,8 +95,8 @@ namespace KameraMyszkaEmguCV
             imageBox1.Image = image;
 
             //YCbCr or Bgr(RGB)
-            if (radioButton1.Checked) imageGray = image.Convert<Ycc, Byte>().InRange(new Ycc((double)nudW1.Value, (double)nudW2.Value, (double)nudW3.Value), new Ycc((double)nudW4.Value, (double)nudW5.Value, (double)nudW6.Value));
-            else imageGray = image.InRange(new Bgr((double)nudW1.Value, (double)nudW2.Value, (double)nudW3.Value), new Bgr((double)nudW4.Value, (double)nudW5.Value, (double)nudW6.Value));
+            if (radioButton1.Checked) imageGray = image.Resize((double)nupScale.Value,INTER.CV_INTER_CUBIC).Convert<Ycc, Byte>().InRange(new Ycc((double)nudW1.Value, (double)nudW3.Value, (double)nudW2.Value), new Ycc((double)nudW4.Value, (double)nudW6.Value, (double)nudW5.Value));
+            else imageGray = image.InRange(new Bgr((double)nudW3.Value, (double)nudW2.Value, (double)nudW1.Value), new Bgr((double)nudW6.Value, (double)nudW5.Value, (double)nudW4.Value));
 
             imageGray = imageGray.Dilate((int)nudDilate.Value);
             imageGray = imageGray.Erode((int)nudErode.Value);
