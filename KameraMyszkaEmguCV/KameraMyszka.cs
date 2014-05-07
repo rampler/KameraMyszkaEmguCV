@@ -101,7 +101,8 @@ namespace KameraMyszkaEmguCV
             imageGray = imageGray.Dilate((int)nudDilate.Value);
             imageGray = imageGray.Erode((int)nudErode.Value);
             if (medianCB.Checked) imageGray = imageGray.SmoothMedian((int)nudMedian.Value);
-            imageBox2.Image = imageGray;
+            //imageBox2.Image = imageGray;
+            imageBox2.Image = test(image);
         }
 
         /*
@@ -142,6 +143,41 @@ namespace KameraMyszkaEmguCV
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_HUE, defaultHue);
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAIN, defaultGain);
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAMMA, defaultGamma);
+        }
+
+        /// <summary>
+        /// Szybkie operacje na obrazie(dekrementacja)
+        /// Nie wiem czemu dokładnie jest taka różnica w obliczeniach, ale jest ok 12x szybsza
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        private Image<Bgr, Byte> test(Image<Bgr, Byte> image)
+        {
+            Image<Bgr, Byte> img = image.Copy();
+            byte[, ,] data = img.Data;
+            for (int i = img.Rows - 1; i >= 0; i--)
+            {
+                for (int j = img.Cols - 1; j >= 0; j--)
+                {
+                    data[i, j, 0] += 10;
+
+                    data[i, j, 1] += 30;
+                    data[i, j, 2] += 140;
+                }
+            }
+
+            //Jak ktoś nie wierzy może potestować
+            //for (int i = 0; i < img.Rows; i++)
+            //{
+            //    for (int j = 0; j < img.Cols; j++)
+            //    {
+            //        data[i, j, 0] += 10;
+
+            //        data[i, j, 1] += 30;
+            //        data[i, j, 2] += 140;
+            //    }
+            //}
+            return img;
         }
     }
 }
