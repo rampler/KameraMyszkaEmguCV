@@ -25,6 +25,14 @@ namespace KameraMyszkaEmguCV
     public partial class KameraMyszka : Form
     {
         private readonly BlobCounter bc;
+        double compactness,
+            //            rmrm, 
+            blair,
+            //            haralick, 
+            mal,
+            malzmod,
+            feret;
+//            m7;
             
         Capture capture = null;
         Image<Bgr, Byte> image;
@@ -136,9 +144,66 @@ namespace KameraMyszkaEmguCV
                 Drawing.Rectangle(data, blob.Rectangle, Color.White);
                 bmp.UnlockBits(data);
 
-//                Console.WriteLine ("fullness " + blob.Fullness);
+                //compactness = (double)blob.Area / (maxXY.X - minXY.X) / (maxXY.Y - minXY.Y);
+                //Console.WriteLine("fullness " + (blob.Fullness - compactness));
+                /* roznica max 0.004, wiec po co liczyc dwa razy */
+                int x = maxXY.X - minXY.X, y = maxXY.Y - minXY.Y;
+                int X = maxXY.X;
+                int Y = maxXY.Y;
+                compactness = blob.Fullness;
+                
+                
+                /* malinowska kryjaka liczy obwod ze wzoru na prostokąt, nasza liczy piksele krawedziowe */
+                //Malinowska(i) = (2*bb(3)+2*bb(4))/(2*sqrt(pi*S)) - 1;
+                mal = (double)(bc.GetBlobsEdgePoints(blob).Count) / 2 / Math.Sqrt(Math.PI*blob.Area) - 1;
+                //MalinowskaZ(i) = 2*sqrt(pi*S)/(2*bb(3)+2*bb(4));
+                malzmod = 2 * Math.Sqrt(Math.PI * blob.Area) / (double)(bc.GetBlobsEdgePoints(blob).Count);
+                int gx = (int)blob.CenterOfGravity.X, gy = (int)blob.CenterOfGravity.Y;
+                //double hden = 0f;
+                //double gdist;
+                double blairsum = 0;
+                int ftx, ftxMax = 0;//feret_max_x, feret_max_y
+                //Console.WriteLine(sgm.Width + " " + sgm.Height);
+                byte[,,] dd = sgm.Data;
+                for (int i=minXY.Y; i<Y; ++i) {
+                    ftx = 0;//bo moze sie zdazyc ze zliczy wiecej linii naraz, patrz: idealny prostokat
+                    for (int j=minXY.X; j<X; ++j) {
+                        if (dd[i, j, 0] != 0) {
+                            ++ftx;
+                            blairsum = (j - gx) * (j - gx) + (i - gy) * (i - gy);//distance squared
+                        } else {
+                            if(ftx > ftxMax) ftxMax = ftx;
+                            ftx = 0;
+                        }
+                    }
+                }
+                /* 
+                 * aby policzyc ftyMax trzeba puscic jeszcze jedna petle tak aby wewnetrzna szla po y-kach
+                 * ale mozna tez aproksymowac ftYmax przez boundingbox.Y, wtedy
+                 * przewiduje najwieksze rozbieznosci przy skosnych lub dziurawych obiektach;
+                 */
+                int fty = 0, ftyMax = 0;
+                for (int j=minXY.X; j<X; ++j, fty = 0)
+                    for (int i=minXY.Y; i<Y; ++i)
+                        if (dd[i, j, 0] != 0)
+                            ++fty;
+                        else {
+                            if(fty > ftyMax) ftyMax = fty;
+                            fty = 0;   
+                        }
+                /* powyzsza petle mozna zamienic na ponizsza linijke, aby zwiekszyc predkosc kosztem dokladnosci */
+                //feret = ftxMax / y;
+                feret = ftyMax==0 ? 0 : ftxMax / ftyMax;
+                blair = blob.Area / 2 / Math.PI / blairsum;                
             } else {
-                //no blob detected
+                /* no blob detected */
+                compactness = -404f;
+                blair = -404f;
+                mal = -404f;
+                malzmod = -404f;
+                feret = -404f;
+                //     rmrm = -404f;
+                //     haralick = -404f;
             }
             imageBox2.Image = new Image<Gray, Byte>(bmp);
         }
