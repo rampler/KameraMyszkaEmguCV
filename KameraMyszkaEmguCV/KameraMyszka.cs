@@ -25,14 +25,12 @@ namespace KameraMyszkaEmguCV
     public partial class KameraMyszka : Form
     {
         private readonly BlobCounter bc;
+        /* shape coefficients */
         double compactness,
-            //            rmrm, 
             blair,
-            //            haralick, 
             mal,
             malzmod,
             feret;
-//            m7;
             
         Capture capture = null;
         Image<Bgr, Byte> image;
@@ -121,26 +119,22 @@ namespace KameraMyszkaEmguCV
             else
                 imageGray = image.InRange(new Bgr((double)nudW3.Value, (double)nudW2.Value, (double)nudW1.Value), new Bgr((double)nudW6.Value, (double)nudW5.Value, (double)nudW4.Value));
 
-
             //imageGray = imageGray.Erode((int)nudErode.Value);
             //imageGray = imageGray.Dilate((int)nudDilate.Value);
 
             if (medianCB.Checked)
                 imageGray = imageGray.SmoothMedian((int)nudMedian.Value);
 
-//            SimpleShapeChecker ssc = new SimpleShapeChecker();
-
-            Image<Gray, Byte> sgm = new Image<Gray, Byte>(imageGray.Size);
+            //Image<Gray, Byte> sgm = new Image<Gray, Byte>(imageGray.Size);
             Bitmap bmp = imageGray.ToBitmap();
             bc.ProcessImage(bmp);
             Blob[] bs = bc.GetObjectsInformation();
             if(bs.Length>0) {
                 Blob blob = bs[0];
-                
                 IntPoint minXY, maxXY;
                 PointsCloud.GetBoundingRectangle(bc.GetBlobsEdgePoints(blob), out minXY, out maxXY);
                 Bitmap clonimage = (Bitmap)bmp.Clone();
-                BitmapData data = bmp.LockBits(new Rectangle(0, 0, sgm.Width, sgm.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+                BitmapData data = bmp.LockBits(new Rectangle(0, 0, imageGray.Width, imageGray.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
                 Drawing.Rectangle(data, blob.Rectangle, Color.White);
                 bmp.UnlockBits(data);
 
@@ -151,50 +145,55 @@ namespace KameraMyszkaEmguCV
                 int X = maxXY.X;
                 int Y = maxXY.Y;
                 compactness = blob.Fullness;
-                
-                
+                    
                 /* malinowska kryjaka liczy obwod ze wzoru na prostokąt, nasza liczy piksele krawedziowe */
                 //Malinowska(i) = (2*bb(3)+2*bb(4))/(2*sqrt(pi*S)) - 1;
                 mal = (double)(bc.GetBlobsEdgePoints(blob).Count) / 2 / Math.Sqrt(Math.PI*blob.Area) - 1;
                 //MalinowskaZ(i) = 2*sqrt(pi*S)/(2*bb(3)+2*bb(4));
                 malzmod = 2 * Math.Sqrt(Math.PI * blob.Area) / (double)(bc.GetBlobsEdgePoints(blob).Count);
+                
                 int gx = (int)blob.CenterOfGravity.X, gy = (int)blob.CenterOfGravity.Y;
-                //double hden = 0f;
-                //double gdist;
                 double blairsum = 0;
-                int ftx, ftxMax = 0;//feret_max_x, feret_max_y
-                //Console.WriteLine(sgm.Width + " " + sgm.Height);
-                byte[,,] dd = sgm.Data;
+                int ftx = 0, ftxMax = 0;
+
+                byte[,,] dd = imageGray.Data;
                 for (int i=minXY.Y; i<Y; ++i) {
+                    if (ftx > ftxMax) ftxMax = ftx;
                     ftx = 0;//bo moze sie zdazyc ze zliczy wiecej linii naraz, patrz: idealny prostokat
                     for (int j=minXY.X; j<X; ++j) {
                         if (dd[i, j, 0] != 0) {
                             ++ftx;
-                            blairsum = (j - gx) * (j - gx) + (i - gy) * (i - gy);//distance squared
+                            blairsum += (j - gx) * (j - gx) + (i - gy) * (i - gy);//distance squared
                         } else {
                             if(ftx > ftxMax) ftxMax = ftx;
                             ftx = 0;
                         }
+                        dd[i, j, 0] = 255;
                     }
                 }
                 /* 
                  * aby policzyc ftyMax trzeba puscic jeszcze jedna petle tak aby wewnetrzna szla po y-kach
                  * ale mozna tez aproksymowac ftYmax przez boundingbox.Y, wtedy
-                 * przewiduje najwieksze rozbieznosci przy skosnych lub dziurawych obiektach;
-                 */
+                 * przewidywalem najwieksze rozbieznosci przy skosnych lub dziurawych obiektach;
+                 * ale blad byl ponizej procenta, wiec szkoda tracic czas na kolejne O(n*n)
+                 
                 int fty = 0, ftyMax = 0;
-                for (int j=minXY.X; j<X; ++j, fty = 0)
-                    for (int i=minXY.Y; i<Y; ++i)
+                for (int j = minXY.X; j < X; ++j) {
+                    if (fty > ftyMax) ftyMax = fty;
+                    fty = 0;
+                    for (int i = minXY.Y; i < Y; ++i)
                         if (dd[i, j, 0] != 0)
                             ++fty;
                         else {
-                            if(fty > ftyMax) ftyMax = fty;
-                            fty = 0;   
+                            if (fty > ftyMax) ftyMax = fty;
+                            fty = 0;
                         }
-                /* powyzsza petle mozna zamienic na ponizsza linijke, aby zwiekszyc predkosc kosztem dokladnosci */
-                //feret = ftxMax / y;
-                feret = ftyMax==0 ? 0 : ftxMax / ftyMax;
-                blair = blob.Area / 2 / Math.PI / blairsum;                
+                }*/
+                // feret = (double)ftxMax / ftyMax;
+                feret = (double)ftxMax / y;
+               
+                blair = (double)(blob.Area) / Math.Sqrt(2 * Math.PI * blairsum  );
+                System.Console.WriteLine("mal {0:f}, zmal {1:f}, feret {2:f}, blair {3:f}", mal, malzmod, feret, blair);
             } else {
                 /* no blob detected */
                 compactness = -404f;
@@ -202,9 +201,8 @@ namespace KameraMyszkaEmguCV
                 mal = -404f;
                 malzmod = -404f;
                 feret = -404f;
-                //     rmrm = -404f;
-                //     haralick = -404f;
             }
+
             imageBox2.Image = new Image<Gray, Byte>(bmp);
         }
 
