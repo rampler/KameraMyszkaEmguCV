@@ -120,102 +120,24 @@ namespace KameraMyszkaEmguCV
             if (medianCB.Checked)
                 imageGray = imageGray.SmoothMedian((int)nudMedian.Value);
 
-            //imageBox1.Image = imageGray;
-            SimpleShapeChecker ssc = new SimpleShapeChecker();
+//            SimpleShapeChecker ssc = new SimpleShapeChecker();
 
             Image<Gray, Byte> sgm = new Image<Gray, Byte>(imageGray.Size);
-            //Image<Gray, Byte> sgm = (Image<Bgr, Byte>) imageGray.;
             Bitmap bmp = imageGray.ToBitmap();
             bc.ProcessImage(bmp);
-            try {
-                Blob blob = bc.GetObjectsInformation().First();
-                //foreach (Blob blob in bc.GetObjectsInformation()) {
+            Blob[] bs = bc.GetObjectsInformation();
+            if(bs.Length>0) {
+                Blob blob = bs[0];
+                
                 IntPoint minXY, maxXY;
                 PointsCloud.GetBoundingRectangle(bc.GetBlobsEdgePoints(blob), out minXY, out maxXY);
-                Rectangle rect = new Rectangle(minXY.X, minXY.Y, maxXY.X - minXY.X, maxXY.Y - minXY.Y);
                 Bitmap clonimage = (Bitmap)bmp.Clone();
                 BitmapData data = bmp.LockBits(new Rectangle(0, 0, sgm.Width, sgm.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
-                Drawing.Rectangle(data, rect, Color.White);
+                Drawing.Rectangle(data, blob.Rectangle, Color.White);
                 bmp.UnlockBits(data);
-                Console.WriteLine ("fullness " + blob.Fullness);
 
-                //List<IntPoint> leftPoints, rightPoints, edgePoints;
-                //edgePoints = new List<IntPoint>();
-                /*
-                // get blob's edge points
-                bc.GetBlobsLeftAndRightEdges(blob, out leftPoints, out rightPoints);
-
-                edgePoints.AddRange(leftPoints);
-                edgePoints.AddRange(rightPoints);
-
-                // blob's convex hull
-                List<IntPoint> hull = hullFinder.FindHull(edgePoints);
-                hulls.Add(new Polygon(hull));
-                 */
-                //}
-                /*            int[] glue = new int[image.Cols*image.Rows];
-                            byte last = 1;
-                            for (int i = imageGray.Rows - 2; i > 0; --i)
-                                for (int j = imageGray.Cols - 2; j > 0; --j)
-                                    if (0 < imageGray.Data[i, j, 0]) {
-                                        //sgm.Data[i, j, 0] = last;
-                                        byte nr = last;// sgm.Data[i, j, 0]; //glue[nr] = nr;
-                                        if (sgm.Data[i, j + 1, 0] > 0 && sgm.Data[i, j + 1, 0] < nr) {
-                                            glue[nr] = sgm.Data[i, j + 1, 0];
-                                            nr = sgm.Data[i, j + 1, 0];
-                                        }
-                                        if (sgm.Data[i + 1, j - 1, 0] > 0 && sgm.Data[i + 1, j - 1, 0] < nr) {
-                                            glue[nr] = sgm.Data[i+1, j - 1, 0];
-                                            nr = sgm.Data[i + 1, j - 1, 0];
-                                        }
-                                        if (sgm.Data[i + 1, j, 0] > 0 && sgm.Data[i + 1, j, 0] < nr) {
-                                            glue[nr] = sgm.Data[i + 1, j, 0]; 
-                                            nr = sgm.Data[i + 1, j, 0];
-                                        }
-                                        if (sgm.Data[i + 1, j + 1, 0] > 0 && sgm.Data[i + 1, j + 1, 0] < nr) {
-                                            glue[nr] = sgm.Data[i + 1, j + 1, 0]; 
-                                            nr = sgm.Data[i + 1, j + 1, 0];
-                                        }
-                                        //int tmp = (byte)(nr > 0 ? nr : last++);
-                                        if (nr < last)
-                                            sgm.Data[i, j, 0] = nr;
-                                        else {
-                                            sgm.Data[i, j, 0] = last;
-                                            ++last;
-                                        }
-                                        //glue[last] = sgm.Data[i, j, 0];
-                                        //glue[] = sgm.Data[i, j, 0];
-                        
-                                        //0 < sgm.Data[i, j + 1, 0] + sgm.Data[i + 1, j - 1, 0] + sgm.Data[i + 1, j, 0] + sgm.Data[i + 1, j + 1, 0]) {
-                                        //int min = imageGray.Data[i, j, 0];
-                                    }
-                            for (int i = imageGray.Rows - 2; i > 0; --i)
-                                for (int j = imageGray.Cols - 2; j > 0; --j) {
-                                    sgm.Data[i, j, 0] = (byte)glue[sgm.Data[i, j, 0]];
-
-                                    if (sgm.Data[i, j, 0] > 0) sgm.Data[i, j, 0] = 255;
-                                }
-                            //Console.Error.WriteLine(last);
-
-                        /*    for (int i = imageGray.Rows - 2; i > 0; --i)
-                                for (int j = imageGray.Cols - 2; j > 0; --j)
-                                    if (0 < imageGray.Data[i, j, 0]) {
-
-                                    }
-                                        int nr = sgm.Data[i, j, 0];
-                                        if (sgm.Data[i, j + 1, 0] > 0 && sgm.Data[i, j + 1, 0] < nr) nr = sgm.Data[i, j + 1, 0];
-                                        if (sgm.Data[i + 1, j - 1, 0] > 0 && sgm.Data[i + 1, j - 1, 0] < nr) nr = sgm.Data[i + 1, j - 1, 0];
-                                        if (sgm.Data[i + 1, j, 0] > 0 && sgm.Data[i + 1, j, 0] < nr) nr = sgm.Data[i + 1, j, 0];
-                                        if (sgm.Data[i + 1, j + 1, 0] > 0 && sgm.Data[i + 1, j + 1, 0] < nr) nr = sgm.Data[i + 1, j + 1, 0];
-                                        sgm.Data[i, j, 0] = (byte)(nr > 0 ? nr : last++);
-                                        //             sgm.Data[i, j, 0] = (byte) (sgm.Data[i, j, 0] > 0 ? 255 : 0);
-                                        //0 < sgm.Data[i, j + 1, 0] + sgm.Data[i + 1, j - 1, 0] + sgm.Data[i + 1, j, 0] + sgm.Data[i + 1, j + 1, 0]) {
-                                        //int min = imageGray.Data[i, j, 0];
-                                    }*/
-                // imageGray.Data[i, j, 0] = 0;
-
-                //imageBox2.Image = test(image);
-            } catch (InvalidOperationException) {
+//                Console.WriteLine ("fullness " + blob.Fullness);
+            } else {
                 //no blob detected
             }
             imageBox2.Image = new Image<Gray, Byte>(bmp);
