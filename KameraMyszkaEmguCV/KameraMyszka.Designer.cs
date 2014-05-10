@@ -129,7 +129,7 @@
             this.nudW2.Size = new System.Drawing.Size(52, 20);
             this.nudW2.TabIndex = 2;
             this.nudW2.Value = new decimal(new int[] {
-            155,
+            80,//155,
             0,
             0,
             0});
@@ -146,7 +146,7 @@
             this.nudW3.Size = new System.Drawing.Size(52, 20);
             this.nudW3.TabIndex = 3;
             this.nudW3.Value = new decimal(new int[] {
-            30,
+            60,//30,
             0,
             0,
             0});
@@ -163,7 +163,7 @@
             this.nudW5.Size = new System.Drawing.Size(52, 20);
             this.nudW5.TabIndex = 5;
             this.nudW5.Value = new decimal(new int[] {
-            225,
+            255,//225,
             0,
             0,
             0});
@@ -180,7 +180,7 @@
             this.nudW6.Size = new System.Drawing.Size(52, 20);
             this.nudW6.TabIndex = 6;
             this.nudW6.Value = new decimal(new int[] {
-            120,
+            100,//120,
             0,
             0,
             0});
@@ -197,7 +197,7 @@
             this.nudW1.Size = new System.Drawing.Size(52, 20);
             this.nudW1.TabIndex = 1;
             this.nudW1.Value = new decimal(new int[] {
-            1,
+            40,//1,
             0,
             0,
             0});
@@ -214,7 +214,7 @@
             this.nudW4.Size = new System.Drawing.Size(52, 20);
             this.nudW4.TabIndex = 4;
             this.nudW4.Value = new decimal(new int[] {
-            254,
+            150,//254,
             0,
             0,
             0});
