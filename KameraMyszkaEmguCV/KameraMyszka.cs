@@ -91,6 +91,7 @@ namespace KameraMyszkaEmguCV
             imageBox1.Image = image;
 
             //YCbCr or Bgr(RGB)
+            //Wartos zwrócicć uwagę na to że Ycc to Y,Cr,Cb a nie Y,Cb,Cr, oraz Bgr to Blue,Green,Red
             if (radioButton1.Checked)
                 imageGray = image.Resize((double)nupScale.Value, INTER.CV_INTER_CUBIC).Convert<Ycc, Byte>().
                                   InRange(new Ycc((double)nudW1.Value, (double)nudW3.Value, (double)nudW2.Value), new Ycc((double)nudW4.Value, (double)nudW6.Value, (double)nudW5.Value));
@@ -291,6 +292,42 @@ namespace KameraMyszkaEmguCV
                 }
             }*/
             return img;
+        }
+
+        private void imageBox1_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs ev = (MouseEventArgs)e;
+            int posX = (int)((double)ev.X / (double)imageBox1.Width * (double)image.Width);
+            int posY = (int)((double)ev.Y / (double)imageBox1.Height * (double)image.Height);
+            int S1, S2, S3;
+            int odchylenie = 10; //TODO można zmienić wedle uznań tą 10 na co innego
+            if (radioButton1.Checked)
+            {
+                Image<Ycc, Byte> temp = image.Convert<Ycc, Byte>();
+                S1 = (int) temp[posY, posX].Y;
+                S2 = (int)temp[posY, posX].Cb;
+                S3 = (int)temp[posY, posX].Cr;
+                nudW1.Value = (S1 - odchylenie > 0)?S1 - odchylenie:S1; 
+                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:S2;
+                nudW3.Value = (S3 - odchylenie > 0)?S3 - odchylenie:S3;
+                nudW4.Value = (S1 + odchylenie < 255)?S1 + odchylenie:S1;
+                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:S2;
+                nudW6.Value = (S3 + odchylenie < 255)?S3 + odchylenie:S3;
+            }
+            else
+            {
+                S3 = (int) image[posY, posX].Blue;
+                S2 = (int) image[posY, posX].Green;
+                S1 = (int) image[posY, posX].Red;
+                nudW1.Value = (S3 - odchylenie > 0)?S3 - odchylenie:S3;
+                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:S2;
+                nudW3.Value = (S1 - odchylenie > 0)?S1 - odchylenie:S1;
+                nudW4.Value = (S3 + odchylenie < 255)?S3 + odchylenie:S3;
+                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:S2;
+                nudW6.Value = (S1 + odchylenie < 255)?S1 + odchylenie:S1;
+            }
+
+            //MessageBox.Show(string.Format("X: {0} Y: {1}\n{2}, {3}, {4}", posX, posY,S1,S2,S3));
         }
     }
 }
