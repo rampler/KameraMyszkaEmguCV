@@ -7,15 +7,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 
+using System.Drawing.Imaging;
+using AForge;
+using AForge.Imaging;
+using AForge.Imaging.Filters;
+using AForge.Imaging.Textures;
+using AForge.Math.Geometry;
+
 namespace KameraMyszkaEmguCV
 {
     public partial class KameraMyszka : Form
     {
+        private readonly BlobCounter bc;
+        /* shape coefficients */
+        double compactness,
+            blair,
+            mal,
+            malzmod,
+            feret;
+            
         Capture capture = null;
         Image<Bgr, Byte> image;
         Image<Gray, Byte> imageGray;
@@ -25,6 +41,12 @@ namespace KameraMyszkaEmguCV
 
         public KameraMyszka()
         {
+            bc = new BlobCounter();
+            bc.FilterBlobs = true;
+            bc.MinWidth = 50;
+            bc.MinHeight = 50;
+            bc.ObjectsOrder = ObjectsOrder.Size;
+
             InitializeComponent();            
         }
 
@@ -62,22 +84,113 @@ namespace KameraMyszkaEmguCV
         /*
          * Odświerzanie okna z obrazem
          * */
-        void RefreshWindow(object sender, EventArgs arg)
-        {           
+        void RefreshWindow(object sender, EventArgs arg) {
+
             //Pobieranie ramki
             image = capture.QueryFrame();
-            //imageBox1.Image = image;
+            imageBox1.Image = image;
 
             //YCbCr or Bgr(RGB)
-            if (radioButton1.Checked) imageGray = image.Resize((double)nupScale.Value,INTER.CV_INTER_CUBIC).Convert<Ycc, Byte>().InRange(new Ycc((double)nudW1.Value, (double)nudW3.Value, (double)nudW2.Value), new Ycc((double)nudW4.Value, (double)nudW6.Value, (double)nudW5.Value));
-            else imageGray = image.InRange(new Bgr((double)nudW3.Value, (double)nudW2.Value, (double)nudW1.Value), new Bgr((double)nudW6.Value, (double)nudW5.Value, (double)nudW4.Value));
+            //Wartos zwrócicć uwagę na to że Ycc to Y,Cr,Cb a nie Y,Cb,Cr, oraz Bgr to Blue,Green,Red
+            if (radioButton1.Checked)
+                imageGray = image.Resize((double)nupScale.Value, INTER.CV_INTER_CUBIC).Convert<Ycc, Byte>().
+                                  InRange(new Ycc((double)nudW1.Value, (double)nudW3.Value, (double)nudW2.Value), new Ycc((double)nudW4.Value, (double)nudW6.Value, (double)nudW5.Value));
+            else
+                imageGray = image.InRange(new Bgr((double)nudW3.Value, (double)nudW2.Value, (double)nudW1.Value), new Bgr((double)nudW6.Value, (double)nudW5.Value, (double)nudW4.Value));
 
-            imageGray = imageGray.Dilate((int)nudDilate.Value);
-            imageGray = imageGray.Erode((int)nudErode.Value);
-            if (medianCB.Checked) imageGray = imageGray.SmoothMedian((int)nudMedian.Value);
-            imageBox1.Image = imageGray;
-            imageBox2.Image = OnlyHandOnImage(imageGray);
-            //imageBox1.Image = test(image);
+            //imageGray = imageGray.Erode((int)nudErode.Value);
+            //imageGray = imageGray.Dilate((int)nudDilate.Value);
+
+            if (medianCB.Checked)
+                imageGray = imageGray.SmoothMedian((int)nudMedian.Value);
+
+            //Image<Gray, Byte> sgm = new Image<Gray, Byte>(imageGray.Size);
+            Bitmap bmp = imageGray.ToBitmap();
+            bc.ProcessImage(bmp);
+
+            if (bc.ObjectsCount>0) {
+                Blob blob = bc.GetObjectsInformation().First();
+                IntPoint minXY, maxXY;
+                PointsCloud.GetBoundingRectangle(bc.GetBlobsEdgePoints(blob), out minXY, out maxXY);
+                Bitmap clonimage = (Bitmap)bmp.Clone();
+                BitmapData data = bmp.LockBits(new Rectangle(0, 0, imageGray.Width, imageGray.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+                Drawing.Rectangle(data, blob.Rectangle, Color.White);
+                bmp.UnlockBits(data);
+
+                //compactness = (double)blob.Area / (maxXY.X - minXY.X) / (maxXY.Y - minXY.Y);
+                //Console.WriteLine("fullness " + (blob.Fullness - compactness));
+                /* roznica max 0.004, wiec po co liczyc dwa razy */
+                int X = maxXY.X, Y = maxXY.Y;
+                int x = minXY.X, y = minXY.Y;
+                int blobh = Y - y;
+                
+                compactness = blob.Fullness;
+                    
+                /* malinowska kryjaka liczy obwod ze wzoru na prostokąt, nasza liczy piksele krawedziowe */
+                //Malinowska(i) = (2*bb(3)+2*bb(4))/(2*sqrt(pi*S)) - 1;
+                mal = (double)(bc.GetBlobsEdgePoints(blob).Count) / 2 / Math.Sqrt(Math.PI*blob.Area) - 1;
+                //MalinowskaZ(i) = 2*sqrt(pi*S)/(2*bb(3)+2*bb(4));
+                malzmod = 2 * Math.Sqrt(Math.PI * blob.Area) / (double)(bc.GetBlobsEdgePoints(blob).Count);
+                
+                int gx = (int)blob.CenterOfGravity.X, gy = (int)blob.CenterOfGravity.Y;
+                double blairsum = 0;
+                int ftx = 0, ftxMax = 0;
+
+                byte[,,] dd = imageGray.Data;
+                for (int i=y; i<Y; ++i) {
+                    if (ftx > ftxMax) ftxMax = ftx;
+                    ftx = 0;//bo moze sie zdazyc ze zliczy wiecej linii naraz, patrz: idealny prostokat
+                    for (int j=x; j<X; ++j) {
+                        if (dd[i, j, 0] != 0) {
+                            ++ftx;
+                            blairsum += (j - gx) * (j - gx) + (i - gy) * (i - gy);//distance squared
+                        } else {
+                            if(ftx > ftxMax) ftxMax = ftx;
+                            ftx = 0;
+                        }
+                        dd[i, j, 0] = 255;
+                    }
+                }
+                /* 
+                 * aby policzyc ftyMax trzeba puscic jeszcze jedna petle tak aby wewnetrzna szla po y-kach
+                 * ale mozna tez aproksymowac ftYmax przez boundingbox.Y, wtedy
+                 * przewidywalem najwieksze rozbieznosci przy skosnych lub dziurawych obiektach;
+                 * ale blad byl ponizej procenta, wiec szkoda tracic czas na kolejne O(n*n)
+                 
+                int fty = 0, ftyMax = 0;
+                for (int j = x; j < X; ++j) {
+                    if (fty > ftyMax) ftyMax = fty;
+                    fty = 0;
+                    for (int i = y; i < Y; ++i)
+                        if (dd[i, j, 0] != 0)
+                            ++fty;
+                        else {
+                            if (fty > ftyMax) ftyMax = fty;
+                            fty = 0;
+                        }
+                }*/
+                // feret = (double)ftxMax / ftyMax;
+                feret = (double)ftxMax / blobh;
+               
+                blair = (double)(blob.Area) / Math.Sqrt(2 * Math.PI * blairsum  );
+                //System.Console.WriteLine("mal {0:f}, zmal {1:f}, feret {2:f}, blair {3:f}", mal, malzmod, feret, blair);
+
+                //Drukowanie wsp na gui
+                compactnessLbl.Text = compactness.ToString();
+                malinowskaLbl.Text = mal.ToString();
+                malzmodLbl.Text = malzmod.ToString();
+                feretLbl.Text = feret.ToString();
+                blairLbl.Text = blair.ToString();
+
+            } else {
+                /* no blob detected */
+                compactness = -404f;
+                blair = -404f;
+                mal = -404f;
+                malzmod = -404f;
+                feret = -404f;
+            }
+            imageBox2.Image = new Image<Gray, Byte>(bmp);
         }
 
         /*
@@ -146,7 +259,7 @@ namespace KameraMyszkaEmguCV
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAMMA, defaultGamma);
         }
 
-        private Image<Gray, Byte> OnlyHandOnImage(Image<Gray, Byte> image)
+/*        private Image<Gray, Byte> OnlyHandOnImage(Image<Gray, Byte> image)
         {
             Image<Gray, Byte> img = image.Copy();
             int rows = img.Rows;
@@ -256,20 +369,51 @@ namespace KameraMyszkaEmguCV
         {
             Image<Bgr, Byte> img = image.Copy();
             byte[, ,] data = img.Data;
-            int rows = img.Rows;
-            int cols = img.Cols;
-
-            for (int i = 0; i < rows; i++)
+            for (int i = img.Rows - 1; i >= 0; --i)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = img.Cols - 1; j >= 0; --j)
                 {
                     data[i, j, 0] += 10;
-
                     data[i, j, 1] += 30;
                     data[i, j, 2] += 140;
                 }
             }
             return img;
+        }
+*/
+        private void imageBox1_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs ev = (MouseEventArgs)e;
+            int posX = (int)((double)ev.X / (double)imageBox1.Width * (double)image.Width);
+            int posY = (int)((double)ev.Y / (double)imageBox1.Height * (double)image.Height);
+            int S1, S2, S3;
+            int odchylenie = 10; //TODO można zmienić wedle uznań tą 10 na co innego
+            if (radioButton1.Checked)
+            {
+                Image<Ycc, Byte> temp = image.Convert<Ycc, Byte>();
+                S1 = (int) temp[posY, posX].Y;
+                S2 = (int)temp[posY, posX].Cb;
+                S3 = (int)temp[posY, posX].Cr;
+                nudW1.Value = (S1 - odchylenie > 0)?S1 - odchylenie:S1; 
+                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:S2;
+                nudW3.Value = (S3 - odchylenie > 0)?S3 - odchylenie:S3;
+                nudW4.Value = (S1 + odchylenie < 255)?S1 + odchylenie:S1;
+                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:S2;
+                nudW6.Value = (S3 + odchylenie < 255)?S3 + odchylenie:S3;
+            }
+            else
+            {
+                S3 = (int) image[posY, posX].Blue;
+                S2 = (int) image[posY, posX].Green;
+                S1 = (int) image[posY, posX].Red;
+                nudW1.Value = (S3 - odchylenie > 0)?S3 - odchylenie:S3;
+                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:S2;
+                nudW3.Value = (S1 - odchylenie > 0)?S1 - odchylenie:S1;
+                nudW4.Value = (S3 + odchylenie < 255)?S3 + odchylenie:S3;
+                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:S2;
+                nudW6.Value = (S1 + odchylenie < 255)?S1 + odchylenie:S1;
+            }
+            //MessageBox.Show(string.Format("X: {0} Y: {1}\n{2}, {3}, {4}", posX, posY,S1,S2,S3));
         }
     }
 }
