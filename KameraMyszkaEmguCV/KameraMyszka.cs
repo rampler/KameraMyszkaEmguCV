@@ -394,24 +394,24 @@ namespace KameraMyszkaEmguCV
                 S1 = (int) temp[posY, posX].Y;
                 S2 = (int)temp[posY, posX].Cb;
                 S3 = (int)temp[posY, posX].Cr;
-                nudW1.Value = (S1 - odchylenie > 0)?S1 - odchylenie:S1; 
-                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:S2;
-                nudW3.Value = (S3 - odchylenie > 0)?S3 - odchylenie:S3;
-                nudW4.Value = (S1 + odchylenie < 255)?S1 + odchylenie:S1;
-                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:S2;
-                nudW6.Value = (S3 + odchylenie < 255)?S3 + odchylenie:S3;
+                nudW1.Value = (S1 - odchylenie > 0)?S1 - odchylenie:0; 
+                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:0;
+                nudW3.Value = (S3 - odchylenie > 0)?S3 - odchylenie:0;
+                nudW4.Value = (S1 + odchylenie < 255)?S1 + odchylenie:255;
+                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:255;
+                nudW6.Value = (S3 + odchylenie < 255)?S3 + odchylenie:255;
             }
             else
             {
                 S3 = (int) image[posY, posX].Blue;
                 S2 = (int) image[posY, posX].Green;
                 S1 = (int) image[posY, posX].Red;
-                nudW1.Value = (S3 - odchylenie > 0)?S3 - odchylenie:S3;
-                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:S2;
-                nudW3.Value = (S1 - odchylenie > 0)?S1 - odchylenie:S1;
-                nudW4.Value = (S3 + odchylenie < 255)?S3 + odchylenie:S3;
-                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:S2;
-                nudW6.Value = (S1 + odchylenie < 255)?S1 + odchylenie:S1;
+                nudW1.Value = (S3 - odchylenie > 0)?S3 - odchylenie:0;
+                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:0;
+                nudW3.Value = (S1 - odchylenie > 0)?S1 - odchylenie:0;
+                nudW4.Value = (S3 + odchylenie < 255)?S3 + odchylenie:255;
+                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:255;
+                nudW6.Value = (S1 + odchylenie < 255)?S1 + odchylenie:255;
             }
             //MessageBox.Show(string.Format("X: {0} Y: {1}\n{2}, {3}, {4}", posX, posY,S1,S2,S3));
         }
