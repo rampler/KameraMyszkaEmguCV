@@ -93,7 +93,7 @@ namespace KameraMyszkaEmguCV
         //For mouse test only!!!
         private void wykonujMnieCoJakisCzas(object sender, EventArgs e)
         {
-            //MouseSimulating.ScrollDOWN(700);
+            //MouseSimulating.ClickMouseButton4();
         }
         //For mouse test only!!!
 

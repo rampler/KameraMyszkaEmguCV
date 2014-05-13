@@ -19,7 +19,16 @@ namespace KameraMyszkaEmguCV
         private const int MOUSEEVENTF_RIGHTUP = 0x10;
         private const int MOUSEEVENTF_WHEEL = 0x0800;
         private const int MOUSEEVENTF_HWHEEL = 0x01000;
+        private const int MOUSEEVENTF_XUP = 0x0100;
+        private const int MOUSEEVENTF_XDOWN = 0x0080;
+        private const int XBUTTON1 = 0x0001;
+        private const int XBUTTON2 = 0x0002;
 
+
+        public static void SetMousePosition(int X, int Y)
+        {
+            Cursor.Position = new System.Drawing.Point(X, Y);
+        }
 
         public static void ClickLPM()
         {
@@ -77,5 +86,20 @@ namespace KameraMyszkaEmguCV
             mouse_event(MOUSEEVENTF_WHEEL, 0, 0, -scrollLength, 0);
         }
 
+        //Previous Page
+        public static void ClickMouseButton3()
+        {
+            uint X = (uint)Cursor.Position.X;
+            uint Y = (uint)Cursor.Position.Y;
+            mouse_event(MOUSEEVENTF_XDOWN | MOUSEEVENTF_XUP, X, Y, XBUTTON1, 0);
+        }
+
+        //Next Page
+        public static void ClickMouseButton4()
+        {
+            uint X = (uint)Cursor.Position.X;
+            uint Y = (uint)Cursor.Position.Y;
+            mouse_event(MOUSEEVENTF_XDOWN | MOUSEEVENTF_XUP, X, Y, XBUTTON2, 0);
+        }
     }
 }
