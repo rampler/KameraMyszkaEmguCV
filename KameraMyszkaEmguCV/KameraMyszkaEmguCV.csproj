@@ -97,6 +97,7 @@
     <Compile Include="KameraMyszka.Designer.cs">
       <DependentUpon>KameraMyszka.cs</DependentUpon>
     </Compile>
+    <Compile Include="MouseSimulating.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="KameraMyszka.resx">

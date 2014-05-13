@@ -19,6 +19,7 @@ using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Imaging.Textures;
 using AForge.Math.Geometry;
+using System.Timers;
 
 namespace KameraMyszkaEmguCV
 {
@@ -77,9 +78,24 @@ namespace KameraMyszkaEmguCV
                 nudGain.Value = (decimal)defaultGain;
                 nudGamma.Value = (decimal)defaultGamma;
                 Application.Idle += RefreshWindow;
+
+                
+                //For mouse test only!!!
+                System.Timers.Timer odmierzacz = new System.Timers.Timer();
+                odmierzacz.Interval = 2000; //Ustawienie przerywania na 1000ms (1s)
+                odmierzacz.Elapsed += new ElapsedEventHandler(this.wykonujMnieCoJakisCzas); //Przypisanie metody
+                odmierzacz.Start(); //Start timera
+                //For mouse test only!!!
             }
             catch (NullReferenceException ex) { Console.WriteLine("ERROR!"+ex.StackTrace); } 
         }
+
+        //For mouse test only!!!
+        private void wykonujMnieCoJakisCzas(object sender, EventArgs e)
+        {
+            //MouseSimulating.ScrollDOWN(700);
+        }
+        //For mouse test only!!!
 
         /*
          * Odświerzanie okna z obrazem
