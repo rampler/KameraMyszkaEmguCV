@@ -71,7 +71,7 @@ namespace KameraMyszkaEmguCV
                 nudContrast.Value = (decimal)defaultContrast;
                 nudSharpness.Value = (decimal)defaultSharpness;
                 nudSaturation.Value = (decimal)defaultSaturation;
-                nudWhiteBlue.Value = (decimal)defaultWhiteBlueBalance;
+                //nudWhiteBlue.Value = (decimal)defaultWhiteBlueBalance;
                 nudWhiteRed.Value = (decimal)defaultWhiteRedBalance;
                 nudHue.Value = (decimal)defaultHue;
                 nudGain.Value = (decimal)defaultGain;
@@ -82,7 +82,7 @@ namespace KameraMyszkaEmguCV
         }
 
         /*
-         * Odświerzanie okna z obrazem
+         * Odświezanie okna z obrazem
          * */
         void RefreshWindow(object sender, EventArgs arg) {
 
@@ -91,7 +91,7 @@ namespace KameraMyszkaEmguCV
             imageBox1.Image = image;
 
             //YCbCr or Bgr(RGB)
-            //Wartos zwrócicć uwagę na to że Ycc to Y,Cr,Cb a nie Y,Cb,Cr, oraz Bgr to Blue,Green,Red
+            //Warto zwrócić uwagę na to że Ycc to Y,Cr,Cb a nie Y,Cb,Cr, oraz Bgr to Blue,Green,Red
             if (radioButton1.Checked)
                 imageGray = image.Resize((double)nupScale.Value, INTER.CV_INTER_CUBIC).Convert<Ycc, Byte>().
                                   InRange(new Ycc((double)nudW1.Value, (double)nudW3.Value, (double)nudW2.Value), new Ycc((double)nudW4.Value, (double)nudW6.Value, (double)nudW5.Value));
