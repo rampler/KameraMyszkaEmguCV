@@ -87,6 +87,13 @@
             this.nudW4 = new System.Windows.Forms.NumericUpDown();
             this.nudW6 = new System.Windows.Forms.NumericUpDown();
             this.LearningTab = new System.Windows.Forms.TabPage();
+            this.learnButton1 = new System.Windows.Forms.Button();
+            this.mouseGesture1 = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label26 = new System.Windows.Forms.Label();
+            this.returnToDefault = new System.Windows.Forms.Button();
+            this.savedGesture1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             this.tableOptions.SuspendLayout();
@@ -111,6 +118,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudW5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudW4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudW6)).BeginInit();
+            this.LearningTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageBox1
@@ -875,6 +883,12 @@
             // 
             // LearningTab
             // 
+            this.LearningTab.Controls.Add(this.savedGesture1);
+            this.LearningTab.Controls.Add(this.returnToDefault);
+            this.LearningTab.Controls.Add(this.label26);
+            this.LearningTab.Controls.Add(this.learnButton1);
+            this.LearningTab.Controls.Add(this.mouseGesture1);
+            this.LearningTab.Controls.Add(this.label25);
             this.LearningTab.Location = new System.Drawing.Point(4, 22);
             this.LearningTab.Name = "LearningTab";
             this.LearningTab.Padding = new System.Windows.Forms.Padding(3);
@@ -882,6 +896,71 @@
             this.LearningTab.TabIndex = 1;
             this.LearningTab.Text = "Tryb uczenia";
             this.LearningTab.UseVisualStyleBackColor = true;
+            // 
+            // learnButton1
+            // 
+            this.learnButton1.Enabled = false;
+            this.learnButton1.Location = new System.Drawing.Point(100, 28);
+            this.learnButton1.Name = "learnButton1";
+            this.learnButton1.Size = new System.Drawing.Size(83, 23);
+            this.learnButton1.TabIndex = 3;
+            this.learnButton1.Text = "Naucz!";
+            this.learnButton1.UseVisualStyleBackColor = true;
+            this.learnButton1.Click += new System.EventHandler(this.learnButton1_Click);
+            // 
+            // mouseGesture1
+            // 
+            this.mouseGesture1.AutoSize = true;
+            this.mouseGesture1.Location = new System.Drawing.Point(79, 33);
+            this.mouseGesture1.Name = "mouseGesture1";
+            this.mouseGesture1.Size = new System.Drawing.Size(15, 14);
+            this.mouseGesture1.TabIndex = 1;
+            this.mouseGesture1.UseVisualStyleBackColor = true;
+            this.mouseGesture1.CheckedChanged += new System.EventHandler(this.mouseGesture1_CheckedChanged);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(7, 33);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(65, 13);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Ruch myszą";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 3000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label26.Location = new System.Drawing.Point(6, 12);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(187, 13);
+            this.label26.TabIndex = 4;
+            this.label26.Text = "Naucz program nowych gestów!";
+            // 
+            // returnToDefault
+            // 
+            this.returnToDefault.Location = new System.Drawing.Point(10, 155);
+            this.returnToDefault.Name = "returnToDefault";
+            this.returnToDefault.Size = new System.Drawing.Size(108, 23);
+            this.returnToDefault.TabIndex = 5;
+            this.returnToDefault.Text = "Przywróć domyślne";
+            this.returnToDefault.UseVisualStyleBackColor = true;
+            // 
+            // savedGesture1
+            // 
+            this.savedGesture1.AutoSize = true;
+            this.savedGesture1.Enabled = false;
+            this.savedGesture1.Location = new System.Drawing.Point(190, 33);
+            this.savedGesture1.Name = "savedGesture1";
+            this.savedGesture1.Size = new System.Drawing.Size(76, 13);
+            this.savedGesture1.TabIndex = 6;
+            this.savedGesture1.Text = "Gest zapisany.";
+            this.savedGesture1.Visible = false;
             // 
             // KameraMyszka
             // 
@@ -921,6 +1000,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudW5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudW4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudW6)).EndInit();
+            this.LearningTab.ResumeLayout(false);
+            this.LearningTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -985,6 +1066,13 @@
         private System.Windows.Forms.NumericUpDown nudW4;
         private System.Windows.Forms.NumericUpDown nudW6;
         private System.Windows.Forms.TabPage LearningTab;
+        private System.Windows.Forms.CheckBox mouseGesture1;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Button learnButton1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Button returnToDefault;
+        private System.Windows.Forms.Label savedGesture1;
     }
 }
 

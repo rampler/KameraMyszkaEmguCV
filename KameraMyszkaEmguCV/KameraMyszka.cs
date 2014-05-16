@@ -47,7 +47,8 @@ namespace KameraMyszkaEmguCV
             bc.MinHeight = 50;
             bc.ObjectsOrder = ObjectsOrder.Size;
 
-            InitializeComponent();            
+            InitializeComponent();
+            timer1.Enabled = false;
         }
 
         /*
@@ -76,9 +77,8 @@ namespace KameraMyszkaEmguCV
                     nudWhiteBlue.Value = (decimal)defaultWhiteBlueBalance;
                 }
                 catch (ArgumentOutOfRangeException ex)
-                {
-
-                }
+                { 
+}
                 nudWhiteRed.Value = (decimal)defaultWhiteRedBalance;
                 nudHue.Value = (decimal)defaultHue;
                 nudGain.Value = (decimal)defaultGain;
@@ -421,6 +421,27 @@ namespace KameraMyszkaEmguCV
                 nudW6.Value = (S1 + odchylenie < 255)?S1 + odchylenie:255;
             }
             //MessageBox.Show(string.Format("X: {0} Y: {1}\n{2}, {3}, {4}", posX, posY,S1,S2,S3));
+        }
+
+        private void mouseGesture1_CheckedChanged(object sender, EventArgs e)
+        {
+            learnButton1.Enabled = !learnButton1.Enabled;
+            savedGesture1.Enabled = !savedGesture1.Enabled;
+        }
+
+        private void learnButton1_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+            learnButton1.Enabled = false;
+            savedGesture1.Visible = false;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+           // Tutaj ma się coś robić po 3 sekundach
+            timer1.Stop();
+            learnButton1.Enabled = true;
+            savedGesture1.Visible = true;
         }
 
        
