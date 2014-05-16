@@ -71,7 +71,14 @@ namespace KameraMyszkaEmguCV
                 nudContrast.Value = (decimal)defaultContrast;
                 nudSharpness.Value = (decimal)defaultSharpness;
                 nudSaturation.Value = (decimal)defaultSaturation;
-                //nudWhiteBlue.Value = (decimal)defaultWhiteBlueBalance;
+                try
+                {
+                    nudWhiteBlue.Value = (decimal)defaultWhiteBlueBalance;
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+
+                }
                 nudWhiteRed.Value = (decimal)defaultWhiteRedBalance;
                 nudHue.Value = (decimal)defaultHue;
                 nudGain.Value = (decimal)defaultGain;
