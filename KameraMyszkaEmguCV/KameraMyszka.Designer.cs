@@ -31,16 +31,20 @@
             this.components = new System.ComponentModel.Container();
             this.imageBox1 = new Emgu.CV.UI.ImageBox();
             this.imageBox2 = new Emgu.CV.UI.ImageBox();
-            this.nudW2 = new System.Windows.Forms.NumericUpDown();
-            this.nudW3 = new System.Windows.Forms.NumericUpDown();
-            this.nudW5 = new System.Windows.Forms.NumericUpDown();
-            this.nudW6 = new System.Windows.Forms.NumericUpDown();
-            this.nudW1 = new System.Windows.Forms.NumericUpDown();
-            this.nudW4 = new System.Windows.Forms.NumericUpDown();
-            this.nudBrightness = new System.Windows.Forms.NumericUpDown();
-            this.nudContrast = new System.Windows.Forms.NumericUpDown();
-            this.nudSharpness = new System.Windows.Forms.NumericUpDown();
+            this.tableOptions = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.feretLbl = new System.Windows.Forms.Label();
+            this.malzmodLbl = new System.Windows.Forms.Label();
+            this.malinowskaLbl = new System.Windows.Forms.Label();
+            this.blairLbl = new System.Windows.Forms.Label();
+            this.compactnessLbl = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.nupScale = new System.Windows.Forms.NumericUpDown();
             this.medianCB = new System.Windows.Forms.CheckBox();
@@ -73,28 +77,20 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.compactnessLbl = new System.Windows.Forms.Label();
-            this.blairLbl = new System.Windows.Forms.Label();
-            this.malinowskaLbl = new System.Windows.Forms.Label();
-            this.malzmodLbl = new System.Windows.Forms.Label();
-            this.feretLbl = new System.Windows.Forms.Label();
+            this.nudW1 = new System.Windows.Forms.NumericUpDown();
+            this.nudSharpness = new System.Windows.Forms.NumericUpDown();
+            this.nudW2 = new System.Windows.Forms.NumericUpDown();
+            this.nudContrast = new System.Windows.Forms.NumericUpDown();
+            this.nudW3 = new System.Windows.Forms.NumericUpDown();
+            this.nudBrightness = new System.Windows.Forms.NumericUpDown();
+            this.nudW5 = new System.Windows.Forms.NumericUpDown();
+            this.nudW4 = new System.Windows.Forms.NumericUpDown();
+            this.nudW6 = new System.Windows.Forms.NumericUpDown();
+            this.LearningTab = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudBrightness)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudContrast)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSharpness)).BeginInit();
+            this.tableOptions.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMedian)).BeginInit();
@@ -106,6 +102,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudGamma)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSharpness)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudContrast)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBrightness)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW6)).BeginInit();
             this.SuspendLayout();
             // 
             // imageBox1
@@ -113,7 +118,7 @@
             this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.imageBox1.Location = new System.Drawing.Point(12, 12);
             this.imageBox1.Name = "imageBox1";
-            this.imageBox1.Size = new System.Drawing.Size(451, 286);
+            this.imageBox1.Size = new System.Drawing.Size(487, 317);
             this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.imageBox1.TabIndex = 2;
             this.imageBox1.TabStop = false;
@@ -122,171 +127,33 @@
             // imageBox2
             // 
             this.imageBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBox2.Location = new System.Drawing.Point(470, 12);
+            this.imageBox2.Location = new System.Drawing.Point(505, 12);
             this.imageBox2.Name = "imageBox2";
-            this.imageBox2.Size = new System.Drawing.Size(451, 286);
+            this.imageBox2.Size = new System.Drawing.Size(459, 317);
             this.imageBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.imageBox2.TabIndex = 3;
             this.imageBox2.TabStop = false;
             // 
-            // nudW2
+            // tableOptions
             // 
-            this.nudW2.Location = new System.Drawing.Point(193, 12);
-            this.nudW2.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudW2.Name = "nudW2";
-            this.nudW2.Size = new System.Drawing.Size(52, 20);
-            this.nudW2.TabIndex = 2;
-            this.nudW2.Value = new decimal(new int[] {
-            80,
-            0,
-            0,
-            0});
+            this.tableOptions.Controls.Add(this.tabPage1);
+            this.tableOptions.Controls.Add(this.LearningTab);
+            this.tableOptions.Location = new System.Drawing.Point(12, 335);
+            this.tableOptions.Name = "tableOptions";
+            this.tableOptions.SelectedIndex = 0;
+            this.tableOptions.Size = new System.Drawing.Size(952, 212);
+            this.tableOptions.TabIndex = 4;
             // 
-            // nudW3
+            // tabPage1
             // 
-            this.nudW3.Location = new System.Drawing.Point(251, 12);
-            this.nudW3.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudW3.Name = "nudW3";
-            this.nudW3.Size = new System.Drawing.Size(52, 20);
-            this.nudW3.TabIndex = 3;
-            this.nudW3.Value = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-            // 
-            // nudW5
-            // 
-            this.nudW5.Location = new System.Drawing.Point(193, 38);
-            this.nudW5.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudW5.Name = "nudW5";
-            this.nudW5.Size = new System.Drawing.Size(52, 20);
-            this.nudW5.TabIndex = 5;
-            this.nudW5.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            // 
-            // nudW6
-            // 
-            this.nudW6.Location = new System.Drawing.Point(251, 38);
-            this.nudW6.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudW6.Name = "nudW6";
-            this.nudW6.Size = new System.Drawing.Size(52, 20);
-            this.nudW6.TabIndex = 6;
-            this.nudW6.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            // 
-            // nudW1
-            // 
-            this.nudW1.Location = new System.Drawing.Point(135, 12);
-            this.nudW1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudW1.Name = "nudW1";
-            this.nudW1.Size = new System.Drawing.Size(52, 20);
-            this.nudW1.TabIndex = 1;
-            this.nudW1.Value = new decimal(new int[] {
-            40,
-            0,
-            0,
-            0});
-            // 
-            // nudW4
-            // 
-            this.nudW4.Location = new System.Drawing.Point(135, 38);
-            this.nudW4.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudW4.Name = "nudW4";
-            this.nudW4.Size = new System.Drawing.Size(52, 20);
-            this.nudW4.TabIndex = 4;
-            this.nudW4.Value = new decimal(new int[] {
-            150,
-            0,
-            0,
-            0});
-            // 
-            // nudBrightness
-            // 
-            this.nudBrightness.DecimalPlaces = 2;
-            this.nudBrightness.Enabled = false;
-            this.nudBrightness.Location = new System.Drawing.Point(102, 104);
-            this.nudBrightness.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudBrightness.Name = "nudBrightness";
-            this.nudBrightness.Size = new System.Drawing.Size(62, 20);
-            this.nudBrightness.TabIndex = 10;
-            this.nudBrightness.Value = new decimal(new int[] {
-            160,
-            0,
-            0,
-            0});
-            // 
-            // nudContrast
-            // 
-            this.nudContrast.DecimalPlaces = 2;
-            this.nudContrast.Enabled = false;
-            this.nudContrast.Location = new System.Drawing.Point(102, 130);
-            this.nudContrast.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudContrast.Name = "nudContrast";
-            this.nudContrast.Size = new System.Drawing.Size(62, 20);
-            this.nudContrast.TabIndex = 11;
-            this.nudContrast.Value = new decimal(new int[] {
-            40,
-            0,
-            0,
-            0});
-            // 
-            // nudSharpness
-            // 
-            this.nudSharpness.DecimalPlaces = 2;
-            this.nudSharpness.Enabled = false;
-            this.nudSharpness.Location = new System.Drawing.Point(102, 156);
-            this.nudSharpness.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudSharpness.Name = "nudSharpness";
-            this.nudSharpness.Size = new System.Drawing.Size(62, 20);
-            this.nudSharpness.TabIndex = 12;
-            this.nudSharpness.Value = new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
+            this.tabPage1.Controls.Add(this.panel1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(944, 186);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Ustawienia";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -342,10 +209,109 @@
             this.panel1.Controls.Add(this.nudW5);
             this.panel1.Controls.Add(this.nudW4);
             this.panel1.Controls.Add(this.nudW6);
-            this.panel1.Location = new System.Drawing.Point(12, 304);
+            this.panel1.Location = new System.Drawing.Point(3, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(909, 190);
-            this.panel1.TabIndex = 13;
+            this.panel1.Size = new System.Drawing.Size(935, 180);
+            this.panel1.TabIndex = 15;
+            // 
+            // feretLbl
+            // 
+            this.feretLbl.AutoSize = true;
+            this.feretLbl.Location = new System.Drawing.Point(818, 106);
+            this.feretLbl.Name = "feretLbl";
+            this.feretLbl.Size = new System.Drawing.Size(10, 13);
+            this.feretLbl.TabIndex = 52;
+            this.feretLbl.Text = "-";
+            // 
+            // malzmodLbl
+            // 
+            this.malzmodLbl.AutoSize = true;
+            this.malzmodLbl.Location = new System.Drawing.Point(818, 88);
+            this.malzmodLbl.Name = "malzmodLbl";
+            this.malzmodLbl.Size = new System.Drawing.Size(10, 13);
+            this.malzmodLbl.TabIndex = 51;
+            this.malzmodLbl.Text = "-";
+            // 
+            // malinowskaLbl
+            // 
+            this.malinowskaLbl.AutoSize = true;
+            this.malinowskaLbl.Location = new System.Drawing.Point(818, 70);
+            this.malinowskaLbl.Name = "malinowskaLbl";
+            this.malinowskaLbl.Size = new System.Drawing.Size(10, 13);
+            this.malinowskaLbl.TabIndex = 50;
+            this.malinowskaLbl.Text = "-";
+            // 
+            // blairLbl
+            // 
+            this.blairLbl.AutoSize = true;
+            this.blairLbl.Location = new System.Drawing.Point(818, 54);
+            this.blairLbl.Name = "blairLbl";
+            this.blairLbl.Size = new System.Drawing.Size(10, 13);
+            this.blairLbl.TabIndex = 49;
+            this.blairLbl.Text = "-";
+            // 
+            // compactnessLbl
+            // 
+            this.compactnessLbl.AutoSize = true;
+            this.compactnessLbl.Location = new System.Drawing.Point(818, 37);
+            this.compactnessLbl.Name = "compactnessLbl";
+            this.compactnessLbl.Size = new System.Drawing.Size(10, 13);
+            this.compactnessLbl.TabIndex = 48;
+            this.compactnessLbl.Text = "-";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(738, 103);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(34, 13);
+            this.label24.TabIndex = 47;
+            this.label24.Text = "Feret:";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(738, 87);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(52, 13);
+            this.label23.TabIndex = 46;
+            this.label23.Text = "Malzmod:";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(738, 70);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(70, 13);
+            this.label22.TabIndex = 45;
+            this.label22.Text = "Malinowskiej:";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(738, 54);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(54, 13);
+            this.label21.TabIndex = 44;
+            this.label21.Text = "Blair-Bliss:";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(738, 37);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(74, 13);
+            this.label20.TabIndex = 43;
+            this.label20.Text = "Compactness:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(728, 17);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(80, 13);
+            this.label19.TabIndex = 42;
+            this.label19.Text = "Współczynniki:";
             // 
             // label18
             // 
@@ -392,7 +358,7 @@
             this.medianCB.Size = new System.Drawing.Size(15, 14);
             this.medianCB.TabIndex = 39;
             this.medianCB.UseVisualStyleBackColor = true;
-            this.medianCB.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged_1);
+            this.medianCB.CheckedChanged += new System.EventHandler(this.medianCB_CheckedChanged);
             // 
             // label17
             // 
@@ -683,7 +649,7 @@
             this.autoCB.TabIndex = 9;
             this.autoCB.Text = "auto";
             this.autoCB.UseVisualStyleBackColor = true;
-            this.autoCB.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.autoCB.CheckedChanged += new System.EventHandler(this.autoCB_CheckedChanged);
             // 
             // label7
             // 
@@ -748,111 +714,181 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "Wsp. binaryzacji:";
             // 
-            // label19
+            // nudW1
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(728, 17);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(80, 13);
-            this.label19.TabIndex = 42;
-            this.label19.Text = "Współczynniki:";
+            this.nudW1.Location = new System.Drawing.Point(135, 12);
+            this.nudW1.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudW1.Name = "nudW1";
+            this.nudW1.Size = new System.Drawing.Size(52, 20);
+            this.nudW1.TabIndex = 1;
+            this.nudW1.Value = new decimal(new int[] {
+            40,
+            0,
+            0,
+            0});
             // 
-            // label20
+            // nudSharpness
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(738, 37);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(74, 13);
-            this.label20.TabIndex = 43;
-            this.label20.Text = "Compactness:";
+            this.nudSharpness.DecimalPlaces = 2;
+            this.nudSharpness.Enabled = false;
+            this.nudSharpness.Location = new System.Drawing.Point(102, 156);
+            this.nudSharpness.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudSharpness.Name = "nudSharpness";
+            this.nudSharpness.Size = new System.Drawing.Size(62, 20);
+            this.nudSharpness.TabIndex = 12;
+            this.nudSharpness.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
             // 
-            // label21
+            // nudW2
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(738, 54);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(54, 13);
-            this.label21.TabIndex = 44;
-            this.label21.Text = "Blair-Bliss:";
+            this.nudW2.Location = new System.Drawing.Point(193, 12);
+            this.nudW2.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudW2.Name = "nudW2";
+            this.nudW2.Size = new System.Drawing.Size(52, 20);
+            this.nudW2.TabIndex = 2;
+            this.nudW2.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
             // 
-            // label22
+            // nudContrast
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(738, 70);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(70, 13);
-            this.label22.TabIndex = 45;
-            this.label22.Text = "Malinowskiej:";
+            this.nudContrast.DecimalPlaces = 2;
+            this.nudContrast.Enabled = false;
+            this.nudContrast.Location = new System.Drawing.Point(102, 130);
+            this.nudContrast.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudContrast.Name = "nudContrast";
+            this.nudContrast.Size = new System.Drawing.Size(62, 20);
+            this.nudContrast.TabIndex = 11;
+            this.nudContrast.Value = new decimal(new int[] {
+            40,
+            0,
+            0,
+            0});
             // 
-            // label23
+            // nudW3
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(738, 87);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(52, 13);
-            this.label23.TabIndex = 46;
-            this.label23.Text = "Malzmod:";
+            this.nudW3.Location = new System.Drawing.Point(251, 12);
+            this.nudW3.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudW3.Name = "nudW3";
+            this.nudW3.Size = new System.Drawing.Size(52, 20);
+            this.nudW3.TabIndex = 3;
+            this.nudW3.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
             // 
-            // label24
+            // nudBrightness
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(738, 103);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(34, 13);
-            this.label24.TabIndex = 47;
-            this.label24.Text = "Feret:";
+            this.nudBrightness.DecimalPlaces = 2;
+            this.nudBrightness.Enabled = false;
+            this.nudBrightness.Location = new System.Drawing.Point(102, 104);
+            this.nudBrightness.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudBrightness.Name = "nudBrightness";
+            this.nudBrightness.Size = new System.Drawing.Size(62, 20);
+            this.nudBrightness.TabIndex = 10;
+            this.nudBrightness.Value = new decimal(new int[] {
+            160,
+            0,
+            0,
+            0});
             // 
-            // compactnessLbl
+            // nudW5
             // 
-            this.compactnessLbl.AutoSize = true;
-            this.compactnessLbl.Location = new System.Drawing.Point(818, 37);
-            this.compactnessLbl.Name = "compactnessLbl";
-            this.compactnessLbl.Size = new System.Drawing.Size(10, 13);
-            this.compactnessLbl.TabIndex = 48;
-            this.compactnessLbl.Text = "-";
+            this.nudW5.Location = new System.Drawing.Point(193, 38);
+            this.nudW5.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudW5.Name = "nudW5";
+            this.nudW5.Size = new System.Drawing.Size(52, 20);
+            this.nudW5.TabIndex = 5;
+            this.nudW5.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
             // 
-            // blairLbl
+            // nudW4
             // 
-            this.blairLbl.AutoSize = true;
-            this.blairLbl.Location = new System.Drawing.Point(818, 54);
-            this.blairLbl.Name = "blairLbl";
-            this.blairLbl.Size = new System.Drawing.Size(10, 13);
-            this.blairLbl.TabIndex = 49;
-            this.blairLbl.Text = "-";
+            this.nudW4.Location = new System.Drawing.Point(135, 38);
+            this.nudW4.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudW4.Name = "nudW4";
+            this.nudW4.Size = new System.Drawing.Size(52, 20);
+            this.nudW4.TabIndex = 4;
+            this.nudW4.Value = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
             // 
-            // malinowskaLbl
+            // nudW6
             // 
-            this.malinowskaLbl.AutoSize = true;
-            this.malinowskaLbl.Location = new System.Drawing.Point(818, 70);
-            this.malinowskaLbl.Name = "malinowskaLbl";
-            this.malinowskaLbl.Size = new System.Drawing.Size(10, 13);
-            this.malinowskaLbl.TabIndex = 50;
-            this.malinowskaLbl.Text = "-";
+            this.nudW6.Location = new System.Drawing.Point(251, 38);
+            this.nudW6.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudW6.Name = "nudW6";
+            this.nudW6.Size = new System.Drawing.Size(52, 20);
+            this.nudW6.TabIndex = 6;
+            this.nudW6.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
-            // malzmodLbl
+            // LearningTab
             // 
-            this.malzmodLbl.AutoSize = true;
-            this.malzmodLbl.Location = new System.Drawing.Point(818, 88);
-            this.malzmodLbl.Name = "malzmodLbl";
-            this.malzmodLbl.Size = new System.Drawing.Size(10, 13);
-            this.malzmodLbl.TabIndex = 51;
-            this.malzmodLbl.Text = "-";
-            // 
-            // feretLbl
-            // 
-            this.feretLbl.AutoSize = true;
-            this.feretLbl.Location = new System.Drawing.Point(818, 106);
-            this.feretLbl.Name = "feretLbl";
-            this.feretLbl.Size = new System.Drawing.Size(10, 13);
-            this.feretLbl.TabIndex = 52;
-            this.feretLbl.Text = "-";
+            this.LearningTab.Location = new System.Drawing.Point(4, 22);
+            this.LearningTab.Name = "LearningTab";
+            this.LearningTab.Padding = new System.Windows.Forms.Padding(3);
+            this.LearningTab.Size = new System.Drawing.Size(944, 186);
+            this.LearningTab.TabIndex = 1;
+            this.LearningTab.Text = "Tryb uczenia";
+            this.LearningTab.UseVisualStyleBackColor = true;
             // 
             // KameraMyszka
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(933, 506);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(976, 550);
+            this.Controls.Add(this.tableOptions);
             this.Controls.Add(this.imageBox2);
             this.Controls.Add(this.imageBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -862,15 +898,8 @@
             this.Load += new System.EventHandler(this.KameraMyszka_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudW4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudBrightness)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudContrast)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSharpness)).EndInit();
+            this.tableOptions.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupScale)).EndInit();
@@ -883,6 +912,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudGamma)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSharpness)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudContrast)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBrightness)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudW6)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -891,26 +929,30 @@
 
         private Emgu.CV.UI.ImageBox imageBox1;
         private Emgu.CV.UI.ImageBox imageBox2;
-        private System.Windows.Forms.NumericUpDown nudW2;
-        private System.Windows.Forms.NumericUpDown nudW3;
-        private System.Windows.Forms.NumericUpDown nudW5;
-        private System.Windows.Forms.NumericUpDown nudW6;
-        private System.Windows.Forms.NumericUpDown nudW1;
-        private System.Windows.Forms.NumericUpDown nudW4;
-        private System.Windows.Forms.NumericUpDown nudBrightness;
-        private System.Windows.Forms.NumericUpDown nudContrast;
-        private System.Windows.Forms.NumericUpDown nudSharpness;
+        private System.Windows.Forms.TabControl tableOptions;
+        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckBox autoCB;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Label feretLbl;
+        private System.Windows.Forms.Label malzmodLbl;
+        private System.Windows.Forms.Label malinowskaLbl;
+        private System.Windows.Forms.Label blairLbl;
+        private System.Windows.Forms.Label compactnessLbl;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown nupScale;
+        private System.Windows.Forms.CheckBox medianCB;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.NumericUpDown nudMedian;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown nudErode;
+        private System.Windows.Forms.NumericUpDown nudDilate;
+        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
@@ -923,27 +965,26 @@
         private System.Windows.Forms.NumericUpDown nudGamma;
         private System.Windows.Forms.NumericUpDown nudGain;
         private System.Windows.Forms.NumericUpDown nudHue;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.NumericUpDown nudMedian;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.NumericUpDown nudErode;
-        private System.Windows.Forms.NumericUpDown nudDilate;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.CheckBox medianCB;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.NumericUpDown nupScale;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label feretLbl;
-        private System.Windows.Forms.Label malzmodLbl;
-        private System.Windows.Forms.Label malinowskaLbl;
-        private System.Windows.Forms.Label blairLbl;
-        private System.Windows.Forms.Label compactnessLbl;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.CheckBox autoCB;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nudW1;
+        private System.Windows.Forms.NumericUpDown nudSharpness;
+        private System.Windows.Forms.NumericUpDown nudW2;
+        private System.Windows.Forms.NumericUpDown nudContrast;
+        private System.Windows.Forms.NumericUpDown nudW3;
+        private System.Windows.Forms.NumericUpDown nudBrightness;
+        private System.Windows.Forms.NumericUpDown nudW5;
+        private System.Windows.Forms.NumericUpDown nudW4;
+        private System.Windows.Forms.NumericUpDown nudW6;
+        private System.Windows.Forms.TabPage LearningTab;
     }
 }
 

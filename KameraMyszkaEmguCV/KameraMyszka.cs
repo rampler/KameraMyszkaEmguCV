@@ -196,7 +196,7 @@ namespace KameraMyszkaEmguCV
         /*
          * Włączenie ręcznego ustawiania kamery
          * */
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void autoCB_CheckedChanged(object sender, EventArgs e)
         {
             nudBrightness.Enabled = !nudBrightness.Enabled;
             nudContrast.Enabled = !nudContrast.Enabled;
@@ -238,7 +238,7 @@ namespace KameraMyszkaEmguCV
         /*
          * Włączenie filtru medianowego
          * */
-        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
+        private void medianCB_CheckedChanged(object sender, EventArgs e)
         {
             nudMedian.Enabled = !nudMedian.Enabled;
         }
@@ -415,5 +415,11 @@ namespace KameraMyszkaEmguCV
             }
             //MessageBox.Show(string.Format("X: {0} Y: {1}\n{2}, {3}, {4}", posX, posY,S1,S2,S3));
         }
+
+       
+
+        
+
+       
     }
 }
