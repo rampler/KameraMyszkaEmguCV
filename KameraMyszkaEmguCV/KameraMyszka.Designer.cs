@@ -87,13 +87,13 @@
             this.nudW4 = new System.Windows.Forms.NumericUpDown();
             this.nudW6 = new System.Windows.Forms.NumericUpDown();
             this.LearningTab = new System.Windows.Forms.TabPage();
+            this.savedGesture1 = new System.Windows.Forms.Label();
+            this.returnToDefault = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
             this.learnButton1 = new System.Windows.Forms.Button();
             this.mouseGesture1 = new System.Windows.Forms.CheckBox();
             this.label25 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label26 = new System.Windows.Forms.Label();
-            this.returnToDefault = new System.Windows.Forms.Button();
-            this.savedGesture1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             this.tableOptions.SuspendLayout();
@@ -496,6 +496,7 @@
             0,
             0,
             0});
+            this.nudWhiteRed.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // nudWhiteBlue
             // 
@@ -520,6 +521,7 @@
             0,
             0,
             0});
+            this.nudWhiteBlue.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // nudSaturation
             // 
@@ -539,6 +541,7 @@
             0,
             0,
             0});
+            this.nudSaturation.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // label8
             // 
@@ -585,6 +588,7 @@
             0,
             0,
             0});
+            this.nudGamma.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // nudGain
             // 
@@ -604,6 +608,7 @@
             0,
             0,
             0});
+            this.nudGain.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // nudHue
             // 
@@ -623,6 +628,7 @@
             0,
             0,
             0});
+            this.nudHue.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // radioButton2
             // 
@@ -757,6 +763,7 @@
             0,
             0,
             0});
+            this.nudSharpness.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // nudW2
             // 
@@ -793,6 +800,7 @@
             0,
             0,
             0});
+            this.nudContrast.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // nudW3
             // 
@@ -829,6 +837,7 @@
             0,
             0,
             0});
+            this.nudBrightness.ValueChanged += new System.EventHandler(this.CameraValueChanged);
             // 
             // nudW5
             // 
@@ -897,6 +906,36 @@
             this.LearningTab.Text = "Tryb uczenia";
             this.LearningTab.UseVisualStyleBackColor = true;
             // 
+            // savedGesture1
+            // 
+            this.savedGesture1.AutoSize = true;
+            this.savedGesture1.Enabled = false;
+            this.savedGesture1.Location = new System.Drawing.Point(190, 33);
+            this.savedGesture1.Name = "savedGesture1";
+            this.savedGesture1.Size = new System.Drawing.Size(76, 13);
+            this.savedGesture1.TabIndex = 6;
+            this.savedGesture1.Text = "Gest zapisany.";
+            this.savedGesture1.Visible = false;
+            // 
+            // returnToDefault
+            // 
+            this.returnToDefault.Location = new System.Drawing.Point(10, 155);
+            this.returnToDefault.Name = "returnToDefault";
+            this.returnToDefault.Size = new System.Drawing.Size(108, 23);
+            this.returnToDefault.TabIndex = 5;
+            this.returnToDefault.Text = "Przywróć domyślne";
+            this.returnToDefault.UseVisualStyleBackColor = true;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label26.Location = new System.Drawing.Point(6, 12);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(187, 13);
+            this.label26.TabIndex = 4;
+            this.label26.Text = "Naucz program nowych gestów!";
+            // 
             // learnButton1
             // 
             this.learnButton1.Enabled = false;
@@ -931,36 +970,6 @@
             // 
             this.timer1.Interval = 3000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label26.Location = new System.Drawing.Point(6, 12);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(187, 13);
-            this.label26.TabIndex = 4;
-            this.label26.Text = "Naucz program nowych gestów!";
-            // 
-            // returnToDefault
-            // 
-            this.returnToDefault.Location = new System.Drawing.Point(10, 155);
-            this.returnToDefault.Name = "returnToDefault";
-            this.returnToDefault.Size = new System.Drawing.Size(108, 23);
-            this.returnToDefault.TabIndex = 5;
-            this.returnToDefault.Text = "Przywróć domyślne";
-            this.returnToDefault.UseVisualStyleBackColor = true;
-            // 
-            // savedGesture1
-            // 
-            this.savedGesture1.AutoSize = true;
-            this.savedGesture1.Enabled = false;
-            this.savedGesture1.Location = new System.Drawing.Point(190, 33);
-            this.savedGesture1.Name = "savedGesture1";
-            this.savedGesture1.Size = new System.Drawing.Size(76, 13);
-            this.savedGesture1.TabIndex = 6;
-            this.savedGesture1.Text = "Gest zapisany.";
-            this.savedGesture1.Visible = false;
             // 
             // KameraMyszka
             // 

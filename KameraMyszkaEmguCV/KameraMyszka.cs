@@ -105,9 +105,6 @@ namespace KameraMyszkaEmguCV
             else
                 imageGray = image.InRange(new Bgr((double)nudW3.Value, (double)nudW2.Value, (double)nudW1.Value), new Bgr((double)nudW6.Value, (double)nudW5.Value, (double)nudW4.Value));
 
-            //imageGray = imageGray.Erode((int)nudErode.Value);
-            //imageGray = imageGray.Dilate((int)nudDilate.Value);
-
             if (medianCB.Checked)
                 imageGray = imageGray.SmoothMedian((int)nudMedian.Value);
 
@@ -197,7 +194,11 @@ namespace KameraMyszkaEmguCV
                 malzmod = -404f;
                 feret = -404f;
             }
-            imageBox2.Image = new Image<Gray, Byte>(bmp);
+
+            imageGray = new Image<Gray, Byte>(bmp);
+            imageGray = imageGray.Erode((int)nudErode.Value);
+            imageGray = imageGray.Dilate((int)nudDilate.Value);
+            imageBox2.Image = imageGray;
         }
 
         /*
@@ -215,20 +216,7 @@ namespace KameraMyszkaEmguCV
             nudGain.Enabled = !nudGain.Enabled;
             nudGamma.Enabled = !nudGamma.Enabled;
 
-            //Camera Settings
-            if (!autoCB.Checked)
-            {
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_BRIGHTNESS, (double)nudBrightness.Value);
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_CONTRAST, (double)nudContrast.Value);
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_SHARPNESS, (double)nudSharpness.Value);
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_SATURATION, (double)nudSaturation.Value);
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_WHITE_BALANCE_BLUE_U, (double)nudWhiteBlue.Value);
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_WHITE_BALANCE_RED_V, (double)nudWhiteRed.Value);
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_HUE, (double)nudHue.Value);
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAIN, (double)nudGain.Value);
-                capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAMMA, (double)nudGamma.Value);
-            }
-            else
+            if (autoCB.Checked)
             {
                 capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_BRIGHTNESS, defaultBrightness);
                 capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_CONTRAST, defaultContrast);
@@ -240,6 +228,21 @@ namespace KameraMyszkaEmguCV
                 capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAIN, defaultGain);
                 capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAMMA, defaultGamma);
             }
+            else CameraValueChanged(null, null);
+        }
+
+        private void CameraValueChanged(object sender, EventArgs e)
+        {
+            //Camera Settings
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_BRIGHTNESS, (double)nudBrightness.Value);
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_CONTRAST, (double)nudContrast.Value);
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_SHARPNESS, (double)nudSharpness.Value);
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_SATURATION, (double)nudSaturation.Value);
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_WHITE_BALANCE_BLUE_U, (double)nudWhiteBlue.Value);
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_WHITE_BALANCE_RED_V, (double)nudWhiteRed.Value);
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_HUE, (double)nudHue.Value);
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAIN, (double)nudGain.Value);
+            capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAMMA, (double)nudGamma.Value);
         }
 
         /*
@@ -266,128 +269,11 @@ namespace KameraMyszkaEmguCV
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAMMA, defaultGamma);
         }
 
-/*        private Image<Gray, Byte> OnlyHandOnImage(Image<Gray, Byte> image)
-        {
-            Image<Gray, Byte> img = image.Copy();
-            int rows = img.Rows;
-            int cols = img.Cols;
-            Console.WriteLine(rows+" "+cols);
-            byte[, ,] data = img.Data;
-
-            //Indeksacja
-            int[,] imgIndex = new int[cols , rows];
-            for (int i = 0; i < cols; i++)
-			{
-			    imgIndex[i,0] = 0;
-                imgIndex[i,rows-1] = 0;
-			}
-            for (int j = 0; j < rows; j++)
-            {
-                imgIndex[0, j] = 0;
-                imgIndex[cols - 1, j] = 0;
-            }
-            int precission = 2000;
-            int[] tablica_sklejen = new int[precission]; //Może być za mała w skrajnych przypadkach //TODO test
-            for (int i = 0; i < tablica_sklejen.Length; i++)
-                tablica_sklejen[i] = i+1;
-            int actualIndex = 1;
-
-            //Pierwszy przebieg indeksacji
-            for (int j = 1; j < rows-1; j++)
-                for (int i = 1; i < cols-1; i++)
-                {
-                    if (data[j, i, 0] == 0) imgIndex[i, j] = 0;
-                    else
-                    {
-                        int temp = precission;
-                        if (imgIndex[i - 1, j] != 0 && imgIndex[i - 1, j] < temp)
-                        {
-                            if (temp != precission) tablica_sklejen[temp - 1] = imgIndex[i - 1, j];
-                            temp = imgIndex[i - 1, j];
-                        }
-                        if (imgIndex[i - 1, j - 1] != 0 && imgIndex[i - 1, j - 1] < temp)
-                        {
-                            if (temp != precission) tablica_sklejen[temp - 1] = imgIndex[i - 1, j - 1];
-                            temp = imgIndex[i - 1, j - 1];
-                        }
-                        if (imgIndex[i, j - 1] != 0 && imgIndex[i, j - 1] < temp)
-                        {
-                            if (temp != precission) tablica_sklejen[temp - 1] = imgIndex[i, j - 1];
-                            temp = imgIndex[i, j - 1];
-                        }
-                        if (imgIndex[i + 1, j - 1] != 0 && imgIndex[i + 1, j - 1] < temp)
-                        {
-                            if (temp != precission) tablica_sklejen[temp - 1] = imgIndex[i + 1, j - 1];
-                            temp = imgIndex[i + 1, j - 1];
-                        }
-                        if (temp == precission)
-                        {
-                            temp = actualIndex;
-                            actualIndex++;
-                        }
-                        imgIndex[i, j] = temp;
-                    }
-                }
-
-            //Drugi przebieg indeksacji - tablica sklejeń i zliczanie wielkości obiektów
-            int[] tablica_wielkosci = new int[precission];
-            for (int i = 0; i < tablica_wielkosci.Length; i++)
-                tablica_wielkosci[i] = 0;
-
-            for (int i = 0; i < cols; i++)
-                for (int j = 0; j < rows; j++)
-                {
-                    if (imgIndex[i, j] != 0)
-                    {
-                        imgIndex[i, j] = tablica_sklejen[imgIndex[i, j] - 1];
-                        tablica_wielkosci[imgIndex[i, j] - 1]++;
-                    }
-                }
-
-            ////Wyszukanie największego obiektu
-            int index_max = 0;
-            int actual_max = 0;
-
-            for (int i = 0; i < tablica_wielkosci.Length; i++)
-                if (tablica_wielkosci[i] > actual_max)
-                {
-                    actual_max = tablica_wielkosci[i];
-                    index_max = i;
-                }
-
-            //Tworzenie binarnego obrazka z samym największym obiektem(ręką)
-            for (int i = 0; i < cols; i++)
-                for (int j = 0; j < rows; j++)
-                {
-                    if (imgIndex[i, j] == index_max + 1) data[j, i, 0] = 255;
-                    else data[j, i, 0] = 0;
-                    //if(data[j,i,0] != 0)data[j, i, 0] = (Byte)(imgIndex[i, j]/(actual_max+1)*200+55);
-                }
-            return img;
-        }
-
         /// <summary>
-        /// Szybkie operacje na obrazie(rows i cols pobrane raz)
+        /// Ustawienie progów binaryzacji poprzez kliknięcie na obrazie
         /// </summary>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        /// 
-        private Image<Bgr, Byte> test(Image<Bgr, Byte> image)
-        {
-            Image<Bgr, Byte> img = image.Copy();
-            byte[, ,] data = img.Data;
-            for (int i = img.Rows - 1; i >= 0; --i)
-            {
-                for (int j = img.Cols - 1; j >= 0; --j)
-                {
-                    data[i, j, 0] += 10;
-                    data[i, j, 1] += 30;
-                    data[i, j, 2] += 140;
-                }
-            }
-            return img;
-        }
-*/
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void imageBox1_Click(object sender, EventArgs e)
         {
             MouseEventArgs ev = (MouseEventArgs)e;
