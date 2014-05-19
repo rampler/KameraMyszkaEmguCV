@@ -87,13 +87,50 @@
             this.nudW4 = new System.Windows.Forms.NumericUpDown();
             this.nudW6 = new System.Windows.Forms.NumericUpDown();
             this.LearningTab = new System.Windows.Forms.TabPage();
-            this.savedGesture1 = new System.Windows.Forms.Label();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.akcjaCB10 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB10 = new System.Windows.Forms.TextBox();
+            this.learnButton10 = new System.Windows.Forms.Button();
+            this.mouseGesture10 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB9 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB9 = new System.Windows.Forms.TextBox();
+            this.learnButton9 = new System.Windows.Forms.Button();
+            this.mouseGesture9 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB8 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB8 = new System.Windows.Forms.TextBox();
+            this.learnButton8 = new System.Windows.Forms.Button();
+            this.mouseGesture8 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB7 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB7 = new System.Windows.Forms.TextBox();
+            this.learnButton7 = new System.Windows.Forms.Button();
+            this.mouseGesture7 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB6 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB6 = new System.Windows.Forms.TextBox();
+            this.learnButton6 = new System.Windows.Forms.Button();
+            this.mouseGesture6 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB5 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB5 = new System.Windows.Forms.TextBox();
+            this.learnButton5 = new System.Windows.Forms.Button();
+            this.mouseGesture5 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB4 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB4 = new System.Windows.Forms.TextBox();
+            this.learnButton4 = new System.Windows.Forms.Button();
+            this.mouseGesture4 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB3 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB3 = new System.Windows.Forms.TextBox();
+            this.learnButton3 = new System.Windows.Forms.Button();
+            this.mouseGesture3 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB2 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB2 = new System.Windows.Forms.TextBox();
+            this.learnButton2 = new System.Windows.Forms.Button();
+            this.mouseGesture2 = new System.Windows.Forms.CheckBox();
+            this.akcjaCB1 = new System.Windows.Forms.ComboBox();
+            this.nazwaTB1 = new System.Windows.Forms.TextBox();
             this.returnToDefault = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
             this.learnButton1 = new System.Windows.Forms.Button();
             this.mouseGesture1 = new System.Windows.Forms.CheckBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             this.tableOptions.SuspendLayout();
@@ -892,12 +929,50 @@
             // 
             // LearningTab
             // 
-            this.LearningTab.Controls.Add(this.savedGesture1);
+            this.LearningTab.Controls.Add(this.button11);
+            this.LearningTab.Controls.Add(this.button10);
+            this.LearningTab.Controls.Add(this.akcjaCB10);
+            this.LearningTab.Controls.Add(this.nazwaTB10);
+            this.LearningTab.Controls.Add(this.learnButton10);
+            this.LearningTab.Controls.Add(this.mouseGesture10);
+            this.LearningTab.Controls.Add(this.akcjaCB9);
+            this.LearningTab.Controls.Add(this.nazwaTB9);
+            this.LearningTab.Controls.Add(this.learnButton9);
+            this.LearningTab.Controls.Add(this.mouseGesture9);
+            this.LearningTab.Controls.Add(this.akcjaCB8);
+            this.LearningTab.Controls.Add(this.nazwaTB8);
+            this.LearningTab.Controls.Add(this.learnButton8);
+            this.LearningTab.Controls.Add(this.mouseGesture8);
+            this.LearningTab.Controls.Add(this.akcjaCB7);
+            this.LearningTab.Controls.Add(this.nazwaTB7);
+            this.LearningTab.Controls.Add(this.learnButton7);
+            this.LearningTab.Controls.Add(this.mouseGesture7);
+            this.LearningTab.Controls.Add(this.akcjaCB6);
+            this.LearningTab.Controls.Add(this.nazwaTB6);
+            this.LearningTab.Controls.Add(this.learnButton6);
+            this.LearningTab.Controls.Add(this.mouseGesture6);
+            this.LearningTab.Controls.Add(this.akcjaCB5);
+            this.LearningTab.Controls.Add(this.nazwaTB5);
+            this.LearningTab.Controls.Add(this.learnButton5);
+            this.LearningTab.Controls.Add(this.mouseGesture5);
+            this.LearningTab.Controls.Add(this.akcjaCB4);
+            this.LearningTab.Controls.Add(this.nazwaTB4);
+            this.LearningTab.Controls.Add(this.learnButton4);
+            this.LearningTab.Controls.Add(this.mouseGesture4);
+            this.LearningTab.Controls.Add(this.akcjaCB3);
+            this.LearningTab.Controls.Add(this.nazwaTB3);
+            this.LearningTab.Controls.Add(this.learnButton3);
+            this.LearningTab.Controls.Add(this.mouseGesture3);
+            this.LearningTab.Controls.Add(this.akcjaCB2);
+            this.LearningTab.Controls.Add(this.nazwaTB2);
+            this.LearningTab.Controls.Add(this.learnButton2);
+            this.LearningTab.Controls.Add(this.mouseGesture2);
+            this.LearningTab.Controls.Add(this.akcjaCB1);
+            this.LearningTab.Controls.Add(this.nazwaTB1);
             this.LearningTab.Controls.Add(this.returnToDefault);
             this.LearningTab.Controls.Add(this.label26);
             this.LearningTab.Controls.Add(this.learnButton1);
             this.LearningTab.Controls.Add(this.mouseGesture1);
-            this.LearningTab.Controls.Add(this.label25);
             this.LearningTab.Location = new System.Drawing.Point(4, 22);
             this.LearningTab.Name = "LearningTab";
             this.LearningTab.Padding = new System.Windows.Forms.Padding(3);
@@ -906,25 +981,494 @@
             this.LearningTab.Text = "Tryb uczenia";
             this.LearningTab.UseVisualStyleBackColor = true;
             // 
-            // savedGesture1
+            // button11
             // 
-            this.savedGesture1.AutoSize = true;
-            this.savedGesture1.Enabled = false;
-            this.savedGesture1.Location = new System.Drawing.Point(190, 33);
-            this.savedGesture1.Name = "savedGesture1";
-            this.savedGesture1.Size = new System.Drawing.Size(76, 13);
-            this.savedGesture1.TabIndex = 6;
-            this.savedGesture1.Text = "Gest zapisany.";
-            this.savedGesture1.Visible = false;
+            this.button11.Location = new System.Drawing.Point(821, 90);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(108, 23);
+            this.button11.TabIndex = 46;
+            this.button11.Text = "Wczytaj z pliku";
+            this.button11.UseVisualStyleBackColor = true;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(821, 119);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(108, 23);
+            this.button10.TabIndex = 45;
+            this.button10.Text = "Zapisz do pliku";
+            this.button10.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB10
+            // 
+            this.akcjaCB10.FormattingEnabled = true;
+            this.akcjaCB10.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB10.Location = new System.Drawing.Point(688, 149);
+            this.akcjaCB10.Name = "akcjaCB10";
+            this.akcjaCB10.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB10.TabIndex = 44;
+            // 
+            // nazwaTB10
+            // 
+            this.nazwaTB10.Location = new System.Drawing.Point(493, 150);
+            this.nazwaTB10.Name = "nazwaTB10";
+            this.nazwaTB10.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB10.TabIndex = 43;
+            // 
+            // learnButton10
+            // 
+            this.learnButton10.Location = new System.Drawing.Point(599, 148);
+            this.learnButton10.Name = "learnButton10";
+            this.learnButton10.Size = new System.Drawing.Size(83, 23);
+            this.learnButton10.TabIndex = 42;
+            this.learnButton10.Text = "Naucz!";
+            this.learnButton10.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture10
+            // 
+            this.mouseGesture10.AutoSize = true;
+            this.mouseGesture10.Location = new System.Drawing.Point(427, 151);
+            this.mouseGesture10.Name = "mouseGesture10";
+            this.mouseGesture10.Size = new System.Drawing.Size(66, 17);
+            this.mouseGesture10.TabIndex = 41;
+            this.mouseGesture10.Text = "Gest 10:";
+            this.mouseGesture10.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB9
+            // 
+            this.akcjaCB9.FormattingEnabled = true;
+            this.akcjaCB9.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB9.Location = new System.Drawing.Point(688, 120);
+            this.akcjaCB9.Name = "akcjaCB9";
+            this.akcjaCB9.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB9.TabIndex = 40;
+            // 
+            // nazwaTB9
+            // 
+            this.nazwaTB9.Location = new System.Drawing.Point(493, 121);
+            this.nazwaTB9.Name = "nazwaTB9";
+            this.nazwaTB9.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB9.TabIndex = 39;
+            // 
+            // learnButton9
+            // 
+            this.learnButton9.Location = new System.Drawing.Point(599, 119);
+            this.learnButton9.Name = "learnButton9";
+            this.learnButton9.Size = new System.Drawing.Size(83, 23);
+            this.learnButton9.TabIndex = 38;
+            this.learnButton9.Text = "Naucz!";
+            this.learnButton9.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture9
+            // 
+            this.mouseGesture9.AutoSize = true;
+            this.mouseGesture9.Location = new System.Drawing.Point(427, 122);
+            this.mouseGesture9.Name = "mouseGesture9";
+            this.mouseGesture9.Size = new System.Drawing.Size(60, 17);
+            this.mouseGesture9.TabIndex = 37;
+            this.mouseGesture9.Text = "Gest 9:";
+            this.mouseGesture9.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB8
+            // 
+            this.akcjaCB8.FormattingEnabled = true;
+            this.akcjaCB8.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB8.Location = new System.Drawing.Point(688, 91);
+            this.akcjaCB8.Name = "akcjaCB8";
+            this.akcjaCB8.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB8.TabIndex = 36;
+            // 
+            // nazwaTB8
+            // 
+            this.nazwaTB8.Location = new System.Drawing.Point(493, 92);
+            this.nazwaTB8.Name = "nazwaTB8";
+            this.nazwaTB8.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB8.TabIndex = 35;
+            // 
+            // learnButton8
+            // 
+            this.learnButton8.Location = new System.Drawing.Point(599, 90);
+            this.learnButton8.Name = "learnButton8";
+            this.learnButton8.Size = new System.Drawing.Size(83, 23);
+            this.learnButton8.TabIndex = 34;
+            this.learnButton8.Text = "Naucz!";
+            this.learnButton8.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture8
+            // 
+            this.mouseGesture8.AutoSize = true;
+            this.mouseGesture8.Location = new System.Drawing.Point(427, 93);
+            this.mouseGesture8.Name = "mouseGesture8";
+            this.mouseGesture8.Size = new System.Drawing.Size(60, 17);
+            this.mouseGesture8.TabIndex = 33;
+            this.mouseGesture8.Text = "Gest 8:";
+            this.mouseGesture8.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB7
+            // 
+            this.akcjaCB7.FormattingEnabled = true;
+            this.akcjaCB7.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB7.Location = new System.Drawing.Point(688, 62);
+            this.akcjaCB7.Name = "akcjaCB7";
+            this.akcjaCB7.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB7.TabIndex = 32;
+            // 
+            // nazwaTB7
+            // 
+            this.nazwaTB7.Location = new System.Drawing.Point(493, 63);
+            this.nazwaTB7.Name = "nazwaTB7";
+            this.nazwaTB7.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB7.TabIndex = 31;
+            // 
+            // learnButton7
+            // 
+            this.learnButton7.Location = new System.Drawing.Point(599, 61);
+            this.learnButton7.Name = "learnButton7";
+            this.learnButton7.Size = new System.Drawing.Size(83, 23);
+            this.learnButton7.TabIndex = 30;
+            this.learnButton7.Text = "Naucz!";
+            this.learnButton7.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture7
+            // 
+            this.mouseGesture7.AutoSize = true;
+            this.mouseGesture7.Location = new System.Drawing.Point(427, 64);
+            this.mouseGesture7.Name = "mouseGesture7";
+            this.mouseGesture7.Size = new System.Drawing.Size(60, 17);
+            this.mouseGesture7.TabIndex = 29;
+            this.mouseGesture7.Text = "Gest 7:";
+            this.mouseGesture7.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB6
+            // 
+            this.akcjaCB6.FormattingEnabled = true;
+            this.akcjaCB6.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB6.Location = new System.Drawing.Point(688, 36);
+            this.akcjaCB6.Name = "akcjaCB6";
+            this.akcjaCB6.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB6.TabIndex = 28;
+            // 
+            // nazwaTB6
+            // 
+            this.nazwaTB6.Location = new System.Drawing.Point(493, 37);
+            this.nazwaTB6.Name = "nazwaTB6";
+            this.nazwaTB6.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB6.TabIndex = 27;
+            // 
+            // learnButton6
+            // 
+            this.learnButton6.Location = new System.Drawing.Point(599, 35);
+            this.learnButton6.Name = "learnButton6";
+            this.learnButton6.Size = new System.Drawing.Size(83, 23);
+            this.learnButton6.TabIndex = 26;
+            this.learnButton6.Text = "Naucz!";
+            this.learnButton6.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture6
+            // 
+            this.mouseGesture6.AutoSize = true;
+            this.mouseGesture6.Location = new System.Drawing.Point(427, 38);
+            this.mouseGesture6.Name = "mouseGesture6";
+            this.mouseGesture6.Size = new System.Drawing.Size(60, 17);
+            this.mouseGesture6.TabIndex = 25;
+            this.mouseGesture6.Text = "Gest 6:";
+            this.mouseGesture6.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB5
+            // 
+            this.akcjaCB5.FormattingEnabled = true;
+            this.akcjaCB5.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB5.Location = new System.Drawing.Point(276, 152);
+            this.akcjaCB5.Name = "akcjaCB5";
+            this.akcjaCB5.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB5.TabIndex = 24;
+            // 
+            // nazwaTB5
+            // 
+            this.nazwaTB5.Location = new System.Drawing.Point(81, 153);
+            this.nazwaTB5.Name = "nazwaTB5";
+            this.nazwaTB5.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB5.TabIndex = 23;
+            // 
+            // learnButton5
+            // 
+            this.learnButton5.Location = new System.Drawing.Point(187, 151);
+            this.learnButton5.Name = "learnButton5";
+            this.learnButton5.Size = new System.Drawing.Size(83, 23);
+            this.learnButton5.TabIndex = 22;
+            this.learnButton5.Text = "Naucz!";
+            this.learnButton5.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture5
+            // 
+            this.mouseGesture5.AutoSize = true;
+            this.mouseGesture5.Location = new System.Drawing.Point(15, 154);
+            this.mouseGesture5.Name = "mouseGesture5";
+            this.mouseGesture5.Size = new System.Drawing.Size(60, 17);
+            this.mouseGesture5.TabIndex = 21;
+            this.mouseGesture5.Text = "Gest 5:";
+            this.mouseGesture5.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB4
+            // 
+            this.akcjaCB4.FormattingEnabled = true;
+            this.akcjaCB4.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB4.Location = new System.Drawing.Point(276, 123);
+            this.akcjaCB4.Name = "akcjaCB4";
+            this.akcjaCB4.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB4.TabIndex = 20;
+            // 
+            // nazwaTB4
+            // 
+            this.nazwaTB4.Location = new System.Drawing.Point(81, 124);
+            this.nazwaTB4.Name = "nazwaTB4";
+            this.nazwaTB4.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB4.TabIndex = 19;
+            // 
+            // learnButton4
+            // 
+            this.learnButton4.Location = new System.Drawing.Point(187, 122);
+            this.learnButton4.Name = "learnButton4";
+            this.learnButton4.Size = new System.Drawing.Size(83, 23);
+            this.learnButton4.TabIndex = 18;
+            this.learnButton4.Text = "Naucz!";
+            this.learnButton4.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture4
+            // 
+            this.mouseGesture4.AutoSize = true;
+            this.mouseGesture4.Location = new System.Drawing.Point(15, 125);
+            this.mouseGesture4.Name = "mouseGesture4";
+            this.mouseGesture4.Size = new System.Drawing.Size(60, 17);
+            this.mouseGesture4.TabIndex = 17;
+            this.mouseGesture4.Text = "Gest 4:";
+            this.mouseGesture4.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB3
+            // 
+            this.akcjaCB3.FormattingEnabled = true;
+            this.akcjaCB3.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB3.Location = new System.Drawing.Point(276, 94);
+            this.akcjaCB3.Name = "akcjaCB3";
+            this.akcjaCB3.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB3.TabIndex = 16;
+            // 
+            // nazwaTB3
+            // 
+            this.nazwaTB3.Location = new System.Drawing.Point(81, 95);
+            this.nazwaTB3.Name = "nazwaTB3";
+            this.nazwaTB3.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB3.TabIndex = 15;
+            // 
+            // learnButton3
+            // 
+            this.learnButton3.Location = new System.Drawing.Point(187, 93);
+            this.learnButton3.Name = "learnButton3";
+            this.learnButton3.Size = new System.Drawing.Size(83, 23);
+            this.learnButton3.TabIndex = 14;
+            this.learnButton3.Text = "Naucz!";
+            this.learnButton3.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture3
+            // 
+            this.mouseGesture3.AutoSize = true;
+            this.mouseGesture3.Location = new System.Drawing.Point(15, 96);
+            this.mouseGesture3.Name = "mouseGesture3";
+            this.mouseGesture3.Size = new System.Drawing.Size(60, 17);
+            this.mouseGesture3.TabIndex = 13;
+            this.mouseGesture3.Text = "Gest 3:";
+            this.mouseGesture3.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB2
+            // 
+            this.akcjaCB2.FormattingEnabled = true;
+            this.akcjaCB2.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB2.Location = new System.Drawing.Point(276, 65);
+            this.akcjaCB2.Name = "akcjaCB2";
+            this.akcjaCB2.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB2.TabIndex = 12;
+            // 
+            // nazwaTB2
+            // 
+            this.nazwaTB2.Location = new System.Drawing.Point(81, 66);
+            this.nazwaTB2.Name = "nazwaTB2";
+            this.nazwaTB2.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB2.TabIndex = 11;
+            // 
+            // learnButton2
+            // 
+            this.learnButton2.Location = new System.Drawing.Point(187, 64);
+            this.learnButton2.Name = "learnButton2";
+            this.learnButton2.Size = new System.Drawing.Size(83, 23);
+            this.learnButton2.TabIndex = 10;
+            this.learnButton2.Text = "Naucz!";
+            this.learnButton2.UseVisualStyleBackColor = true;
+            // 
+            // mouseGesture2
+            // 
+            this.mouseGesture2.AutoSize = true;
+            this.mouseGesture2.Location = new System.Drawing.Point(15, 67);
+            this.mouseGesture2.Name = "mouseGesture2";
+            this.mouseGesture2.Size = new System.Drawing.Size(60, 17);
+            this.mouseGesture2.TabIndex = 9;
+            this.mouseGesture2.Text = "Gest 2:";
+            this.mouseGesture2.UseVisualStyleBackColor = true;
+            // 
+            // akcjaCB1
+            // 
+            this.akcjaCB1.FormattingEnabled = true;
+            this.akcjaCB1.Items.AddRange(new object[] {
+            "Click LPM",
+            "Press LPM",
+            "Release LPM",
+            "Click PPM",
+            "Press PPM",
+            "Release PPM",
+            "Scroll Down",
+            "Scroll UP",
+            "Mouse Button 3",
+            "Mouse Button 4",
+            "Wytnij",
+            "Kopiuj",
+            "Wklej"});
+            this.akcjaCB1.Location = new System.Drawing.Point(276, 36);
+            this.akcjaCB1.Name = "akcjaCB1";
+            this.akcjaCB1.Size = new System.Drawing.Size(121, 21);
+            this.akcjaCB1.TabIndex = 8;
+            // 
+            // nazwaTB1
+            // 
+            this.nazwaTB1.Location = new System.Drawing.Point(81, 37);
+            this.nazwaTB1.Name = "nazwaTB1";
+            this.nazwaTB1.Size = new System.Drawing.Size(100, 20);
+            this.nazwaTB1.TabIndex = 7;
             // 
             // returnToDefault
             // 
-            this.returnToDefault.Location = new System.Drawing.Point(10, 155);
+            this.returnToDefault.Location = new System.Drawing.Point(821, 147);
             this.returnToDefault.Name = "returnToDefault";
             this.returnToDefault.Size = new System.Drawing.Size(108, 23);
             this.returnToDefault.TabIndex = 5;
             this.returnToDefault.Text = "Przywróć domyślne";
             this.returnToDefault.UseVisualStyleBackColor = true;
+            this.returnToDefault.Click += new System.EventHandler(this.returnToDefault_Click);
             // 
             // label26
             // 
@@ -938,38 +1482,22 @@
             // 
             // learnButton1
             // 
-            this.learnButton1.Enabled = false;
-            this.learnButton1.Location = new System.Drawing.Point(100, 28);
+            this.learnButton1.Location = new System.Drawing.Point(187, 35);
             this.learnButton1.Name = "learnButton1";
             this.learnButton1.Size = new System.Drawing.Size(83, 23);
             this.learnButton1.TabIndex = 3;
             this.learnButton1.Text = "Naucz!";
             this.learnButton1.UseVisualStyleBackColor = true;
-            this.learnButton1.Click += new System.EventHandler(this.learnButton1_Click);
             // 
             // mouseGesture1
             // 
             this.mouseGesture1.AutoSize = true;
-            this.mouseGesture1.Location = new System.Drawing.Point(79, 33);
+            this.mouseGesture1.Location = new System.Drawing.Point(15, 38);
             this.mouseGesture1.Name = "mouseGesture1";
-            this.mouseGesture1.Size = new System.Drawing.Size(15, 14);
+            this.mouseGesture1.Size = new System.Drawing.Size(60, 17);
             this.mouseGesture1.TabIndex = 1;
+            this.mouseGesture1.Text = "Gest 1:";
             this.mouseGesture1.UseVisualStyleBackColor = true;
-            this.mouseGesture1.CheckedChanged += new System.EventHandler(this.mouseGesture1_CheckedChanged);
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(7, 33);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(65, 13);
-            this.label25.TabIndex = 0;
-            this.label25.Text = "Ruch myszą";
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 3000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // KameraMyszka
             // 
@@ -1076,12 +1604,49 @@
         private System.Windows.Forms.NumericUpDown nudW6;
         private System.Windows.Forms.TabPage LearningTab;
         private System.Windows.Forms.CheckBox mouseGesture1;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button learnButton1;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Button returnToDefault;
-        private System.Windows.Forms.Label savedGesture1;
+        private System.Windows.Forms.ComboBox akcjaCB1;
+        private System.Windows.Forms.TextBox nazwaTB1;
+        private System.Windows.Forms.ComboBox akcjaCB4;
+        private System.Windows.Forms.TextBox nazwaTB4;
+        private System.Windows.Forms.Button learnButton4;
+        private System.Windows.Forms.CheckBox mouseGesture4;
+        private System.Windows.Forms.ComboBox akcjaCB3;
+        private System.Windows.Forms.TextBox nazwaTB3;
+        private System.Windows.Forms.Button learnButton3;
+        private System.Windows.Forms.CheckBox mouseGesture3;
+        private System.Windows.Forms.ComboBox akcjaCB2;
+        private System.Windows.Forms.TextBox nazwaTB2;
+        private System.Windows.Forms.Button learnButton2;
+        private System.Windows.Forms.CheckBox mouseGesture2;
+        private System.Windows.Forms.ComboBox akcjaCB10;
+        private System.Windows.Forms.TextBox nazwaTB10;
+        private System.Windows.Forms.Button learnButton10;
+        private System.Windows.Forms.CheckBox mouseGesture10;
+        private System.Windows.Forms.ComboBox akcjaCB9;
+        private System.Windows.Forms.TextBox nazwaTB9;
+        private System.Windows.Forms.Button learnButton9;
+        private System.Windows.Forms.CheckBox mouseGesture9;
+        private System.Windows.Forms.ComboBox akcjaCB8;
+        private System.Windows.Forms.TextBox nazwaTB8;
+        private System.Windows.Forms.Button learnButton8;
+        private System.Windows.Forms.CheckBox mouseGesture8;
+        private System.Windows.Forms.ComboBox akcjaCB7;
+        private System.Windows.Forms.TextBox nazwaTB7;
+        private System.Windows.Forms.Button learnButton7;
+        private System.Windows.Forms.CheckBox mouseGesture7;
+        private System.Windows.Forms.ComboBox akcjaCB6;
+        private System.Windows.Forms.TextBox nazwaTB6;
+        private System.Windows.Forms.Button learnButton6;
+        private System.Windows.Forms.CheckBox mouseGesture6;
+        private System.Windows.Forms.ComboBox akcjaCB5;
+        private System.Windows.Forms.TextBox nazwaTB5;
+        private System.Windows.Forms.Button learnButton5;
+        private System.Windows.Forms.CheckBox mouseGesture5;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button10;
     }
 }
 
