@@ -24,13 +24,24 @@ namespace KameraMyszkaEmguCV
 {
     public partial class KameraMyszka : Form
     {
+        /* wspolczynniki ksztaltu okreslonych gestow, kolejno:
+           compactness, blair, mal, malzmod, feret */
+        private readonly double[] 
+            slayer  = {.2603, .6256, .8372, .5443, .2808},
+            fist    = {.4279, .7861, .4785, .6764, .4435},
+            victory = {.2843, .6215, .8111, .5521, .3609},
+            vopen   = {.3178, .6015, .6788, .5957, .3768},
+            hopen   = {.5899, .8121, .4594, .6852, 2.096};
+        private const int COEFF_COUNT = 5;
+
+        private enum G {
+            COMPACT, BLAIR, MAL, MALZMOD, FERET
+        }
+
         private readonly BlobCounter bc;
+        
         /* shape coefficients */
-        double compactness,
-            blair,
-            mal,
-            malzmod,
-            feret;
+        double[,] observed;
             
         Capture capture = null;
         Image<Bgr, Byte> image;
@@ -47,12 +58,18 @@ namespace KameraMyszkaEmguCV
             bc.MinHeight = 50;
             bc.ObjectsOrder = ObjectsOrder.Size;
 
+            /* coefficients for each hand */
+            observed = new double[COEFF_COUNT, 2];
+            /*compactness = new double[2];
+            blair = new double[2];
+            mal = new double[2];
+            malzmod = new double[2];
+            feret = new double[2];*/
+            
             InitializeComponent();
         }
 
-        /*
-         * Zapisanie domyślnych ustawień kamery i uruchomienie odbioru obrazu
-         * */
+        /* Zapisanie domyślnych ustawień kamery i uruchomienie odbioru obrazu */
         private void KameraMyszka_Load(object sender, EventArgs e)
         {
             try
@@ -81,12 +98,10 @@ namespace KameraMyszkaEmguCV
                 nudGamma.Value = (decimal)defaultGamma;
                 Application.Idle += RefreshWindow;
             }
-            catch (NullReferenceException ex) { Console.WriteLine("ERROR!"+ex.StackTrace); } 
+            catch (NullReferenceException ex) { Console.WriteLine("ERROR! "+ex.StackTrace); } 
         }
 
-        /*
-         * Odświezanie okna z obrazem
-         * */
+        /* Odświezanie okna z obrazem */
         void RefreshWindow(object sender, EventArgs arg) {
 
             //Pobieranie ramki
@@ -108,54 +123,55 @@ namespace KameraMyszkaEmguCV
             Bitmap bmp = imageGray.ToBitmap();
             bc.ProcessImage(bmp);
 
-            if (bc.ObjectsCount>0) {
-                Blob blob = bc.GetObjectsInformation().First();
+            Blob[] blob = bc.GetObjectsInformation();
+            //TODO make work for both hands
+            //lewa reka to ta z prawej strony obrazu (zwierciadlo), nie zakladamy ze user gestykuluje na krzyz, keep it simple
+            //int iters = bc.ObjectsCount > 2 ? 2 : bc.ObjectsCount;
+            int iters = bc.ObjectsCount > 1 ? 1 : bc.ObjectsCount;
+            int i = 0;
+            for (; i < iters; ++i) {
                 IntPoint minXY, maxXY;
-                PointsCloud.GetBoundingRectangle(bc.GetBlobsEdgePoints(blob), out minXY, out maxXY);
+                PointsCloud.GetBoundingRectangle(bc.GetBlobsEdgePoints(blob[i]), out minXY, out maxXY);
                 Bitmap clonimage = (Bitmap)bmp.Clone();
                 BitmapData data = bmp.LockBits(new Rectangle(0, 0, imageGray.Width, imageGray.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
-                Drawing.Rectangle(data, blob.Rectangle, Color.White);
+                Drawing.Rectangle(data, blob[i].Rectangle, Color.White);
                 bmp.UnlockBits(data);
 
-                //compactness = (double)blob.Area / (maxXY.X - minXY.X) / (maxXY.Y - minXY.Y);
-                //Console.WriteLine("fullness " + (blob.Fullness - compactness));
-                /* roznica max 0.004, wiec po co liczyc dwa razy */
                 int X = maxXY.X, Y = maxXY.Y;
                 int x = minXY.X, y = minXY.Y;
                 int blobh = Y - y;
-                
-                compactness = blob.Fullness;
-                    
+
+                observed[0,i] = blob[i].Fullness;
+
                 /* malinowska kryjaka liczy obwod ze wzoru na prostokąt, nasza liczy piksele krawedziowe */
                 //Malinowska(i) = (2*bb(3)+2*bb(4))/(2*sqrt(pi*S)) - 1;
-                mal = (double)(bc.GetBlobsEdgePoints(blob).Count) / 2 / Math.Sqrt(Math.PI*blob.Area) - 1;
+                observed[2,i] = (double)(bc.GetBlobsEdgePoints(blob[i]).Count) / 2 / Math.Sqrt(Math.PI * blob[i].Area) - 1;
                 //MalinowskaZ(i) = 2*sqrt(pi*S)/(2*bb(3)+2*bb(4));
-                malzmod = 2 * Math.Sqrt(Math.PI * blob.Area) / (double)(bc.GetBlobsEdgePoints(blob).Count);
-                
-                int gx = (int)blob.CenterOfGravity.X, gy = (int)blob.CenterOfGravity.Y;
+                observed[3,i] = 2 * Math.Sqrt(Math.PI * blob[i].Area) / (double)(bc.GetBlobsEdgePoints(blob[i]).Count);
+
+                int gx = (int)blob[i].CenterOfGravity.X, gy = (int)blob[i].CenterOfGravity.Y;
                 double blairsum = 0;
                 int ftx = 0, ftxMax = 0;
 
-                byte[,,] dd = imageGray.Data;
-                for (int i=y; i<Y; ++i) {
+                byte[, ,] dd = imageGray.Data;
+                for (int j = y; j < Y; ++j) {
                     if (ftx > ftxMax) ftxMax = ftx;
                     ftx = 0;//bo moze sie zdazyc ze zliczy wiecej linii naraz, patrz: idealny prostokat
-                    for (int j=x; j<X; ++j) {
-                        if (dd[i, j, 0] != 0) {
+                    for (int k = x; k < X; ++k) {
+                        if (dd[j, k, 0] != 0) {
                             ++ftx;
-                            blairsum += (j - gx) * (j - gx) + (i - gy) * (i - gy);//distance squared
+                            blairsum += (k - gx) * (k - gx) + (j - gy) * (j - gy);//distance squared
                         } else {
-                            if(ftx > ftxMax) ftxMax = ftx;
+                            if (ftx > ftxMax) ftxMax = ftx;
                             ftx = 0;
                         }
-                        dd[i, j, 0] = 255;
+                        dd[j, k, 0] = 255;
                     }
                 }
-                /* 
-                 * aby policzyc ftyMax trzeba puscic jeszcze jedna petle tak aby wewnetrzna szla po y-kach
-                 * ale mozna tez aproksymowac ftYmax przez boundingbox.Y, wtedy
-                 * przewidywalem najwieksze rozbieznosci przy skosnych lub dziurawych obiektach;
-                 * ale blad byl ponizej procenta, wiec szkoda tracic czas na kolejne O(n*n)
+                /*    aby policzyc ftyMax trzeba puscic jeszcze jedna petle tak aby wewnetrzna szla po y-kach
+                    * ale mozna tez aproksymowac ftYmax przez boundingbox.Y, wtedy
+                    * przewidywalem najwieksze rozbieznosci przy skosnych lub dziurawych obiektach;
+                    * ale blad byl ponizej procenta, wiec szkoda tracic czas na kolejne O(n*n)
                  
                 int fty = 0, ftyMax = 0;
                 for (int j = x; j < X; ++j) {
@@ -168,33 +184,50 @@ namespace KameraMyszkaEmguCV
                             if (fty > ftyMax) ftyMax = fty;
                             fty = 0;
                         }
-                }*/
-                // feret = (double)ftxMax / ftyMax;
-                feret = (double)ftxMax / blobh;
-               
-                blair = (double)(blob.Area) / Math.Sqrt(2 * Math.PI * blairsum  );
+                }
+                feret = (double)ftxMax / ftyMax; */
+                observed[4,i] = (double)ftxMax / blobh;//feret
+                observed[1,i] = (double)(blob[i].Area) / Math.Sqrt(2 * Math.PI * blairsum);//blair
                 //System.Console.WriteLine("mal {0:f}, zmal {1:f}, feret {2:f}, blair {3:f}", mal, malzmod, feret, blair);
 
                 //Drukowanie wsp na gui
-                compactnessLbl.Text = compactness.ToString();
-                malinowskaLbl.Text = mal.ToString();
-                malzmodLbl.Text = malzmod.ToString();
-                feretLbl.Text = feret.ToString();
-                blairLbl.Text = blair.ToString();
+                //TODO osobne pola dla obu obiektów (dłoni)
+                
+                //compactnessLbl.Text = g[0,i].ToString();
+                blairLbl.Text = observed[1, i].ToString();
+                malinowskaLbl.Text = observed[2,i].ToString();
+                malzmodLbl.Text = observed[3,i].ToString();
+                feretLbl.Text = observed[4,i].ToString();
+                
 
-            } else {
-                /* no blob detected */
-                compactness = -404f;
-                blair = -404f;
-                mal = -404f;
-                malzmod = -404f;
-                feret = -404f;
+                Dictionary<string, double> gestChance = new Dictionary<string, double>();
+                gestChance.Add("slayer", dist(slayer, i));
+                gestChance.Add("fist", dist(fist, i));
+                gestChance.Add("victory", dist(victory, i));
+                gestChance.Add("vopen", dist(vopen, i));
+                gestChance.Add("hopen", dist(hopen, i));
+                //fold jak od matyasika - get key of minimal value
+                string gesture = gestChance.Aggregate((l, r) => l.Value < r.Value ? l : r).Key;
+                compactnessLbl.Text = gesture;
+            }
+            for (; i < 2; ++i) {
+                /* for blobs not detected */
+                observed[0, i] = observed[1, i] = observed[2, i] = observed[3, i] = observed[4, i] = -404f;
+                //compactness[i] = blair[i] = mal[i] = malzmod[i] = feret[i] = -404f;
             }
 
             imageGray = new Image<Gray, Byte>(bmp);
             imageGray = imageGray.Erode((int)nudErode.Value);
             imageGray = imageGray.Dilate((int)nudDilate.Value);
             imageBox2.Image = imageGray;
+        }
+        private double dist(double[] gesture, int idx) {
+            double d = 0;
+            //double[] observed = { compactness[idx], blair[idx], mal[idx], malzmod[idx], feret[idx] };
+            for (int i = 0; i < COEFF_COUNT; ++i) {
+                d += (observed[i,idx] - gesture[i]) * (observed[i,idx] - gesture[i]);
+            }
+            return d;
         }
 
         /*
