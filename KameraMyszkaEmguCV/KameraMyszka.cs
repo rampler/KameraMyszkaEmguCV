@@ -34,6 +34,16 @@ namespace KameraMyszkaEmguCV
             hopen   = {.5899, .8121, .4594, .6852, 2.096};
         private const int COEFF_COUNT = 5;
 
+        private int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+        private int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
+        private double sensitivity = 1;
+        private double smoothness = 1;
+
+        private Hotkeys globalHotkeys;
+
+        private bool blockMouseControl = false;
+
         private enum G {
             COMPACT, BLAIR, MAL, MALZMOD, FERET
         }
@@ -67,6 +77,7 @@ namespace KameraMyszkaEmguCV
             feret = new double[2];*/
             
             InitializeComponent();
+            globalHotkeys = new Hotkeys(HotkeysConstants.CTRL + HotkeysConstants.ALT + HotkeysConstants.SHIFT, Keys.B, this);
         }
 
         /* Zapisanie domyślnych ustawień kamery i uruchomienie odbioru obrazu */
@@ -98,7 +109,9 @@ namespace KameraMyszkaEmguCV
                 nudGamma.Value = (decimal)defaultGamma;
                 Application.Idle += RefreshWindow;
             }
-            catch (NullReferenceException ex) { Console.WriteLine("ERROR! "+ex.StackTrace); } 
+            catch (NullReferenceException ex) { Console.WriteLine("ERROR! "+ex.StackTrace); }
+
+            globalHotkeys.Register();
         }
 
         /* Odświezanie okna z obrazem */
@@ -126,8 +139,11 @@ namespace KameraMyszkaEmguCV
             Blob[] blob = bc.GetObjectsInformation();
             //TODO make work for both hands
             //lewa reka to ta z prawej strony obrazu (zwierciadlo), nie zakladamy ze user gestykuluje na krzyz, keep it simple
-            //int iters = bc.ObjectsCount > 2 ? 2 : bc.ObjectsCount;
-            int iters = bc.ObjectsCount > 1 ? 1 : bc.ObjectsCount;
+            int iters = bc.ObjectsCount > 2 ? 2 : bc.ObjectsCount;
+            //int iters = bc.ObjectsCount > 1 ? 1 : bc.ObjectsCount;
+
+            int centerOfGravityLHandX = 0, centerOfGravityLHandY = 0, centerOfGravityRHandX = 0, centerOfGravityRHandY = 0;
+
             int i = 0;
             for (; i < iters; ++i) {
                 IntPoint minXY, maxXY;
@@ -150,6 +166,21 @@ namespace KameraMyszkaEmguCV
                 observed[3,i] = 2 * Math.Sqrt(Math.PI * blob[i].Area) / (double)(bc.GetBlobsEdgePoints(blob[i]).Count);
 
                 int gx = (int)blob[i].CenterOfGravity.X, gy = (int)blob[i].CenterOfGravity.Y;
+                
+                //Sprawdzenie która ręka prawa, a która lewa
+                if (gx > centerOfGravityRHandX)
+                {
+                    centerOfGravityLHandX = centerOfGravityRHandX;
+                    centerOfGravityLHandY = centerOfGravityRHandY;
+                    centerOfGravityRHandX = gx;
+                    centerOfGravityRHandY = gy;
+                }
+                else
+                {
+                    centerOfGravityLHandX = gx;
+                    centerOfGravityLHandY = gy;
+                }
+
                 double blairsum = 0;
                 int ftx = 0, ftxMax = 0;
 
@@ -209,6 +240,7 @@ namespace KameraMyszkaEmguCV
                 //fold jak od matyasika - get key of minimal value
                 string gesture = gestChance.Aggregate((l, r) => l.Value < r.Value ? l : r).Key;
                 compactnessLbl.Text = gesture;
+
             }
             for (; i < 2; ++i) {
                 /* for blobs not detected */
@@ -220,6 +252,11 @@ namespace KameraMyszkaEmguCV
             imageGray = imageGray.Erode((int)nudErode.Value);
             imageGray = imageGray.Dilate((int)nudDilate.Value);
             imageBox2.Image = imageGray;
+
+            //Zmiana pozycji myszki od środka ciężkości lewej ręki
+            if(centerOfGravityRHandX != 0 && centerOfGravityRHandY != 0 && !blockMouseControl)
+                MouseSimulating.SetMousePosition((int)((((double)centerOfGravityRHandX / (double)(imageGray.Width-(100-sensitivity))) * (double)screenWidth)), (int)(sensitivity * (((double)centerOfGravityRHandY / (double)imageGray.Height) * (double)screenHeight)));
+            
         }
         private double dist(double[] gesture, int idx) {
             double d = 0;
@@ -296,6 +333,7 @@ namespace KameraMyszkaEmguCV
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_HUE, defaultHue);
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAIN, defaultGain);
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAMMA, defaultGamma);
+            globalHotkeys.Unregiser();
         }
 
         /// <summary>
@@ -341,7 +379,26 @@ namespace KameraMyszkaEmguCV
         private void returnToDefault_Click(object sender, EventArgs e)
         {
             //TODO
-        }    
+        }
+
+        /// <summary>
+        /// Obsługa globalnych klawiszy CTRL+ALT+SHIFT+B
+        /// </summary>
+        private void HandleHotkeyCtAlShB()
+        {
+            blockMouseControl = !blockMouseControl;
+        }
+
+        /// <summary>
+        /// Nadpisanie funkcji odbioru skrótów klawiczowych globalnych
+        /// </summary>
+        /// <param name="m"></param>
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == HotkeysConstants.WM_HOTKEY_MSG_ID)
+                HandleHotkeyCtAlShB();
+            base.WndProc(ref m);
+        }
 
     }
 }

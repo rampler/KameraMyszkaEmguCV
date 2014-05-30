@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hotkeys.cs" />
     <Compile Include="KameraMyszka.cs">
       <SubType>Form</SubType>
     </Compile>
