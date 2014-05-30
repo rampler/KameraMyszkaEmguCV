@@ -38,7 +38,6 @@ namespace KameraMyszkaEmguCV
         private int screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
         private double sensitivity = 1;
-        private double smoothness = 1;
 
         private Hotkeys globalHotkeys;
 
@@ -143,7 +142,9 @@ namespace KameraMyszkaEmguCV
             //int iters = bc.ObjectsCount > 1 ? 1 : bc.ObjectsCount;
 
             int centerOfGravityLHandX = 0, centerOfGravityLHandY = 0, centerOfGravityRHandX = 0, centerOfGravityRHandY = 0;
+            Dictionary<double,string> gestures;
 
+            string[] gestureTable = new string[2];
             int i = 0;
             for (; i < iters; ++i) {
                 IntPoint minXY, maxXY;
@@ -223,13 +224,8 @@ namespace KameraMyszkaEmguCV
 
                 //Drukowanie wsp na gui
                 //TODO osobne pola dla obu obiektów (dłoni)
-                
-                //compactnessLbl.Text = g[0,i].ToString();
-                blairLbl.Text = observed[1, i].ToString();
-                malinowskaLbl.Text = observed[2,i].ToString();
-                malzmodLbl.Text = observed[3,i].ToString();
-                feretLbl.Text = observed[4,i].ToString();
-                
+
+                                              
 
                 Dictionary<string, double> gestChance = new Dictionary<string, double>();
                 gestChance.Add("slayer", dist(slayer, i));
@@ -238,10 +234,28 @@ namespace KameraMyszkaEmguCV
                 gestChance.Add("vopen", dist(vopen, i));
                 gestChance.Add("hopen", dist(hopen, i));
                 //fold jak od matyasika - get key of minimal value
-                string gesture = gestChance.Aggregate((l, r) => l.Value < r.Value ? l : r).Key;
-                compactnessLbl.Text = gesture;
 
+                
+                string gesture = gestChance.Aggregate((l, r) => l.Value < r.Value ? l : r).Key;
+                gestureTable[i] = gesture;
             }
+
+                g1value.Text = gestureTable[0];
+                g2value.Text = gestureTable[1];
+
+                compactnessLbl.Text = observed[0, 0].ToString().Length > 6 ? observed[0, 0].ToString().Substring(0, 6) : observed[0, 0].ToString();
+                blairLbl.Text = observed[1, 0].ToString().Length > 6 ? observed[1, 0].ToString().Substring(0, 6) : observed[1, 0].ToString();
+                malinowskaLbl.Text = observed[2, 0].ToString().Length > 6 ? observed[2, 0].ToString().Substring(0, 6) : observed[2, 0].ToString();
+                malzmodLbl.Text = observed[3, 0].ToString().Length > 6 ? observed[3, 0].ToString().Substring(0, 6) : observed[3, 0].ToString();
+                feretLbl.Text = observed[4, 0].ToString().Length > 6 ? observed[4, 0].ToString().Substring(0, 6) : observed[4, 0].ToString();
+
+                comp2.Text = observed[0, 1].ToString().Length > 6 ? observed[0, 1].ToString().Substring(0, 6) : observed[0, 1].ToString();
+                blair2.Text = observed[1, 1].ToString().Length > 6 ? observed[1, 1].ToString().Substring(0, 6) : observed[1, 1].ToString();
+                mal2.Text = observed[2, 1].ToString().Length > 6 ? observed[2, 1].ToString().Substring(0, 6) : observed[2, 1].ToString();
+                malz2.Text = observed[3, 1].ToString().Length > 6 ? observed[3, 1].ToString().Substring(0, 6) : observed[3, 1].ToString();
+                feret2.Text = observed[4, 1].ToString().Length > 6 ? observed[4, 1].ToString().Substring(0, 6) : observed[4, 1].ToString();
+
+
             for (; i < 2; ++i) {
                 /* for blobs not detected */
                 observed[0, i] = observed[1, i] = observed[2, i] = observed[3, i] = observed[4, i] = -404f;

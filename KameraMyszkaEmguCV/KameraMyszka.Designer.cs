@@ -131,6 +131,15 @@
             this.label26 = new System.Windows.Forms.Label();
             this.learnButton1 = new System.Windows.Forms.Button();
             this.mouseGesture1 = new System.Windows.Forms.CheckBox();
+            this.g1Label = new System.Windows.Forms.Label();
+            this.g2Label = new System.Windows.Forms.Label();
+            this.g1value = new System.Windows.Forms.Label();
+            this.g2value = new System.Windows.Forms.Label();
+            this.comp2 = new System.Windows.Forms.Label();
+            this.blair2 = new System.Windows.Forms.Label();
+            this.mal2 = new System.Windows.Forms.Label();
+            this.malz2 = new System.Windows.Forms.Label();
+            this.feret2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             this.tableOptions.SuspendLayout();
@@ -202,6 +211,15 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.feret2);
+            this.panel1.Controls.Add(this.malz2);
+            this.panel1.Controls.Add(this.mal2);
+            this.panel1.Controls.Add(this.blair2);
+            this.panel1.Controls.Add(this.comp2);
+            this.panel1.Controls.Add(this.g2value);
+            this.panel1.Controls.Add(this.g1value);
+            this.panel1.Controls.Add(this.g2Label);
+            this.panel1.Controls.Add(this.g1Label);
             this.panel1.Controls.Add(this.feretLbl);
             this.panel1.Controls.Add(this.malzmodLbl);
             this.panel1.Controls.Add(this.malinowskaLbl);
@@ -1499,6 +1517,87 @@
             this.mouseGesture1.Text = "Gest 1:";
             this.mouseGesture1.UseVisualStyleBackColor = true;
             // 
+            // g1Label
+            // 
+            this.g1Label.AutoSize = true;
+            this.g1Label.Location = new System.Drawing.Point(741, 136);
+            this.g1Label.Name = "g1Label";
+            this.g1Label.Size = new System.Drawing.Size(24, 13);
+            this.g1Label.TabIndex = 53;
+            this.g1Label.Text = "G1:";
+            // 
+            // g2Label
+            // 
+            this.g2Label.AutoSize = true;
+            this.g2Label.Location = new System.Drawing.Point(837, 136);
+            this.g2Label.Name = "g2Label";
+            this.g2Label.Size = new System.Drawing.Size(24, 13);
+            this.g2Label.TabIndex = 54;
+            this.g2Label.Text = "G2:";
+            // 
+            // g1value
+            // 
+            this.g1value.AutoSize = true;
+            this.g1value.Location = new System.Drawing.Point(771, 136);
+            this.g1value.Name = "g1value";
+            this.g1value.Size = new System.Drawing.Size(10, 13);
+            this.g1value.TabIndex = 55;
+            this.g1value.Text = "-";
+            // 
+            // g2value
+            // 
+            this.g2value.AutoSize = true;
+            this.g2value.Location = new System.Drawing.Point(868, 136);
+            this.g2value.Name = "g2value";
+            this.g2value.Size = new System.Drawing.Size(10, 13);
+            this.g2value.TabIndex = 56;
+            this.g2value.Text = "-";
+            // 
+            // comp2
+            // 
+            this.comp2.AutoSize = true;
+            this.comp2.Location = new System.Drawing.Point(871, 36);
+            this.comp2.Name = "comp2";
+            this.comp2.Size = new System.Drawing.Size(10, 13);
+            this.comp2.TabIndex = 57;
+            this.comp2.Text = "-";
+            // 
+            // blair2
+            // 
+            this.blair2.AutoSize = true;
+            this.blair2.Location = new System.Drawing.Point(871, 54);
+            this.blair2.Name = "blair2";
+            this.blair2.Size = new System.Drawing.Size(10, 13);
+            this.blair2.TabIndex = 58;
+            this.blair2.Text = "-";
+            // 
+            // mal2
+            // 
+            this.mal2.AutoSize = true;
+            this.mal2.Location = new System.Drawing.Point(871, 73);
+            this.mal2.Name = "mal2";
+            this.mal2.Size = new System.Drawing.Size(10, 13);
+            this.mal2.TabIndex = 59;
+            this.mal2.Text = "-";
+            // 
+            // malz2
+            // 
+            this.malz2.AutoSize = true;
+            this.malz2.Location = new System.Drawing.Point(871, 88);
+            this.malz2.Name = "malz2";
+            this.malz2.Size = new System.Drawing.Size(10, 13);
+            this.malz2.TabIndex = 60;
+            this.malz2.Text = "-";
+            // 
+            // feret2
+            // 
+            this.feret2.AutoSize = true;
+            this.feret2.Location = new System.Drawing.Point(871, 106);
+            this.feret2.Name = "feret2";
+            this.feret2.Size = new System.Drawing.Size(10, 13);
+            this.feret2.TabIndex = 61;
+            this.feret2.Text = "-";
+            // 
             // KameraMyszka
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1647,6 +1746,15 @@
         private System.Windows.Forms.CheckBox mouseGesture5;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Label g2Label;
+        private System.Windows.Forms.Label g1Label;
+        private System.Windows.Forms.Label g2value;
+        private System.Windows.Forms.Label g1value;
+        private System.Windows.Forms.Label feret2;
+        private System.Windows.Forms.Label malz2;
+        private System.Windows.Forms.Label mal2;
+        private System.Windows.Forms.Label blair2;
+        private System.Windows.Forms.Label comp2;
     }
 }
 
