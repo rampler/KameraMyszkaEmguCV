@@ -37,11 +37,13 @@ namespace KameraMyszkaEmguCV
         private int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         private int screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
-        private double sensitivity = 1;
+        private string[] framesGestureLeftHand = new string[30]; //30 kl/s - musi być ten sam gest przez 1s to wtedy zczyta go - jak będzie słabo działać to się pomyśli o czymś innym
+        private string[] framesGestureRightHand = new string[30];
+        private int frameCounter = 0;
 
         private Hotkeys globalHotkeys;
 
-        private bool blockMouseControl = false;
+        private bool blockMouseControl = true;
 
         private enum G {
             COMPACT, BLAIR, MAL, MALZMOD, FERET
@@ -270,10 +272,49 @@ namespace KameraMyszkaEmguCV
             //Zmiana pozycji myszki od środka ciężkości lewej ręki
             if (centerOfGravityRHandX != 0 && centerOfGravityRHandY != 0 && !blockMouseControl)
             {
+                double smoothness = (double)nudSmoothness.Value;
+                double sensitivity = (double)nudSensitivity.Value;
                 int newPositionX = screenWidth - (int)((((double)(centerOfGravityRHandX - imageGray.Width*3/5) / ((double)(imageGray.Width*1/5))*sensitivity) * (double)screenWidth));
                 int newPositionY = (int)((((double)(centerOfGravityRHandY - imageGray.Height * 1 / 4) / ((double)(imageGray.Height * 1 / 2)) * sensitivity) * (double)screenHeight));
 
+                int diffX = Cursor.Position.X - newPositionX;
+                int diffY = Cursor.Position.Y - newPositionY;
+
+                newPositionX = Cursor.Position.X - (int)(diffX / smoothness);
+                newPositionY = Cursor.Position.Y - (int)(diffY / smoothness);
                 MouseSimulating.SetMousePosition(newPositionX, newPositionY);
+
+                //Wyliczanie akcji do podjęcia
+                framesGestureLeftHand[frameCounter] = gestureTable[0];
+                framesGestureRightHand[frameCounter] = gestureTable[1];
+
+                if (frameCounter == framesGestureLeftHand.Length-1)
+                {
+                    int h = 0;
+                    while (h < framesGestureLeftHand.Length-1 && framesGestureLeftHand[h].Equals(framesGestureLeftHand[h+1]))
+                        h++;
+                    //Podejmij odpowiednia akcje lewej ręki
+                    if (h == framesGestureLeftHand.Length - 1)
+                    {
+                        //TODO przepisać gesty na akcje
+                        //if (framesGestureLeftHand[0].Equals("hopen")) MouseSimulating.PressLPM();
+                        //else if (framesGestureLeftHand[0].Equals("fist")) MouseSimulating.ReleaseLPM();
+                    }
+
+                    h = 0;
+                    while (h < framesGestureRightHand.Length - 1 && framesGestureRightHand[h].Equals(framesGestureRightHand[h + 1]))
+                        h++;
+                    //Podejmij odpowiednia akcje prawej ręki
+                    if (h == framesGestureRightHand.Length - 1)
+                    {
+                        //TODO przepisać gesty na akcje
+                        //if (framesGestureRightHand[0].Equals("hopen")) MouseSimulating.PressLPM();
+                        //else if (framesGestureRightHand[0].Equals("fist")) MouseSimulating.ReleaseLPM();
+                    }
+
+                }
+
+                frameCounter = frameCounter < 29 ? frameCounter + 1 : 0;
             }
             
         }
@@ -408,6 +449,7 @@ namespace KameraMyszkaEmguCV
         private void HandleHotkeyCtAlShB()
         {
             blockMouseControl = !blockMouseControl;
+            enabledLbl.Text = blockMouseControl ? "wyłączone" : "włączone";
         }
 
         /// <summary>
