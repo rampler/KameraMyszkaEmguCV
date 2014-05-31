@@ -36,7 +36,6 @@ namespace KameraMyszkaEmguCV
 
         private int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         private int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-        private int odchylenieBinaryzacji = 10;
 
         private double sensitivity = 1;
 
@@ -77,7 +76,7 @@ namespace KameraMyszkaEmguCV
             feret = new double[2];*/
             
             InitializeComponent();
-            globalHotkeys = new Hotkeys(HotkeysConstants.CTRL + HotkeysConstants.ALT + HotkeysConstants.SHIFT, Keys.B, this);
+            globalHotkeys = new Hotkeys(HotkeysConstants.CTRL + HotkeysConstants.ALT + HotkeysConstants.SHIFT, Keys.Z, this);
         }
 
         /* Zapisanie domyślnych ustawień kamery i uruchomienie odbioru obrazu */
@@ -269,8 +268,13 @@ namespace KameraMyszkaEmguCV
             imageBox2.Image = imageGray;
 
             //Zmiana pozycji myszki od środka ciężkości lewej ręki
-            if(centerOfGravityRHandX != 0 && centerOfGravityRHandY != 0 && !blockMouseControl)
-                MouseSimulating.SetMousePosition((int)((((double)centerOfGravityRHandX / (double)(imageGray.Width-(100-sensitivity))) * (double)screenWidth)), (int)(sensitivity * (((double)centerOfGravityRHandY / (double)imageGray.Height) * (double)screenHeight)));
+            if (centerOfGravityRHandX != 0 && centerOfGravityRHandY != 0 && !blockMouseControl)
+            {
+                int newPositionX = screenWidth - (int)((((double)(centerOfGravityRHandX - imageGray.Width*3/5) / ((double)(imageGray.Width*1/5))*sensitivity) * (double)screenWidth));
+                int newPositionY = (int)((((double)(centerOfGravityRHandY - imageGray.Height * 1 / 4) / ((double)(imageGray.Height * 1 / 2)) * sensitivity) * (double)screenHeight));
+
+                MouseSimulating.SetMousePosition(newPositionX, newPositionY);
+            }
             
         }
         private double dist(double[] gesture, int idx) {
@@ -362,6 +366,9 @@ namespace KameraMyszkaEmguCV
             int posX = (int)((double)ev.X / (double)imageBox1.Width * (double)image.Width);
             int posY = (int)((double)ev.Y / (double)imageBox1.Height * (double)image.Height);
             int S1, S2, S3;
+
+            int odchylenieBinaryzacji = (int)nudOdchylenieBin.Value;
+
             if (radioButton1.Checked)
             {
                 Image<Ycc, Byte> temp = image.Convert<Ycc, Byte>();
@@ -412,11 +419,6 @@ namespace KameraMyszkaEmguCV
             if (m.Msg == HotkeysConstants.WM_HOTKEY_MSG_ID)
                 HandleHotkeyCtAlShB();
             base.WndProc(ref m);
-        }
-
-        private void nudOdchylenieBin_ValueChanged(object sender, EventArgs e)
-        {
-            odchylenieBinaryzacji = (int)nudOdchylenieBin.Value;
         }
 
     }

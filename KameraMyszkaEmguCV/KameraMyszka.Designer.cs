@@ -34,6 +34,9 @@
             this.tableOptions = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.nudSensitivity = new System.Windows.Forms.NumericUpDown();
             this.label25 = new System.Windows.Forms.Label();
             this.nudOdchylenieBin = new System.Windows.Forms.NumericUpDown();
             this.feret2 = new System.Windows.Forms.Label();
@@ -142,11 +145,14 @@
             this.label26 = new System.Windows.Forms.Label();
             this.learnButton1 = new System.Windows.Forms.Button();
             this.mouseGesture1 = new System.Windows.Forms.CheckBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.nudSmoothness = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox2)).BeginInit();
             this.tableOptions.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSensitivity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOdchylenieBin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMedian)).BeginInit();
@@ -168,6 +174,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudW4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudW6)).BeginInit();
             this.LearningTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSmoothness)).BeginInit();
             this.SuspendLayout();
             // 
             // imageBox1
@@ -198,7 +205,7 @@
             this.tableOptions.Location = new System.Drawing.Point(12, 335);
             this.tableOptions.Name = "tableOptions";
             this.tableOptions.SelectedIndex = 0;
-            this.tableOptions.Size = new System.Drawing.Size(952, 212);
+            this.tableOptions.Size = new System.Drawing.Size(952, 279);
             this.tableOptions.TabIndex = 4;
             // 
             // tabPage1
@@ -207,13 +214,18 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(944, 186);
+            this.tabPage1.Size = new System.Drawing.Size(944, 253);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Ustawienia";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label29);
+            this.panel1.Controls.Add(this.nudSmoothness);
+            this.panel1.Controls.Add(this.label28);
+            this.panel1.Controls.Add(this.label27);
+            this.panel1.Controls.Add(this.nudSensitivity);
             this.panel1.Controls.Add(this.label25);
             this.panel1.Controls.Add(this.nudOdchylenieBin);
             this.panel1.Controls.Add(this.feret2);
@@ -279,8 +291,39 @@
             this.panel1.Controls.Add(this.nudW6);
             this.panel1.Location = new System.Drawing.Point(3, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(935, 180);
+            this.panel1.Size = new System.Drawing.Size(935, 244);
             this.panel1.TabIndex = 15;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(12, 193);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(96, 13);
+            this.label28.TabIndex = 66;
+            this.label28.Text = "Ustawienia myszki:";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(162, 218);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(57, 13);
+            this.label27.TabIndex = 65;
+            this.label27.Text = "Sensitivity:";
+            // 
+            // nudSensitivity
+            // 
+            this.nudSensitivity.DecimalPlaces = 2;
+            this.nudSensitivity.Location = new System.Drawing.Point(225, 216);
+            this.nudSensitivity.Name = "nudSensitivity";
+            this.nudSensitivity.Size = new System.Drawing.Size(52, 20);
+            this.nudSensitivity.TabIndex = 64;
+            this.nudSensitivity.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label25
             // 
@@ -307,7 +350,6 @@
             0,
             0,
             0});
-            this.nudOdchylenieBin.ValueChanged += new System.EventHandler(this.nudOdchylenieBin_ValueChanged);
             // 
             // feret2
             // 
@@ -1107,7 +1149,7 @@
             this.LearningTab.Location = new System.Drawing.Point(4, 22);
             this.LearningTab.Name = "LearningTab";
             this.LearningTab.Padding = new System.Windows.Forms.Padding(3);
-            this.LearningTab.Size = new System.Drawing.Size(944, 186);
+            this.LearningTab.Size = new System.Drawing.Size(944, 253);
             this.LearningTab.TabIndex = 1;
             this.LearningTab.Text = "Tryb uczenia";
             this.LearningTab.UseVisualStyleBackColor = true;
@@ -1630,11 +1672,33 @@
             this.mouseGesture1.Text = "Gest 1:";
             this.mouseGesture1.UseVisualStyleBackColor = true;
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(30, 218);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(68, 13);
+            this.label29.TabIndex = 68;
+            this.label29.Text = "Smoothness:";
+            // 
+            // nudSmoothness
+            // 
+            this.nudSmoothness.DecimalPlaces = 2;
+            this.nudSmoothness.Location = new System.Drawing.Point(104, 216);
+            this.nudSmoothness.Name = "nudSmoothness";
+            this.nudSmoothness.Size = new System.Drawing.Size(52, 20);
+            this.nudSmoothness.TabIndex = 67;
+            this.nudSmoothness.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // KameraMyszka
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(976, 550);
+            this.ClientSize = new System.Drawing.Size(976, 616);
             this.Controls.Add(this.tableOptions);
             this.Controls.Add(this.imageBox2);
             this.Controls.Add(this.imageBox1);
@@ -1649,6 +1713,7 @@
             this.tabPage1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSensitivity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOdchylenieBin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupScale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMedian)).EndInit();
@@ -1671,6 +1736,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudW6)).EndInit();
             this.LearningTab.ResumeLayout(false);
             this.LearningTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSmoothness)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1790,6 +1856,11 @@
         private System.Windows.Forms.Label comp2;
         private System.Windows.Forms.NumericUpDown nudOdchylenieBin;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.NumericUpDown nudSensitivity;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.NumericUpDown nudSmoothness;
     }
 }
 
