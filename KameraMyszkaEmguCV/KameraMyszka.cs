@@ -36,6 +36,7 @@ namespace KameraMyszkaEmguCV
 
         private int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         private int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+        private int odchylenieBinaryzacji = 10;
 
         private double sensitivity = 1;
 
@@ -361,31 +362,30 @@ namespace KameraMyszkaEmguCV
             int posX = (int)((double)ev.X / (double)imageBox1.Width * (double)image.Width);
             int posY = (int)((double)ev.Y / (double)imageBox1.Height * (double)image.Height);
             int S1, S2, S3;
-            int odchylenie = 10; //TODO można zmienić wedle uznań tą 10 na co innego
             if (radioButton1.Checked)
             {
                 Image<Ycc, Byte> temp = image.Convert<Ycc, Byte>();
                 S1 = (int) temp[posY, posX].Y;
                 S2 = (int)temp[posY, posX].Cb;
                 S3 = (int)temp[posY, posX].Cr;
-                nudW1.Value = (S1 - odchylenie > 0)?S1 - odchylenie:0; 
-                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:0;
-                nudW3.Value = (S3 - odchylenie > 0)?S3 - odchylenie:0;
-                nudW4.Value = (S1 + odchylenie < 255)?S1 + odchylenie:255;
-                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:255;
-                nudW6.Value = (S3 + odchylenie < 255)?S3 + odchylenie:255;
+                nudW1.Value = (S1 - odchylenieBinaryzacji > 0)?S1 - odchylenieBinaryzacji:0; 
+                nudW2.Value = (S2 - odchylenieBinaryzacji > 0)?S2 - odchylenieBinaryzacji:0;
+                nudW3.Value = (S3 - odchylenieBinaryzacji > 0)?S3 - odchylenieBinaryzacji:0;
+                nudW4.Value = (S1 + odchylenieBinaryzacji < 255)?S1 + odchylenieBinaryzacji:255;
+                nudW5.Value = (S2 + odchylenieBinaryzacji < 255)?S2 + odchylenieBinaryzacji:255;
+                nudW6.Value = (S3 + odchylenieBinaryzacji < 255)?S3 + odchylenieBinaryzacji:255;
             }
             else
             {
                 S3 = (int) image[posY, posX].Blue;
                 S2 = (int) image[posY, posX].Green;
                 S1 = (int) image[posY, posX].Red;
-                nudW1.Value = (S3 - odchylenie > 0)?S3 - odchylenie:0;
-                nudW2.Value = (S2 - odchylenie > 0)?S2 - odchylenie:0;
-                nudW3.Value = (S1 - odchylenie > 0)?S1 - odchylenie:0;
-                nudW4.Value = (S3 + odchylenie < 255)?S3 + odchylenie:255;
-                nudW5.Value = (S2 + odchylenie < 255)?S2 + odchylenie:255;
-                nudW6.Value = (S1 + odchylenie < 255)?S1 + odchylenie:255;
+                nudW1.Value = (S3 - odchylenieBinaryzacji > 0)?S3 - odchylenieBinaryzacji:0;
+                nudW2.Value = (S2 - odchylenieBinaryzacji > 0)?S2 - odchylenieBinaryzacji:0;
+                nudW3.Value = (S1 - odchylenieBinaryzacji > 0)?S1 - odchylenieBinaryzacji:0;
+                nudW4.Value = (S3 + odchylenieBinaryzacji < 255)?S3 + odchylenieBinaryzacji:255;
+                nudW5.Value = (S2 + odchylenieBinaryzacji < 255)?S2 + odchylenieBinaryzacji:255;
+                nudW6.Value = (S1 + odchylenieBinaryzacji < 255)?S1 + odchylenieBinaryzacji:255;
             }
             //MessageBox.Show(string.Format("X: {0} Y: {1}\n{2}, {3}, {4}", posX, posY,S1,S2,S3));
         }
@@ -412,6 +412,11 @@ namespace KameraMyszkaEmguCV
             if (m.Msg == HotkeysConstants.WM_HOTKEY_MSG_ID)
                 HandleHotkeyCtAlShB();
             base.WndProc(ref m);
+        }
+
+        private void nudOdchylenieBin_ValueChanged(object sender, EventArgs e)
+        {
+            odchylenieBinaryzacji = (int)nudOdchylenieBin.Value;
         }
 
     }
