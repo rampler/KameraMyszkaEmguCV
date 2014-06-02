@@ -26,12 +26,17 @@ namespace KameraMyszkaEmguCV
     {
         /* wspolczynniki ksztaltu okreslonych gestow, kolejno:
            compactness, blair, mal, malzmod, feret */
-        private readonly double[] 
-            slayer  = {.2603, .6256, .8372, .5443, .2808},
-            fist    = {.4279, .7861, .4785, .6764, .4435},
-            victory = {.2843, .6215, .8111, .5521, .3609},
-            vopen   = {.3178, .6015, .6788, .5957, .3768},
-            hopen   = {.5899, .8121, .4594, .6852, 2.096};
+        private readonly double[]
+            slayer = { .2603, .6256, .8372, .5443, .2808 },
+            fist = { .4279, .7861, .4785, .6764, .4435 },
+            victory = { .2843, .6215, .8111, .5521, .3609 },
+            vopen = { .3178, .6015, .6788, .5957, .3768 },
+            hopen = { .5899, .8121, .4594, .6852, 2.096 },
+            palce = { .3321, .7695, .7469, .5757, .5454 },
+            nozyczki = { .4832, .6524, .6063, .6225, 1.875 },
+            shaka = { .3584, .8084, .6671, .5998, .5978 },
+            pal_gora = { .5429, .7673, .5116, .6615, .3940 },
+            pal_bok = { .5932, .7541, .4641, .6830, 2.485 };
         private const int COEFF_COUNT = 5;
 
         private int screenWidth = Screen.PrimaryScreen.Bounds.Width;
@@ -235,6 +240,12 @@ namespace KameraMyszkaEmguCV
                 gestChance.Add("victory", dist(victory, i));
                 gestChance.Add("vopen", dist(vopen, i));
                 gestChance.Add("hopen", dist(hopen, i));
+                gestChance.Add("palce", dist(palce, i));
+                gestChance.Add("nozyczki", dist(nozyczki, i));
+                gestChance.Add("shaka", dist(shaka, i));
+                gestChance.Add("pal_gora", dist(pal_gora, i));
+                gestChance.Add("pal_bok", dist(pal_bok, i));
+
                 //fold jak od matyasika - get key of minimal value
 
                 
