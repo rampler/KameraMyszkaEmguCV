@@ -41,12 +41,13 @@ namespace KameraMyszkaEmguCV
 
         private int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         private int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+        private int WindowTopParam = 0;
+        private int WindowLeftParam = 0;
 
-        private string[] framesGestureLeftHand = new string[30]; //30 kl/s - musi być ten sam gest przez 1s to wtedy zczyta go - jak będzie słabo działać to się pomyśli o czymś innym
-        private string[] framesGestureRightHand = new string[30];
-        private int frameCounter = 0;
+        private string prevGestureLeft = "", prevGestureRight = "";
+        private int frameCounterLeft = 0, frameCounterRight = 0;
 
-        private Hotkeys globalHotkeys;
+        private Hotkeys globalHotkeys, globalHotkeys2;
 
         private bool blockMouseControl = true;
 
@@ -84,6 +85,7 @@ namespace KameraMyszkaEmguCV
             
             InitializeComponent();
             globalHotkeys = new Hotkeys(HotkeysConstants.CTRL + HotkeysConstants.ALT + HotkeysConstants.SHIFT, Keys.Z, this);
+            globalHotkeys2 = new Hotkeys(HotkeysConstants.CTRL + HotkeysConstants.ALT + HotkeysConstants.SHIFT, Keys.X, this);
         }
 
         /* Zapisanie domyślnych ustawień kamery i uruchomienie odbioru obrazu */
@@ -118,6 +120,7 @@ namespace KameraMyszkaEmguCV
             catch (NullReferenceException ex) { Console.WriteLine("ERROR! "+ex.StackTrace); }
 
             globalHotkeys.Register();
+            globalHotkeys2.Register();
         }
 
         /* Odświezanie okna z obrazem */
@@ -125,6 +128,7 @@ namespace KameraMyszkaEmguCV
 
             //Pobieranie ramki
             image = capture.QueryFrame();
+            image = image.Flip(FLIP.HORIZONTAL);
             imageBox1.Image = image;
 
             //YCbCr or Bgr(RGB)
@@ -281,14 +285,14 @@ namespace KameraMyszkaEmguCV
             imageBox2.Image = imageGray;
 
             //Zmiana pozycji myszki od środka ciężkości lewej ręki
-            if (centerOfGravityRHandX != 0 && centerOfGravityRHandY != 0 && !blockMouseControl)
+            if (centerOfGravityLHandX != 0 && centerOfGravityLHandY != 0 && !blockMouseControl)
             {
                 double smoothness = (double)nudSmoothness.Value;
                 double sensitivity = (double)nudSensitivity.Value;
-                int newPositionX = screenWidth - (int)((((double)(centerOfGravityRHandX - imageGray.Width*3/5) / ((double)(imageGray.Width*1/5))*sensitivity) * (double)screenWidth));
-                int newPositionY = (int)((((double)(centerOfGravityRHandY - imageGray.Height * 1 / 4) / ((double)(imageGray.Height * 1 / 2)) * sensitivity) * (double)screenHeight));
+                int newPositionX = screenWidth - (int)((((double)(centerOfGravityLHandX /**/) / ((double)(imageGray.Width * 1 / 5)) * sensitivity) * (double)screenWidth)); //- imageGray.Width*1/5
+                int newPositionY = (int)((((double)(centerOfGravityLHandY - imageGray.Height * 2 / 4) / ((double)(imageGray.Height * 1 / 4)) * sensitivity) * (double)screenHeight));
 
-                int diffX = Cursor.Position.X - newPositionX;
+                int diffX = Cursor.Position.X + newPositionX;
                 int diffY = Cursor.Position.Y - newPositionY;
 
                 newPositionX = Cursor.Position.X - (int)(diffX / smoothness);
@@ -296,36 +300,33 @@ namespace KameraMyszkaEmguCV
                 MouseSimulating.SetMousePosition(newPositionX, newPositionY);
 
                 //Wyliczanie akcji do podjęcia
-                framesGestureLeftHand[frameCounter] = gestureTable[0];
-                framesGestureRightHand[frameCounter] = gestureTable[1];
-
-                if (frameCounter == framesGestureLeftHand.Length-1)
+                if (gestureTable[0] == null || !prevGestureLeft.Equals(gestureTable[0]))
                 {
-                    int h = 0;
-                    while (h < framesGestureLeftHand.Length-1 && framesGestureLeftHand[h].Equals(framesGestureLeftHand[h+1]))
-                        h++;
-                    //Podejmij odpowiednia akcje lewej ręki
-                    if (h == framesGestureLeftHand.Length - 1)
-                    {
-                        //TODO przepisać gesty na akcje
-                        //if (framesGestureLeftHand[0].Equals("hopen")) MouseSimulating.PressLPM();
-                        //else if (framesGestureLeftHand[0].Equals("fist")) MouseSimulating.ReleaseLPM();
-                    }
-
-                    h = 0;
-                    while (h < framesGestureRightHand.Length - 1 && framesGestureRightHand[h].Equals(framesGestureRightHand[h + 1]))
-                        h++;
-                    //Podejmij odpowiednia akcje prawej ręki
-                    if (h == framesGestureRightHand.Length - 1)
-                    {
-                        //TODO przepisać gesty na akcje
-                        //if (framesGestureRightHand[0].Equals("hopen")) MouseSimulating.PressLPM();
-                        //else if (framesGestureRightHand[0].Equals("fist")) MouseSimulating.ReleaseLPM();
-                    }
-
+                    frameCounterLeft = 0;
+                    if(gestureTable[0] != null) prevGestureLeft = gestureTable[0];
+                }
+                if (gestureTable[1] == null || !prevGestureRight.Equals(gestureTable[1]))
+                {
+                    frameCounterLeft = 0;
+                    if (gestureTable[1] != null) prevGestureRight = gestureTable[1];
                 }
 
-                frameCounter = frameCounter < 29 ? frameCounter + 1 : 0;
+                if (frameCounterLeft == 30) //ile klatek musi  - 30 kl/s
+                {
+                    //TODO przepisać gesty na akcje
+                    //if (framesGestureLeftHand[0].Equals("hopen")) MouseSimulating.PressLPM();
+                    //else if (framesGestureLeftHand[0].Equals("fist")) MouseSimulating.ReleaseLPM();
+                }
+                else frameCounterLeft++;
+
+                if (frameCounterRight == 30)
+                {
+                    //TODO przepisać gesty na akcje
+                    if (prevGestureRight.Equals("pal_gora")) MouseSimulating.ClickLPM();
+                    else if (prevGestureRight.Equals("fist")) MouseSimulating.ReleaseLPM();
+                }
+                else frameCounterRight++;
+                
             }
             
         }
@@ -405,6 +406,7 @@ namespace KameraMyszkaEmguCV
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAIN, defaultGain);
             capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_GAMMA, defaultGamma);
             globalHotkeys.Unregiser();
+            globalHotkeys2.Unregiser();
         }
 
         /// <summary>
@@ -455,12 +457,32 @@ namespace KameraMyszkaEmguCV
         }
 
         /// <summary>
-        /// Obsługa globalnych klawiszy CTRL+ALT+SHIFT+B
+        /// Obsługa globalnych klawiszy CTRL+ALT+SHIFT+Z
         /// </summary>
-        private void HandleHotkeyCtAlShB()
+        private void HandleHotkeyCtAlShZ()
         {
             blockMouseControl = !blockMouseControl;
             enabledLbl.Text = blockMouseControl ? "wyłączone" : "włączone";
+        }
+
+        /// <summary>
+        /// Obsługa globalnych klawiszy CTRL+ALT+SHIFT+X
+        /// </summary>
+        private void HandleHotkeyCtAlShX()
+        {
+            if (Top != screenHeight && Left != screenWidth)
+            {
+                WindowLeftParam = Left;
+                WindowTopParam = Top;
+                Top = screenHeight;
+                Left = screenWidth;
+            }
+            else
+            {
+                Top = WindowTopParam;
+                Left = WindowLeftParam;
+                this.Activate();
+            }
         }
 
         /// <summary>
@@ -469,8 +491,13 @@ namespace KameraMyszkaEmguCV
         /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
+            int Z = 5898247;
+            int X = 5767175;
             if (m.Msg == HotkeysConstants.WM_HOTKEY_MSG_ID)
-                HandleHotkeyCtAlShB();
+            { 
+                if((int)m.LParam == X) HandleHotkeyCtAlShX();
+                else HandleHotkeyCtAlShZ();
+            }
             base.WndProc(ref m);
         }
 

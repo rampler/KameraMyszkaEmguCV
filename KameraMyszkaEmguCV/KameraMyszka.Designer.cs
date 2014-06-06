@@ -1736,7 +1736,10 @@
             this.Controls.Add(this.imageBox2);
             this.Controls.Add(this.imageBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "KameraMyszka";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "KameraMyszka";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KameraMyszka_FormClosing);
             this.Load += new System.EventHandler(this.KameraMyszka_Load);
