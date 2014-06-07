@@ -232,11 +232,7 @@ namespace KameraMyszkaEmguCV
                 observed[4,i] = (double)ftxMax / blobh;//feret
                 observed[1,i] = (double)(blob[i].Area) / Math.Sqrt(2 * Math.PI * blairsum);//blair
                 //System.Console.WriteLine("mal {0:f}, zmal {1:f}, feret {2:f}, blair {3:f}", mal, malzmod, feret, blair);
-
-                //Drukowanie wsp na gui
-                //TODO osobne pola dla obu obiektów (dłoni)
-
-                                              
+                                                             
 
                 Dictionary<string, double> gestChance = new Dictionary<string, double>();
                 gestChance.Add("slayer", dist(slayer, i));
@@ -451,11 +447,7 @@ namespace KameraMyszkaEmguCV
             //MessageBox.Show(string.Format("X: {0} Y: {1}\n{2}, {3}, {4}", posX, posY,S1,S2,S3));
         }
 
-        private void returnToDefault_Click(object sender, EventArgs e)
-        {
-            //TODO
-        }
-
+      
         /// <summary>
         /// Obsługa globalnych klawiszy CTRL+ALT+SHIFT+Z
         /// </summary>
