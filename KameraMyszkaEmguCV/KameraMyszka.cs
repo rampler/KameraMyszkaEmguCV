@@ -310,8 +310,8 @@ namespace KameraMyszkaEmguCV
                 if (frameCounterLeft == 30) //ile klatek musi  - 30 kl/s
                 {
                     //TODO przepisać gesty na akcje
-                    //if(prevGestureLeft.Equals("vopen") MouseSimulating.PressLPM();
-                    //else if (prevGestureLeft.Equals("fist")) MouseSimulating.ReleaseLPM();
+                    //if(prevGestureLeft.Equals("fist") MouseSimulating.PressLPM();
+                    //else if (prevGestureLeft.Equals("vopen")) MouseSimulating.ReleaseLPM();
                 }
                 else frameCounterLeft++;
 
@@ -322,8 +322,8 @@ namespace KameraMyszkaEmguCV
 
                     //TODO przepisać gesty na akcje
                     //if (prevGestureRight.Equals("pal_gora")) KeyboardSimulating.SendCtrlC();
-                    //else if (prevGestureRight.Equals("pal_gora")) KeyboardSimulating.SendCtrlV();
-                    //else if (prevGestureRight.Equals("pal_gora")) KeyboardSimulating.SendCtrlX();
+                    //else if (prevGestureRight.Equals("pal_bok")) KeyboardSimulating.SendCtrlV();
+                    //else if (prevGestureRight.Equals("victoria")) KeyboardSimulating.SendCtrlX();
                     //else if (prevGestureRight.Equals("shaka")) MouseSimulating.ScrollDOWN(100);
                     //else if (prevGestureRight.Equals("slayer")) MouseSimulating.ScrollUP(100);
                     //else if (prevGestureRight.Equals("vopen")) MouseSimulating.ClickPPM();
