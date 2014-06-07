@@ -339,7 +339,7 @@
             this.nudSmoothness.Size = new System.Drawing.Size(52, 20);
             this.nudSmoothness.TabIndex = 67;
             this.nudSmoothness.Value = new decimal(new int[] {
-            5,
+            15,
             0,
             0,
             0});
@@ -1696,7 +1696,6 @@
             this.returnToDefault.TabIndex = 5;
             this.returnToDefault.Text = "Przywróć domyślne";
             this.returnToDefault.UseVisualStyleBackColor = true;
-            this.returnToDefault.Click += new System.EventHandler(this.returnToDefault_Click);
             // 
             // label26
             // 

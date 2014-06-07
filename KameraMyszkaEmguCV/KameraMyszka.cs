@@ -310,16 +310,27 @@ namespace KameraMyszkaEmguCV
                 if (frameCounterLeft == 30) //ile klatek musi  - 30 kl/s
                 {
                     //TODO przepisać gesty na akcje
-                    //if (framesGestureLeftHand[0].Equals("hopen")) MouseSimulating.PressLPM();
-                    //else if (framesGestureLeftHand[0].Equals("fist")) MouseSimulating.ReleaseLPM();
+                    //if(prevGestureLeft.Equals("vopen") MouseSimulating.PressLPM();
+                    //else if (prevGestureLeft.Equals("fist")) MouseSimulating.ReleaseLPM();
                 }
                 else frameCounterLeft++;
 
                 if (frameCounterRight == 30)
                 {
-                    //TODO przepisać gesty na akcje
+                    //To test - działa ładnie w eksploratorze plików - otwiera foldery nawet i pliki
                     if (prevGestureRight.Equals("pal_gora")) MouseSimulating.ClickLPM();
-                    else if (prevGestureRight.Equals("fist")) MouseSimulating.ReleaseLPM();
+
+                    //TODO przepisać gesty na akcje
+                    //if (prevGestureRight.Equals("pal_gora")) KeyboardSimulating.SendCtrlC();
+                    //else if (prevGestureRight.Equals("pal_gora")) KeyboardSimulating.SendCtrlV();
+                    //else if (prevGestureRight.Equals("pal_gora")) KeyboardSimulating.SendCtrlX();
+                    //else if (prevGestureRight.Equals("shaka")) MouseSimulating.ScrollDOWN(100);
+                    //else if (prevGestureRight.Equals("slayer")) MouseSimulating.ScrollUP(100);
+                    //else if (prevGestureRight.Equals("vopen")) MouseSimulating.ClickPPM();
+                    //else if (prevGestureRight.Equals("hopen")) MouseSimulating.ClickMouseButton3();
+                    //else if (prevGestureRight.Equals("nozyczki")) MouseSimulating.ClickMouseButton4();
+                    
+                    
                 }
                 else frameCounterRight++;
                 
