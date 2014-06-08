@@ -26,18 +26,30 @@ namespace KameraMyszkaEmguCV
     {
         /* wspolczynniki ksztaltu okreslonych gestow, kolejno:
            compactness, blair, mal, malzmod, feret */
+
         private readonly double[]
-            slayer = { .2603, .6256, .8372, .5443, .2808 },
-            fist = { .4279, .7861, .4785, .6764, .4435 },
-            victory = { .2843, .6215, .8111, .5521, .3609 },
-            vopen = { .3178, .6015, .6788, .5957, .3768 },
-            hopen = { .5899, .8121, .4594, .6852, 2.096 },
-            palce = { .3321, .7695, .7469, .5757, .5454 },
-            nozyczki = { .4832, .6524, .6063, .6225, 1.875 },
-            shaka = { .3584, .8084, .6671, .5998, .5978 },
-            pal_gora = { .5429, .7673, .5116, .6615, .3940 },
-            pal_bok = { .5932, .7541, .4641, .6830, 2.485 };
+            //            slayer    = { .3561, .6714, .6677, .6028, .3873 },
+            fist = { .5175, .8156, .3171, .7658, .5576 },
+            victory = { .3673, .6522, .6695, .6160, .4326 },
+            vopen = { .4100, .6894, .5575, .6488, .4546 },
+            hopen = { .6175, .8043, .3345, .7529, 2.0574 },
+            fingers = { .3846, .7551, .5952, .6300, .6202 },
+            scissors = { .4426, .6731, .5987, .6258, 1.6775 };
+            //            shaka     = { .4055, .8271, .5184, .6638, .7608 },
+            //            thumbup   = { .4577, .7676, .5481, .6461, .4416 },
+            //            thumbleft = { .5215, .7805, .4443, .6925, 1.6563 }
+
         private const int COEFF_COUNT = 5;
+        private enum CF {COMPACT, BLAIR, MAL, MALZMOD, FERET }
+        /* kolejnosc 2 ponizszych musi byc identyczna */
+        private enum GEST { FIST, VICTORY, VOPEN, HOPEN, FINGERS, SCISSORS, BLANK }
+        private string[] labels = { "fist", "victory", "vopen", "hopen", "fingers", "scissors", "" };
+        private GEST[] found = new GEST[2];
+        private const double NOT_FOUND = -.404f;
+        private const string format = "0.0000";
+
+        private Dictionary<GEST, double> gestChance;
+        private const double TOLERANCE = .1;
 
         private int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         private int screenHeight = Screen.PrimaryScreen.Bounds.Height;
@@ -50,11 +62,7 @@ namespace KameraMyszkaEmguCV
         private Hotkeys globalHotkeys, globalHotkeys2;
 
         private bool blockMouseControl = true;
-
-        private enum G {
-            COMPACT, BLAIR, MAL, MALZMOD, FERET
-        }
-
+        
         private readonly BlobCounter bc;
         
         /* shape coefficients */
@@ -75,13 +83,10 @@ namespace KameraMyszkaEmguCV
             bc.MinHeight = 50;
             bc.ObjectsOrder = ObjectsOrder.Size;
 
+            gestChance = new Dictionary<GEST, double>();
+
             /* coefficients for each hand */
             observed = new double[COEFF_COUNT, 2];
-            /*compactness = new double[2];
-            blair = new double[2];
-            mal = new double[2];
-            malzmod = new double[2];
-            feret = new double[2];*/
             
             InitializeComponent();
             globalHotkeys = new Hotkeys(HotkeysConstants.CTRL + HotkeysConstants.ALT + HotkeysConstants.SHIFT, Keys.Z, this);
@@ -109,7 +114,7 @@ namespace KameraMyszkaEmguCV
                 nudSaturation.Value = (decimal)defaultSaturation;
                 try {
                     nudWhiteBlue.Value = (decimal)defaultWhiteBlueBalance;
-                } catch (ArgumentOutOfRangeException ex) { }
+                } catch (ArgumentOutOfRangeException ex) { Console.Error.WriteLine(ex.Message); }
  
                 nudWhiteRed.Value = (decimal)defaultWhiteRedBalance;
                 nudHue.Value = (decimal)defaultHue;
@@ -147,15 +152,16 @@ namespace KameraMyszkaEmguCV
             bc.ProcessImage(bmp);
 
             Blob[] blob = bc.GetObjectsInformation();
-            //TODO make work for both hands
+            //both hands version
             //lewa reka to ta z prawej strony obrazu (zwierciadlo), nie zakladamy ze user gestykuluje na krzyz, keep it simple
             int iters = bc.ObjectsCount > 2 ? 2 : bc.ObjectsCount;
+            //one hand version
             //int iters = bc.ObjectsCount > 1 ? 1 : bc.ObjectsCount;
 
             int centerOfGravityLHandX = 0, centerOfGravityLHandY = 0, centerOfGravityRHandX = 0, centerOfGravityRHandY = 0;
             Dictionary<double,string> gestures;
 
-            string[] gestureTable = new string[2];
+            string[] gestureLabel = new string[2];
             int i = 0;
             for (; i < iters; ++i) {
                 IntPoint minXY, maxXY;
@@ -167,7 +173,6 @@ namespace KameraMyszkaEmguCV
 
                 int X = maxXY.X, Y = maxXY.Y;
                 int x = minXY.X, y = minXY.Y;
-                int blobh = Y - y;
 
                 observed[0,i] = blob[i].Fullness;
 
@@ -211,6 +216,7 @@ namespace KameraMyszkaEmguCV
                         dd[j, k, 0] = 255;
                     }
                 }
+
                 /*    aby policzyc ftyMax trzeba puscic jeszcze jedna petle tak aby wewnetrzna szla po y-kach
                     * ale mozna tez aproksymowac ftYmax przez boundingbox.Y, wtedy
                     * przewidywalem najwieksze rozbieznosci przy skosnych lub dziurawych obiektach;
@@ -229,52 +235,45 @@ namespace KameraMyszkaEmguCV
                         }
                 }
                 feret = (double)ftxMax / ftyMax; */
-                observed[4,i] = (double)ftxMax / blobh;//feret
-                observed[1,i] = (double)(blob[i].Area) / Math.Sqrt(2 * Math.PI * blairsum);//blair
-                //System.Console.WriteLine("mal {0:f}, zmal {1:f}, feret {2:f}, blair {3:f}", mal, malzmod, feret, blair);
-                                                             
-
-                Dictionary<string, double> gestChance = new Dictionary<string, double>();
-                gestChance.Add("slayer", dist(slayer, i));
-                gestChance.Add("fist", dist(fist, i));
-                gestChance.Add("victory", dist(victory, i));
-                gestChance.Add("vopen", dist(vopen, i));
-                gestChance.Add("hopen", dist(hopen, i));
-                gestChance.Add("palce", dist(palce, i));
-                gestChance.Add("nozyczki", dist(nozyczki, i));
-                gestChance.Add("shaka", dist(shaka, i));
-                gestChance.Add("pal_gora", dist(pal_gora, i));
-                gestChance.Add("pal_bok", dist(pal_bok, i));
-
-                //fold jak od matyasika - get key of minimal value
-
+                observed[4,i] = (double)ftxMax / (Y-y);//feret
+                observed[1,i] = (double)(blob[i].Area) / Math.Sqrt(2 * Math.PI * blairsum);//blair                                                             
                 
-                string gesture = gestChance.Aggregate((l, r) => l.Value < r.Value ? l : r).Key;
-                gestureTable[i] = gesture;
+                gestChance[GEST.FIST] = dist(fist, i);
+                gestChance[GEST.VICTORY] = dist(victory, i);
+                gestChance[GEST.VOPEN] = dist(vopen, i);
+                gestChance[GEST.HOPEN] = dist(hopen, i);
+                gestChance[GEST.FINGERS] = dist(fingers, i);
+                gestChance[GEST.SCISSORS] = dist(scissors, i);
+
+                //list fold - get key of minimal value
+                KeyValuePair<GEST,double> elem = gestChance.Aggregate((l, r) => l.Value < r.Value ? l : r);
+                found[i] = (elem.Value < TOLERANCE) ? elem.Key : GEST.BLANK;
+                if (elem.Key == GEST.FIST && (double)(X-x)/(Y-y) < .6) {
+                    found[i] = GEST.VOPEN;
+                }
+                gestureLabel[i] = labels[(int)found[i]];
             }
 
-                g1value.Text = gestureTable[0];
-                g2value.Text = gestureTable[1];
+                g1value.Text = gestureLabel[0];
+                g2value.Text = gestureLabel[1];
 
-                compactnessLbl.Text = observed[0, 0].ToString().Length > 6 ? observed[0, 0].ToString().Substring(0, 6) : observed[0, 0].ToString();
-                blairLbl.Text = observed[1, 0].ToString().Length > 6 ? observed[1, 0].ToString().Substring(0, 6) : observed[1, 0].ToString();
-                malinowskaLbl.Text = observed[2, 0].ToString().Length > 6 ? observed[2, 0].ToString().Substring(0, 6) : observed[2, 0].ToString();
-                malzmodLbl.Text = observed[3, 0].ToString().Length > 6 ? observed[3, 0].ToString().Substring(0, 6) : observed[3, 0].ToString();
-                feretLbl.Text = observed[4, 0].ToString().Length > 6 ? observed[4, 0].ToString().Substring(0, 6) : observed[4, 0].ToString();
+                compactnessLbl.Text = observed[0, 0].ToString(format);
+                blairLbl.Text = observed[1, 0].ToString(format);
+                malinowskaLbl.Text = observed[2, 0].ToString(format);
+                malzmodLbl.Text = observed[3, 0].ToString(format);
+                feretLbl.Text = observed[4, 0].ToString(format);
 
-                comp2.Text = observed[0, 1].ToString().Length > 6 ? observed[0, 1].ToString().Substring(0, 6) : observed[0, 1].ToString();
-                blair2.Text = observed[1, 1].ToString().Length > 6 ? observed[1, 1].ToString().Substring(0, 6) : observed[1, 1].ToString();
-                mal2.Text = observed[2, 1].ToString().Length > 6 ? observed[2, 1].ToString().Substring(0, 6) : observed[2, 1].ToString();
-                malz2.Text = observed[3, 1].ToString().Length > 6 ? observed[3, 1].ToString().Substring(0, 6) : observed[3, 1].ToString();
-                feret2.Text = observed[4, 1].ToString().Length > 6 ? observed[4, 1].ToString().Substring(0, 6) : observed[4, 1].ToString();
+                comp2.Text = observed[0, 1].ToString(format);
+                blair2.Text = observed[1, 1].ToString(format);
+                mal2.Text = observed[2, 1].ToString(format);
+                malz2.Text = observed[3, 1].ToString(format);
+                feret2.Text = observed[4, 1].ToString(format);
 
-
-            for (; i < 2; ++i) {
-                /* for blobs not detected */
-                observed[0, i] = observed[1, i] = observed[2, i] = observed[3, i] = observed[4, i] = -404f;
-                //compactness[i] = blair[i] = mal[i] = malzmod[i] = feret[i] = -404f;
+            /* for blobs not detected */
+            for (; i < 2; ++i) {    
+                observed[0, i] = observed[1, i] = observed[2, i] = observed[3, i] = observed[4, i] = NOT_FOUND;
             }
-
+            
             imageGray = new Image<Gray, Byte>(bmp);
             imageGray = imageGray.Erode((int)nudErode.Value);
             imageGray = imageGray.Dilate((int)nudDilate.Value);
@@ -296,15 +295,15 @@ namespace KameraMyszkaEmguCV
                 MouseSimulating.SetMousePosition(newPositionX, newPositionY);
 
                 //Wyliczanie akcji do podjęcia
-                if (gestureTable[0] == null || !prevGestureLeft.Equals(gestureTable[0]))
+                if (gestureLabel[0] == null || !prevGestureLeft.Equals(gestureLabel[0]))
                 {
                     frameCounterLeft = 0;
-                    if(gestureTable[0] != null) prevGestureLeft = gestureTable[0];
+                    if(gestureLabel[0] != null) prevGestureLeft = gestureLabel[0];
                 }
-                if (gestureTable[1] == null || !prevGestureRight.Equals(gestureTable[1]))
+                if (gestureLabel[1] == null || !prevGestureRight.Equals(gestureLabel[1]))
                 {
                     frameCounterLeft = 0;
-                    if (gestureTable[1] != null) prevGestureRight = gestureTable[1];
+                    if (gestureLabel[1] != null) prevGestureRight = gestureLabel[1];
                 }
 
                 if (frameCounterLeft == 30) //ile klatek musi  - 30 kl/s
