@@ -306,30 +306,22 @@ namespace KameraMyszkaEmguCV
                     if (gestureLabel[1] != null) prevGestureRight = gestureLabel[1];
                 }
 
-                if (frameCounterLeft == 30) //ile klatek musi  - 30 kl/s
+                if (frameCounterLeft == 60) //ile klatek musi  - 30 kl/s
                 {
-                    //TODO przepisać gesty na akcje
-                    //if(prevGestureLeft.Equals("fist") MouseSimulating.PressLPM();
-                    //else if (prevGestureLeft.Equals("vopen")) MouseSimulating.ReleaseLPM();
+                    if (prevGestureLeft.Equals("fist")) MouseSimulating.PressLPM();
+                    else if (prevGestureLeft.Equals("vopen")) MouseSimulating.ReleaseLPM();
+                    else if (prevGestureLeft.Equals("pal_gora")) MouseSimulating.ScrollUP(100);
                 }
                 else frameCounterLeft++;
 
-                if (frameCounterRight == 30)
+                if (frameCounterRight == 60)
                 {
-                    //To test - działa ładnie w eksploratorze plików - otwiera foldery nawet i pliki
                     if (prevGestureRight.Equals("pal_gora")) MouseSimulating.ClickLPM();
-
-                    //TODO przepisać gesty na akcje
-                    //if (prevGestureRight.Equals("pal_gora")) KeyboardSimulating.SendCtrlC();
-                    //else if (prevGestureRight.Equals("pal_bok")) KeyboardSimulating.SendCtrlV();
-                    //else if (prevGestureRight.Equals("victoria")) KeyboardSimulating.SendCtrlX();
-                    //else if (prevGestureRight.Equals("shaka")) MouseSimulating.ScrollDOWN(100);
-                    //else if (prevGestureRight.Equals("slayer")) MouseSimulating.ScrollUP(100);
-                    //else if (prevGestureRight.Equals("vopen")) MouseSimulating.ClickPPM();
-                    //else if (prevGestureRight.Equals("hopen")) MouseSimulating.ClickMouseButton3();
-                    //else if (prevGestureRight.Equals("nozyczki")) MouseSimulating.ClickMouseButton4();
-                    
-                    
+                    else if (prevGestureRight.Equals("scissors")) KeyboardSimulating.SendCtrlX();
+                    else if (prevGestureRight.Equals("palce")) KeyboardSimulating.SendCtrlC();
+                    else if (prevGestureRight.Equals("victory")) KeyboardSimulating.SendCtrlV();
+                    else if (prevGestureLeft.Equals("pal_gora") && prevGestureRight.Equals("fist")) MouseSimulating.ScrollDOWN(100);
+                                        
                 }
                 else frameCounterRight++;
                 
