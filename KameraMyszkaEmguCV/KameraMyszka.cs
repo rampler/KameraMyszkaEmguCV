@@ -316,10 +316,9 @@ namespace KameraMyszkaEmguCV
                 if (frameCounterRight == 60)
                 {
                     if (prevGestureRight.Equals("fist")) MouseSimulating.ClickLPM();
-                    else if (prevGestureRight.Equals("scissors")) KeyboardSimulating.SendCtrlX();
-                    else if (prevGestureRight.Equals("palce")) KeyboardSimulating.SendCtrlC();
+                    else if (prevGestureRight.Equals("hopen")) MouseSimulating.ScrollUP(100);
                     else if (prevGestureRight.Equals("victory")) MouseSimulating.ScrollDOWN(100);
-                    else if (prevGestureLeft.Equals("hopen") && prevGestureRight.Equals("fist")) MouseSimulating.ScrollDOWN(100);                  
+                                      
                 }
                 else frameCounterRight++;
                 
