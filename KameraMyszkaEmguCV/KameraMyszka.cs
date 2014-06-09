@@ -306,19 +306,20 @@ namespace KameraMyszkaEmguCV
                     if (gestureLabel[1] != null) prevGestureRight = gestureLabel[1];
                 }
 
-                if (frameCounterLeft == 60) //ile klatek musi  - 30 kl/s
+                if (frameCounterLeft == 30) //ile klatek musi  - 30 kl/s
                 {
                     if (prevGestureLeft.Equals("fist")) MouseSimulating.PressLPM();
                     else if (prevGestureLeft.Equals("vopen")) MouseSimulating.ReleaseLPM();
+                    frameCounterLeft = 0;
                 }
                 else frameCounterLeft++;
 
-                if (frameCounterRight == 60)
+                if (frameCounterRight == 30)
                 {
                     if (prevGestureRight.Equals("fist")) MouseSimulating.ClickLPM();
-                    else if (prevGestureRight.Equals("hopen")) MouseSimulating.ScrollUP(100);
-                    else if (prevGestureRight.Equals("victory")) MouseSimulating.ScrollDOWN(100);
-                                      
+                    else if (prevGestureRight.Equals("hopen")) MouseSimulating.ScrollUP(200);
+                    else if (prevGestureRight.Equals("victory")) MouseSimulating.ScrollDOWN(200);
+                    frameCounterRight = 0;                  
                 }
                 else frameCounterRight++;
                 
