@@ -28,17 +28,6 @@ namespace KameraMyszkaEmguCV
            compactness, blair, mal, malzmod, feret */
 
         private readonly double[]
-            ////            slayer    = { .3561, .6714, .6677, .6028, .3873 },
-            //fist = { .5175, .8156, .3171, .7658, .5576 },
-            //victory = { .3673, .6522, .6695, .6160, .4326 },
-            //vopen = { .4100, .6894, .5575, .6488, .4546 },
-            //hopen = { .6175, .8043, .3345, .7529, 2.0574 },
-            //fingers = { .3846, .7551, .5952, .6300, .6202 },
-            //scissors = { .4426, .6731, .5987, .6258, 1.6775 };
-            ////            shaka     = { .4055, .8271, .5184, .6638, .7608 },
-            ////            thumbup   = { .4577, .7676, .5481, .6461, .4416 },
-            ////            thumbleft = { .5215, .7805, .4443, .6925, 1.6563 }
-
             slayer = { .4935, .8017, .3969, .7159, .5280 },
             fist = { .6877, .9278, .0867, .9202, .7363 },
             victory = { .6081, .7955, .3705, .7296, .4295 },
@@ -49,6 +38,7 @@ namespace KameraMyszkaEmguCV
             shaka = { .4623, .8730, .3519, .7397, .8680 },
             thumbup = { .5133, .8878, .2926, .7737, .8032 },
             thumbleft = { .5095, .9006, .3259, .7542, .9293 };
+
 
         private const int COEFF_COUNT = 5;
         private enum CF {COMPACT, BLAIR, MAL, MALZMOD, FERET }
@@ -72,7 +62,7 @@ namespace KameraMyszkaEmguCV
 
         private Hotkeys globalHotkeys, globalHotkeys2;
 
-        private bool blockMouseControl = true;
+        private bool blockMouseControl = true, cameraSupportWhiteBlue = true;
         
         private readonly BlobCounter bc;
         
@@ -123,10 +113,7 @@ namespace KameraMyszkaEmguCV
                 nudContrast.Value = (decimal)defaultContrast;
                 nudSharpness.Value = (decimal)defaultSharpness;
                 nudSaturation.Value = (decimal)defaultSaturation;
-                try {
-                    nudWhiteBlue.Value = (decimal)defaultWhiteBlueBalance;
-                } catch (ArgumentOutOfRangeException ex) { Console.Error.WriteLine(ex.Message); }
- 
+                nudWhiteBlue.Value = (decimal)defaultWhiteBlueBalance; 
                 nudWhiteRed.Value = (decimal)defaultWhiteRedBalance;
                 nudHue.Value = (decimal)defaultHue;
                 nudGain.Value = (decimal)defaultGain;
@@ -256,7 +243,7 @@ namespace KameraMyszkaEmguCV
                 gestChance[GEST.SLAYER] = dist(slayer, i);
                 gestChance[GEST.THUMBLEFT] = dist(thumbleft, i);
                 gestChance[GEST.THUMBUP] = dist(thumbup, i);
-
+                gestChance[GEST.SHAKA] = dist(shaka, i);
                 gestChance[GEST.FIST] = dist(fist, i);
                 gestChance[GEST.VICTORY] = dist(victory, i);
                 gestChance[GEST.VOPEN] = dist(vopen, i);
@@ -273,20 +260,20 @@ namespace KameraMyszkaEmguCV
                 gestureLabel[i] = labels[(int)found[i]];
             }
 
-                g1value.Text = gestureLabel[0];
-                g2value.Text = gestureLabel[1];
+                g1value.Text = gestureLabel[1];
+                g2value.Text = gestureLabel[0];
 
-                compactnessLbl.Text = observed[0, 0].ToString(format);
-                blairLbl.Text = observed[1, 0].ToString(format);
-                malinowskaLbl.Text = observed[2, 0].ToString(format);
-                malzmodLbl.Text = observed[3, 0].ToString(format);
-                feretLbl.Text = observed[4, 0].ToString(format);
+                compactnessLbl.Text = observed[0, 1].ToString(format);
+                blairLbl.Text = observed[1, 1].ToString(format);
+                malinowskaLbl.Text = observed[2, 1].ToString(format);
+                malzmodLbl.Text = observed[3, 1].ToString(format);
+                feretLbl.Text = observed[4, 1].ToString(format);
 
-                comp2.Text = observed[0, 1].ToString(format);
-                blair2.Text = observed[1, 1].ToString(format);
-                mal2.Text = observed[2, 1].ToString(format);
-                malz2.Text = observed[3, 1].ToString(format);
-                feret2.Text = observed[4, 1].ToString(format);
+                comp2.Text = observed[0, 0].ToString(format);
+                blair2.Text = observed[1, 0].ToString(format);
+                mal2.Text = observed[2, 0].ToString(format);
+                malz2.Text = observed[3, 0].ToString(format);
+                feret2.Text = observed[4, 0].ToString(format);
 
             /* for blobs not detected */
             for (; i < 2; ++i) {    
@@ -314,15 +301,15 @@ namespace KameraMyszkaEmguCV
                 MouseSimulating.SetMousePosition(newPositionX, newPositionY);
 
                 //Wyliczanie akcji do podjęcia
-                if (gestureLabel[0] == null || !prevGestureLeft.Equals(gestureLabel[0]))
+                if (gestureLabel[1] == null || !prevGestureLeft.Equals(gestureLabel[1]))
                 {
                     frameCounterLeft = 0;
-                    if(gestureLabel[0] != null) prevGestureLeft = gestureLabel[0];
+                    if(gestureLabel[1] != null) prevGestureLeft = gestureLabel[1];
                 }
-                if (gestureLabel[1] == null || !prevGestureRight.Equals(gestureLabel[1]))
+                if (gestureLabel[0] == null || !prevGestureRight.Equals(gestureLabel[0]))
                 {
                     frameCounterLeft = 0;
-                    if (gestureLabel[1] != null) prevGestureRight = gestureLabel[1];
+                    if (gestureLabel[0] != null) prevGestureRight = gestureLabel[0];
                 }
 
                 if (frameCounterLeft == 30) //ile klatek musi  - 30 kl/s
@@ -336,8 +323,15 @@ namespace KameraMyszkaEmguCV
                 if (frameCounterRight == 30)
                 {
                     if (prevGestureRight.Equals("fist")) MouseSimulating.ClickLPM();
-                    else if (prevGestureRight.Equals("hopen")) MouseSimulating.ScrollUP(200);
+                    else if (prevGestureRight.Equals("slayer")) MouseSimulating.ScrollUP(200);
                     else if (prevGestureRight.Equals("victory")) MouseSimulating.ScrollDOWN(200);
+                    else if (prevGestureRight.Equals("fingers")) MouseSimulating.ClickPPM();
+                    else if (prevGestureRight.Equals("thumbup")) KeyboardSimulating.SendCtrlC();
+                    else if (prevGestureRight.Equals("thumbleft")) KeyboardSimulating.SendCtrlV();
+                    else if (prevGestureRight.Equals("scissors")) KeyboardSimulating.SendCtrlX();
+                    else if (prevGestureRight.Equals("hopen")) { MouseSimulating.ClickLPM(); MouseSimulating.ClickLPM(); }
+                    else if (prevGestureRight.Equals("shaka")) MouseSimulating.ClickMouseButton4();
+                                        
                     frameCounterRight = 0;                  
                 }
                 else frameCounterRight++;

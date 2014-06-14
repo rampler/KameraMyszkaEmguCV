@@ -769,12 +769,12 @@
             this.nudWhiteBlue.Enabled = false;
             this.nudWhiteBlue.Location = new System.Drawing.Point(402, 130);
             this.nudWhiteBlue.Maximum = new decimal(new int[] {
-            1000,
+            100000,
             0,
             0,
             0});
             this.nudWhiteBlue.Minimum = new decimal(new int[] {
-            1000,
+            100000,
             0,
             0,
             -2147483648});
