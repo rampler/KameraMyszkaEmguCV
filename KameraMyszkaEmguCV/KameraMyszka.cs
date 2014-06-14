@@ -163,14 +163,18 @@ namespace KameraMyszkaEmguCV
             bc.ProcessImage(bmp);
 
             Blob[] blob = bc.GetObjectsInformation();
-            //both hands version
-            //lewa reka to ta z prawej strony obrazu (zwierciadlo), nie zakladamy ze user gestykuluje na krzyz, keep it simple
-            int iters = bc.ObjectsCount > 2 ? 2 : bc.ObjectsCount;
+
             //one hand version
             //int iters = bc.ObjectsCount > 1 ? 1 : bc.ObjectsCount;
-
+            int iters = bc.ObjectsCount > 2 ? 2 : bc.ObjectsCount;
+            if(iters > 1) {
+                //both hands version
+                //lewa reka to ta z prawej strony obrazu (zwierciadlo), nie zakladamy ze user gestykuluje na krzyz, keep it simple
+                blob = blob.Take(2).OrderByDescending(a => a.CenterOfGravity.X).ToArray<Blob>();
+            }
+            
             int centerOfGravityLHandX = 0, centerOfGravityLHandY = 0, centerOfGravityRHandX = 0, centerOfGravityRHandY = 0;
-            Dictionary<double,string> gestures;
+//            Dictionary<double,string> gestures;
 
             string[] gestureLabel = new string[2];
             int i = 0;
@@ -498,7 +502,7 @@ namespace KameraMyszkaEmguCV
         /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
-            int Z = 5898247;
+//            int Z = 5898247;
             int X = 5767175;
             if (m.Msg == HotkeysConstants.WM_HOTKEY_MSG_ID)
             { 
