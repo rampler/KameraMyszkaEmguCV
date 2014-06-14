@@ -28,22 +28,33 @@ namespace KameraMyszkaEmguCV
            compactness, blair, mal, malzmod, feret */
 
         private readonly double[]
-            //            slayer    = { .3561, .6714, .6677, .6028, .3873 },
-            fist = { .5175, .8156, .3171, .7658, .5576 },
-            victory = { .3673, .6522, .6695, .6160, .4326 },
-            vopen = { .4100, .6894, .5575, .6488, .4546 },
-            hopen = { .6175, .8043, .3345, .7529, 2.0574 },
-            fingers = { .3846, .7551, .5952, .6300, .6202 },
-            scissors = { .4426, .6731, .5987, .6258, 1.6775 };
-            //            shaka     = { .4055, .8271, .5184, .6638, .7608 },
-            //            thumbup   = { .4577, .7676, .5481, .6461, .4416 },
-            //            thumbleft = { .5215, .7805, .4443, .6925, 1.6563 }
+            ////            slayer    = { .3561, .6714, .6677, .6028, .3873 },
+            //fist = { .5175, .8156, .3171, .7658, .5576 },
+            //victory = { .3673, .6522, .6695, .6160, .4326 },
+            //vopen = { .4100, .6894, .5575, .6488, .4546 },
+            //hopen = { .6175, .8043, .3345, .7529, 2.0574 },
+            //fingers = { .3846, .7551, .5952, .6300, .6202 },
+            //scissors = { .4426, .6731, .5987, .6258, 1.6775 };
+            ////            shaka     = { .4055, .8271, .5184, .6638, .7608 },
+            ////            thumbup   = { .4577, .7676, .5481, .6461, .4416 },
+            ////            thumbleft = { .5215, .7805, .4443, .6925, 1.6563 }
+
+            slayer = { .4935, .8017, .3969, .7159, .5280 },
+            fist = { .6877, .9278, .0867, .9202, .7363 },
+            victory = { .6081, .7955, .3705, .7296, .4295 },
+            vopen = { .6826, .8775, .2246, .8166, .5078 },
+            hopen = { .7478, .8615, .2237, .8172, 2.1469 },
+            fingers = { .4928, .8738, .3325, .7504, .6084 },
+            scissors = { .5700, .7641, .3956, .7166, 1.9796 },
+            shaka = { .4623, .8730, .3519, .7397, .8680 },
+            thumbup = { .5133, .8878, .2926, .7737, .8032 },
+            thumbleft = { .5095, .9006, .3259, .7542, .9293 };
 
         private const int COEFF_COUNT = 5;
         private enum CF {COMPACT, BLAIR, MAL, MALZMOD, FERET }
         /* kolejnosc 2 ponizszych musi byc identyczna */
-        private enum GEST { FIST, VICTORY, VOPEN, HOPEN, FINGERS, SCISSORS, BLANK }
-        private string[] labels = { "fist", "victory", "vopen", "hopen", "fingers", "scissors", "" };
+        private enum GEST { SLAYER, FIST, VICTORY, VOPEN, HOPEN, FINGERS, SCISSORS, SHAKA, THUMBUP, THUMBLEFT, BLANK }
+        private string[] labels = { "slayer", "fist", "victory", "vopen", "hopen", "fingers", "scissors", "shaka", "thumbup", "thumbleft", "" };
         private GEST[] found = new GEST[2];
         private const double NOT_FOUND = -.404f;
         private const string format = "0.0000";
@@ -238,6 +249,10 @@ namespace KameraMyszkaEmguCV
                 observed[4,i] = (double)ftxMax / (Y-y);//feret
                 observed[1,i] = (double)(blob[i].Area) / Math.Sqrt(2 * Math.PI * blairsum);//blair                                                             
                 
+                gestChance[GEST.SLAYER] = dist(slayer, i);
+                gestChance[GEST.THUMBLEFT] = dist(thumbleft, i);
+                gestChance[GEST.THUMBUP] = dist(thumbup, i);
+
                 gestChance[GEST.FIST] = dist(fist, i);
                 gestChance[GEST.VICTORY] = dist(victory, i);
                 gestChance[GEST.VOPEN] = dist(vopen, i);
