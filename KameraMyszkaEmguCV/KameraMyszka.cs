@@ -62,7 +62,7 @@ namespace KameraMyszkaEmguCV
 
         private Hotkeys globalHotkeys, globalHotkeys2;
 
-        private bool blockMouseControl = true, cameraSupportWhiteBlue = true;
+        private bool blockMouseControl = true;
         
         private readonly BlobCounter bc;
         
@@ -161,7 +161,6 @@ namespace KameraMyszkaEmguCV
             }
             
             int centerOfGravityLHandX = 0, centerOfGravityLHandY = 0, centerOfGravityRHandX = 0, centerOfGravityRHandY = 0;
-//            Dictionary<double,string> gestures;
 
             string[] gestureLabel = new string[2];
             int i = 0;
@@ -341,7 +340,6 @@ namespace KameraMyszkaEmguCV
         }
         private double dist(double[] gesture, int idx) {
             double d = 0;
-            //double[] observed = { compactness[idx], blair[idx], mal[idx], malzmod[idx], feret[idx] };
             for (int i = 0; i < COEFF_COUNT; ++i) {
                 d += (observed[i,idx] - gesture[i]) * (observed[i,idx] - gesture[i]);
             }
