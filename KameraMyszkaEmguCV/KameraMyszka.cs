@@ -57,7 +57,7 @@ namespace KameraMyszkaEmguCV
         private int WindowTopParam = 0;
         private int WindowLeftParam = 0;
 
-        private string prevGestureLeft = "", prevGestureRight = "";
+        private GEST prevGestureLeft = GEST.BLANK, prevGestureRight = GEST.BLANK;
         private int frameCounterLeft = 0, frameCounterRight = 0;
 
         private Hotkeys globalHotkeys, globalHotkeys2;
@@ -289,8 +289,8 @@ namespace KameraMyszkaEmguCV
             {
                 double smoothness = (double)nudSmoothness.Value;
                 double sensitivity = (double)nudSensitivity.Value;
-                int newPositionX = screenWidth - (int)((((double)(centerOfGravityLHandX /**/) / ((double)(imageGray.Width * 1 / 5)) * sensitivity) * (double)screenWidth)); //- imageGray.Width*1/5
-                int newPositionY = (int)((((double)(centerOfGravityLHandY - imageGray.Height * 2 / 4) / ((double)(imageGray.Height * 1 / 4)) * sensitivity) * (double)screenHeight));
+                int newPositionX = screenWidth - (int)(centerOfGravityLHandX / (imageGray.Width * .2) * sensitivity * screenWidth); //- imageGray.Width*1/5
+                int newPositionY = (int)((centerOfGravityLHandY - imageGray.Height * .5) / (imageGray.Height * .25) * sensitivity * screenHeight);
 
                 int diffX = Cursor.Position.X + newPositionX;
                 int diffY = Cursor.Position.Y - newPositionY;
@@ -300,36 +300,33 @@ namespace KameraMyszkaEmguCV
                 MouseSimulating.SetMousePosition(newPositionX, newPositionY);
 
                 //Wyliczanie akcji do podjęcia
-                if (gestureLabel[1] == null || !prevGestureLeft.Equals(gestureLabel[1]))
-                {
+                if (found[1] == GEST.BLANK || prevGestureLeft != found[1]) {
                     frameCounterLeft = 0;
-                    if(gestureLabel[1] != null) prevGestureLeft = gestureLabel[1];
+                    prevGestureLeft = found[1];
                 }
-                if (gestureLabel[0] == null || !prevGestureRight.Equals(gestureLabel[0]))
-                {
+
+                if (found[0] == GEST.BLANK || prevGestureRight != found[0]) {
                     frameCounterRight = 0;
-                    if (gestureLabel[0] != null) prevGestureRight = gestureLabel[0];
+                    prevGestureRight = found[0];
                 }
 
                 if (frameCounterLeft == 30) //ile klatek musi  - 30 kl/s
                 {
-                    if (prevGestureLeft.Equals("fist")) MouseSimulating.PressLPM();
-                    else if (prevGestureLeft.Equals("vopen")) MouseSimulating.ReleaseLPM();
+                    if (prevGestureLeft == GEST.FIST) MouseSimulating.PressLPM();
+                    else if (prevGestureLeft == GEST.VOPEN) MouseSimulating.ReleaseLPM();
                     frameCounterLeft = 0;
-                }
-                else frameCounterLeft++;
+                } else frameCounterLeft++;
 
-                if (frameCounterRight == 30)
-                {
-                    if (prevGestureRight.Equals("fist")) MouseSimulating.ClickLPM();
-                    else if (prevGestureRight.Equals("slayer")) MouseSimulating.ScrollUP(200);
-                    else if (prevGestureRight.Equals("victory")) MouseSimulating.ScrollDOWN(200);
-                    else if (prevGestureRight.Equals("fingers")) MouseSimulating.ClickPPM();
-                    else if (prevGestureRight.Equals("thumbup")) KeyboardSimulating.SendCtrlC();
-                    else if (prevGestureRight.Equals("thumbleft")) KeyboardSimulating.SendCtrlV();
-                    else if (prevGestureRight.Equals("scissors")) KeyboardSimulating.SendCtrlX();
-                    else if (prevGestureRight.Equals("hopen")) { MouseSimulating.ClickLPM(); MouseSimulating.ClickLPM(); }
-                    else if (prevGestureRight.Equals("shaka")) MouseSimulating.ClickMouseButton4();
+                if (frameCounterRight == 30) {
+                    if (prevGestureRight == GEST.FIST) MouseSimulating.ClickLPM();
+                    else if (prevGestureRight == GEST.SLAYER) MouseSimulating.ScrollUP(200);
+                    else if (prevGestureRight == GEST.VICTORY) MouseSimulating.ScrollDOWN(200);
+                    else if (prevGestureRight == GEST.FINGERS) MouseSimulating.ClickPPM();
+                    else if (prevGestureRight == GEST.THUMBUP) KeyboardSimulating.SendCtrlC();
+                    else if (prevGestureRight == GEST.THUMBLEFT) KeyboardSimulating.SendCtrlV();
+                    else if (prevGestureRight == GEST.SCISSORS) KeyboardSimulating.SendCtrlX();
+                    else if (prevGestureRight == GEST.HOPEN) { MouseSimulating.ClickLPM(); MouseSimulating.ClickLPM(); }
+                    else if (prevGestureRight == GEST.SHAKA) MouseSimulating.ClickMouseButton4();
                                         
                     frameCounterRight = 0;                  
                 }
