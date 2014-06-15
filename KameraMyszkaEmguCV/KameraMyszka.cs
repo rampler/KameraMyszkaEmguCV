@@ -285,7 +285,7 @@ namespace KameraMyszkaEmguCV
             imageBox2.Image = imageGray;
 
             //Zmiana pozycji myszki od środka ciężkości lewej ręki
-            if (centerOfGravityLHandX != 0 && centerOfGravityLHandY != 0 && !blockMouseControl)
+            if (centerOfGravityLHandX * centerOfGravityLHandY != 0 && !blockMouseControl)
             {
                 double smoothness = (double)nudSmoothness.Value;
                 double sensitivity = (double)nudSensitivity.Value;
@@ -307,7 +307,7 @@ namespace KameraMyszkaEmguCV
                 }
                 if (gestureLabel[0] == null || !prevGestureRight.Equals(gestureLabel[0]))
                 {
-                    frameCounterLeft = 0;
+                    frameCounterRight = 0;
                     if (gestureLabel[0] != null) prevGestureRight = gestureLabel[0];
                 }
 
